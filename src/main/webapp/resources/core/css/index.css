@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+}
+
+h1{
+    font-size: 3em;
+}
+
+.inicio-de-sesion{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+label{
+    margin-top: 1em;
+}
+
+input{
+    padding: .2em;
+    width: 15em;
+}
+
+.btn-sesion{
+    padding: .5em 4em;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-registro{
+    padding: .2em 2em;
+    margin-top: 1em;
+    cursor: pointer;
+}
