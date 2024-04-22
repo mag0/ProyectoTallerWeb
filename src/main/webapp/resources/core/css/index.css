@@ -11,6 +11,7 @@ body{
 
 h1{
     font-size: 3em;
+    color: blue;
 }
 
 .inicio-de-sesion{
@@ -27,6 +28,7 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 1.2em;
 }
 
 label{
@@ -38,15 +40,22 @@ input{
     width: 15em;
 }
 
+button{
+    cursor: pointer;
+    border: none;
+}
+
 .btn-sesion{
     padding: .5em 4em;
-    background-color: black;
+    background-color: orange;
     color: white;
+    border: none;
     cursor: pointer;
 }
 
 .btn-registro{
-    padding: .2em 2em;
+    padding: .4em 4em;
     margin-top: 1em;
-    cursor: pointer;
+    background-color: blue;
+    color: white;
 }

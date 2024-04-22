@@ -81,3 +81,12 @@ a:hover{
     border-radius: 1em;
     cursor: pointer;
 }
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    color: white;
+    height: 10em;
+}
