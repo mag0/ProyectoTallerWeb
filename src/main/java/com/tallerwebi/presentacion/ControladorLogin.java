@@ -28,7 +28,7 @@ public class ControladorLogin {
 
         ModelMap modelo = new ModelMap();
         modelo.put("datosLogin", new DatosLogin());
-        return new ModelAndView("login", modelo);
+        return new ModelAndView("pedidos", modelo);
     }
 
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
@@ -42,7 +42,7 @@ public class ControladorLogin {
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
-        return new ModelAndView("login", model);
+        return new ModelAndView("pedidos", model);
     }
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Pedidos</title>
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+    <link rel="stylesheet" th:href="@{/js/main.js}">
+
+</head>
+
+<body class="body">
+<div class="fondo-oscuro">
+    <header>
+        <div class="header">
+            <h1>FleetManager</h1>
+            <div class="circulo"></div>
+            <nav>
+                <ul>
+                    <li><a href="#gestion-vehiculos">Gestión de vehículos</a></li>
+                    <li><a href="#pedidos">Pedidos</a></li>
+                    <li><a href="#rendimiento">Rendimiento</a></li>
+                    <li><a href="#seguimiento">Seguimiento</a></li>
+                    <li><a href="#costos">Costos</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </header>
+    <section class="conteiner-principal">
+        <div class="conteiner-pedidos">
+            <div class="item-box">
+
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"><h3>Paquete 1</h3></div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"><h3>Paquete 2</h3></div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"><h3>Paquete 3</h3></div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"><h3>Paquete 4</h3></div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"><h3>Paquete 5</h3></div>
+                </div>
+            </div>
+            <div class="item-box">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content"> <h3>Paquete 6</h3></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteiner-calendario">
+            <div class="calendario">
+                <div class="calendario-header">
+                    <button id="prevMonth">&lt;</button>
+                    <select id="mes"></select>
+                    <input type="number" id="anio" placeholder="Año">
+                    <button id="nextMonth">&gt;</button>
+                </div>
+                <div class="calendario-dias" id="calendario-dias"></div>
+            </div>
+            <script th:href="@{/js/main.js}" ></script>
+        </div>
+    </section>
+
+
+</body>
+</html>
