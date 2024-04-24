@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FleetManager</title>
+    <link rel="stylesheet" th:href="@{/css/registro.css}">
+</head>
+<body>
+<div class="form__contenedor">
+    <form class="form" action="#" method="get">
+        <label for="username" class="form__label">Usuario</label>
+        <input
+                type="text"
+                placeholder="Usuario"
+                id="username"
+                class="form__input"
+        >
+        <label for="password" class="form__label">Contraseña</label>
+        <input
+                type="password"
+                placeholder="Contraseña"
+                id="password"
+                class="form__input"
+        >
+        <label for="password-repeat" class="form__label">Repetir contraseña</label>
+        <input
+                type="password"
+                placeholder="Contraseña"
+                id="password-repeat"
+                class="form__input"
+        >
+        <label for="email" class="form__label">Email</label>
+        <input
+                type="email"
+                placeholder="Email"
+                id="email"
+                class="form__input"
+        >
+        <label for="birth-date" class="form__label">Fecha de nacimiento</label>
+        <input
+                type="date"
+                id="birth-date"
+                class="form__input"
+        >
+        <button type="submit" class="form__input-button">Registrarme</button>
+        <div class="form__sign-in">
+            <p>¿Ya tienes una cuenta?</p>
+            <a href="#" class="form__link">Inicia sesión</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

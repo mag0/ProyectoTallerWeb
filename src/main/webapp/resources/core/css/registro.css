@@ -1,0 +1,143 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: white;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+}
+
+input {
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 4em;
+    background-color: orange;
+    color: white;
+}
+
+h1{
+    font-size: 3em;
+    color: blue;
+}
+
+.form__contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 40%;
+    border: 1px solid blue;
+    border-radius: 5px;
+    background-color: #5a5a5a;
+    padding: 60px 25px 60px 25px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto;
+    width: 100%;
+    margin: 3px;
+    padding: 10px;
+}
+
+.form__label {
+    font-size: 14px;
+}
+
+.form__input {
+    border: 1px solid blue;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form__input::placeholder {
+    color: black;
+}
+
+.form__input-button {
+    background-color: blue;
+    color: white;
+    font-weight: 400;
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form__input-button:hover {
+    background-color: rgba(250, 166, 2, 0.8)
+}
+
+
+.form__link {
+    color: white;
+    text-decoration: underline;
+    font-size: 14px;
+    margin: auto;
+}
+
+.form__link:hover {
+    background-color: rgba(250, 166, 2, 0.8);
+    text-decoration: none;
+}
+
+
+.form__sign-in {
+    text-align: center;
+}
+
+.form p {
+    display: inline;
+}
+
+@media screen and (max-width: 1280px) {
+    .form__contenedor {
+        width: 60%;
+    }
+
+}
+
+@media screen and (max-width: 780px) {
+    .form__contenedor {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 682px) {
+    .form__container {
+        width: 75%;
+    }
+
+    .form {
+        width: 100%;
+    }
+
+}
