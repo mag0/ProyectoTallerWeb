@@ -14,6 +14,11 @@
 
     <link rel="stylesheet" th:href="@{/js/main.js}">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 </head>
 
 <body class="body">
@@ -77,19 +82,34 @@
         </div>
 
         <div class="conteiner-calendario">
-            <div class="calendario">
-                <div class="calendario-header">
-                    <button id="prevMonth">&lt;</button>
-                    <select id="mes"></select>
-                    <input type="number" id="anio" placeholder="Año">
-                    <button id="nextMonth">&gt;</button>
-                </div>
-                <div class="calendario-dias" id="calendario-dias"></div>
-            </div>
-            <script th:href="@{/js/main.js}" ></script>
+            <h3>Calendario</h3>
+
+        </div>
+
+        <div class="fixed-calendar-container">
+            <div id="datepicker"></div>
         </div>
     </section>
-
+    <script th:inline="javascript">
+        /* Inicializar el Datepicker */
+        $(function() {
+            // Configuración del Datepicker para mostrar siempre el calendario
+            $("#datepicker").datepicker({
+                showOn: 'button', // Mostrar el botón del calendario
+                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // Imagen del botón del calendario
+                buttonImageOnly: true, // Mostrar solo la imagen del botón
+                showButtonPanel: true, // Mostrar el panel de botones
+                showOtherMonths: true, // Mostrar días de otros meses
+                selectOtherMonths: true, // Permitir seleccionar días de otros meses
+                showWeek: true, // Mostrar números de semana
+                numberOfMonths: 1, // Mostrar solo un mes
+                showAnim: 'slideDown', // Efecto de animación al mostrar el calendario
+                onSelect: function(dateText) {
+                    // Aquí puedes agregar lógica para manejar la fecha seleccionada
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
