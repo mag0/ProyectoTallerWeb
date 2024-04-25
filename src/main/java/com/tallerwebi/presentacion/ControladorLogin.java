@@ -42,7 +42,7 @@ public class ControladorLogin {
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
-        return new ModelAndView("pedidos", model);
+        return new ModelAndView("login", model);
     }
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
