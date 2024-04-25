@@ -38,6 +38,7 @@ label{
 input{
     padding: .2em;
     width: 15em;
+    border: 1px solid blue;
 }
 
 button{

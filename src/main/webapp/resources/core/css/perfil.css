@@ -90,3 +90,51 @@ footer{
     color: white;
     height: 10em;
 }
+
+
+/*-------PERFIL-----------*/
+
+.formulario{
+    margin: 4rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+form input{
+    margin-bottom: 2em;
+    padding: .3em;
+    width: 20em;
+    border: 1px solid blue;
+}
+
+input[type="submit"]{
+    width: 10em;
+    cursor: pointer;
+}
+
+form label{
+    margin-bottom: .5em;
+}
+
+.botones-perfil{
+    margin: 2em 0;
+}
+
+.botones-perfil a{
+    cursor: pointer;
+    padding: .6em;
+    font-size: 1.2em;
+    background-color: orange;
+    border: none;
+    border-radius: 2em;
+    color: white;
+}

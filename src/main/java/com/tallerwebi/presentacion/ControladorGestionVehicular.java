@@ -18,7 +18,7 @@ public class ControladorGestionVehicular {
         List<Vehiculo> vehiculos = new ArrayList<>();
         vehiculos.add(new Vehiculo("Toyota", "Corolla", "Moto", 1000, 200, 100, 4));
         vehiculos.add(new Vehiculo("Mercedes-Benz", "Sprinter", "Auto", 1000, 200, 100, 4));
-        vehiculos.add(new Vehiculo("Volvo", "FH", "Moto", 1000, 200, 100, 4));
+        vehiculos.add(new Vehiculo("Volvo", "FH", "Camion", 1000, 200, 100, 4));
         ModelMap model = new ModelMap();
         model.put("vehiculos", vehiculos);
         return new ModelAndView("gestionVehicular", model);
