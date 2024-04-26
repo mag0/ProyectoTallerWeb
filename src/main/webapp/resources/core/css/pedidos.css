@@ -5,6 +5,7 @@
     background-size: cover; /* Para ajustar la imagen al tamaño del cuerpo */
     background-position: center;
     position: relative; /* Para permitir la superposición */
+    overflow-y:auto ;
 }
 .fondo-oscuro {
     position: fixed; /* Fija la posición del fondo oscuro */
@@ -33,15 +34,30 @@
 }
 
 .header .circulo {
-    width: 80px;
-    height: 80px;
+    max-width: 400px;
+    width: 120px;
+    height: 100px;
     border-radius: 100%;
 
     position: relative;
-    bottom: 34px;
+    bottom: 16px;
     left: 72%;
     border-style: solid;
     border-color: blue;
+
+    display: flex;
+    margin: 0 auto;
+    overflow: hidden;
+    justify-content: center;
+
+
+}
+
+.circulo .perfil {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    left: 10px;
 }
 
 .header {
@@ -85,6 +101,16 @@ nav {
 
 .conteiner-principal{
     display: flex;
+    max-width: 2000px;
+    margin: 0 auto;
+
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .conteiner-principal {
+        padding: 10px; /* Reducir el espacio en pantallas pequeñas */
+    }
 }
 
 .conteiner-pedidos, .conteiner-calendario{
@@ -93,7 +119,7 @@ nav {
     flex-grow: 1;
     padding: 20px;
     border: 1px solid #061fff;
-    background-color: #e2e2e2;
+    background-color: #c5c4c4;
     margin: 10px;
     border-radius: 10px;
 
@@ -111,21 +137,24 @@ body {
 
 /*------------------------------------------------------------------------*/
 .conteiner-pedidos {
+    height: 100%;
+    width: 2000px;
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
-    gap: 20px; /* Espacio entre las tarjetas */
+    gap: 30px; /* Espacio entre las tarjetas */
     padding: 20px;
     background-color: #c5c4c4;
 }
 
 .item-box {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden; /* Para ocultar el contenido que sobresale */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height:250px;
 }
 
 .item {
@@ -156,16 +185,19 @@ body {
 
 .img .img2{
 
-    border-color: #1dbf16;
-    border: 3px solid;
+    border: 1px solid rgba(78, 78, 78, 0.35);
 }
 
 .content{
-    border-color: #0004ff;
-    border: 3px solid;
-    height: 150px;
-    width: 120px;
 
+    height: 180px;
+    width: 140px;
+    text-align: center;
+
+}
+.content p {
+    font-size: 12px;
+    font-family: Consolas;
 }
 
 .content h3 {
@@ -173,6 +205,12 @@ body {
     position: relative;
     left: 10px;
     top: 5px;
+}
+
+.content .title {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: bold;
 }
 
 /*CONFIG API CALENDARIO*/
@@ -184,7 +222,7 @@ body .ui-datepicker-calendar {
 .fixed-calendar-container {
     position: fixed; /* Posición fija */
     top: 240px; /* Distancia desde la parte superior de la página */
-    left: 71%; /* Distancia desde la parte izquierda de la página */
+    left: 76.2%; /* Distancia desde la parte izquierda de la página */
     z-index: 1000; /* Capa z-index para estar encima de otros elementos */
 }
 
@@ -197,3 +235,4 @@ body .ui-datepicker-calendar {
     border: 1px solid #ccc; /* Borde */
     display: block; /* Mostrar el calendario siempre */
 }
+

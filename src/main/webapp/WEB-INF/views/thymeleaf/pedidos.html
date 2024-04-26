@@ -26,7 +26,9 @@
     <header>
         <div class="header">
             <h1>FleetManager</h1>
-            <div class="circulo"></div>
+            <div class="circulo">
+                <img src="https://img.lovepik.com/element/45001/3052.png_860.png" class="perfil">
+            </div>
             <nav>
                 <ul>
                     <li><a href="#gestion-vehiculos">Gestión de vehículos</a></li>
@@ -42,43 +44,20 @@
     </header>
     <section class="conteiner-principal">
         <div class="conteiner-pedidos">
-            <div class="item-box">
+            
+            <div class="item-box" th:each="pedido : ${pedido}">
+                <div class="item">
+                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
+                    <div class="content">
+                        <p th:text="'Nombre: ' + ${pedido.nombre}" class="title"></p>
+                        <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+                        <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
+                        <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
+                        <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
+                    </div>
+                </div>
+            </div>
 
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"><h3>Paquete 1</h3></div>
-                </div>
-            </div>
-            <div class="item-box">
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"><h3>Paquete 2</h3></div>
-                </div>
-            </div>
-            <div class="item-box">
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"><h3>Paquete 3</h3></div>
-                </div>
-            </div>
-            <div class="item-box">
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"><h3>Paquete 4</h3></div>
-                </div>
-            </div>
-            <div class="item-box">
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"><h3>Paquete 5</h3></div>
-                </div>
-            </div>
-            <div class="item-box">
-                <div class="item">
-                    <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
-                    <div class="content"> <h3>Paquete 6</h3></div>
-                </div>
-            </div>
         </div>
 
         <div class="conteiner-calendario">
