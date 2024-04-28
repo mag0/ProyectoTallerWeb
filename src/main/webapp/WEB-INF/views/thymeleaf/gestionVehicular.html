@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetManager</title>
+    <link rel="stylesheet" th:href="@{/css/gestionVehicular.css}">
+</head>
+
+<body>
+
+<header>
+    <h1>FleetManager</h1>
+    <div style="display: flex; justify-content: center; align-items: center" class="perfil">
+        <a style="border: none; color: blue" th:href="@{/perfil.html}">P</a>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a class="vistaActual" href="#">Gestion de vehiculos</a></li>
+        <li><a href="#">Pedidos</a></li>
+        <li><a href="#">Rendimiento</a></li>
+        <li><a href="#">Seguimiento</a></li>
+        <li><a href="#">Costos</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <section>
+
+        <article class="vehiculo" th:each="vehiculo : ${vehiculos}">
+            <div class="perfil-auto">
+                <div class="imagen"></div>
+                <p th:text="'Marca: '+ ${vehiculo.marca}"></p>
+                <p th:text="'Modelo: '+ ${vehiculo.modelo}"></p>
+            </div>
+            <div class="info">
+                <p th:text="'Tipo de vehiculo: '+ ${vehiculo.tipo}"></p>
+                <p th:text="'kilometraje maximo: '+ ${vehiculo.KILOMETRAJEMAXIMO}+'Km'"></p>
+                <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
+                <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
+                <p th:text="'Capacidad: '+ ${vehiculo.capacidad}"></p>
+                <button>Ver rendimiento</button>
+            </div>
+        </article>
+
+    </section>
+
+</main>
+
+<footer>
+    <h2>FleetManager</h2>
+</footer>
+
+</body>
+
+</html>

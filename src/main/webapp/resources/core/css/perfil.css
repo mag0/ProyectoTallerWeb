@@ -1,0 +1,140 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 4em;
+    background-color: orange;
+    color: white;
+}
+
+h1{
+    font-size: 3em;
+    color: blue;
+}
+
+.perfil{
+    height: 6em;
+    width: 6em;
+    border-radius: 50%;
+    border: 3px solid blue;
+}
+
+nav{
+    padding: .6em 0;
+    background-color: orange;
+}
+
+ul{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+li{
+    margin: 0 1em;
+}
+
+a{
+    font-size: 1.4em;
+    padding: 1em 2.5em;
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    border-bottom: 4px solid blue;
+}
+
+.vistaActual{
+    border-bottom: 4px solid blue;
+}
+
+.vehiculo{
+    margin: 3em 1em;
+    padding: 2em;
+    display: flex;
+    width: 30%;
+    background-color: blue;
+    color: white;
+    font-size: 1.2em;
+}
+
+.perfil-auto{
+    text-align: center;
+}
+
+.imagen{
+    height: 8em;
+    width: 10em;
+    border: 2px solid white;
+}
+
+.info{
+    margin-left: 2em;
+}
+
+.info button{
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: .3em 1em;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    color: white;
+    height: 10em;
+}
+
+
+/*-------PERFIL-----------*/
+
+.formulario{
+    margin: 4rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+form input{
+    margin-bottom: 2em;
+    padding: .3em;
+    width: 20em;
+    border: 1px solid blue;
+}
+
+input[type="submit"]{
+    width: 10em;
+    cursor: pointer;
+}
+
+form label{
+    margin-bottom: .5em;
+}
+
+.botones-perfil{
+    margin: 2em 0;
+}
+
+.botones-perfil a{
+    cursor: pointer;
+    padding: .6em;
+    font-size: 1.2em;
+    background-color: orange;
+    border: none;
+    border-radius: 2em;
+    color: white;
+}
