@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetManager</title>
     <link rel="stylesheet" th:href="@{/css/gestionVehicular.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-y3P/Ji+9w03G4Jb6RS4uUKjQ5f3JEWye0nqLwZX7qxF6i2+k/q5jL9iVZSNgP3vx" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -27,6 +29,144 @@
 </nav>
 
 
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes de Rendimiento - FleetManager</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-y3P/Ji+9w03G4Jb6RS4uUKjQ5f3JEWye0nqLwZX7qxF6i2+k/q5jL9iVZSNgP3vx" crossorigin="anonymous">
+    <style>
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-5">Informes de Rendimiento - FleetManager</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+        <!-- Eficiencia de Combustible -->
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Eficiencia de Combustible</h5>
+                    <canvas id="efficiencyChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tiempo de Actividad de los Vehículos -->
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tiempo de Actividad de los Vehículos</h5>
+                    <canvas id="activityChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cumplimiento de Horarios de Entrega -->
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cumplimiento de Horarios de Entrega</h5>
+                    <canvas id="deliveryChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hJ6Ajb0LlC6Y0+ttAxVYk5Aqm9a1hrIz2FR6gIaE7Z2HGCsbz6tZ/rhoKqzvI4fB" crossorigin="anonymous"></script>
+
+<!-- Chart.js para los gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
+<script>
+    // Datos de ejemplo para los gráficos
+    var efficiencyData = [80, 70, 90]; // Porcentaje de eficiencia de combustible
+    var activityData = [85, 75, 95]; // Porcentaje de tiempo de actividad
+    var deliveryData = [75, 80, 85]; // Porcentaje de cumplimiento de horarios de entrega
+
+    // Configuración de los gráficos
+    var efficiencyChartCtx = document.getElementById('efficiencyChart').getContext('2d');
+    var activityChartCtx = document.getElementById('activityChart').getContext('2d');
+    var deliveryChartCtx = document.getElementById('deliveryChart').getContext('2d');
+
+    var efficiencyChart = new Chart(efficiencyChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Vehículo 1', 'Vehículo 2', 'Vehículo 3'],
+            datasets: [{
+                label: 'Eficiencia de Combustible',
+                data: efficiencyData,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    var activityChart = new Chart(activityChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Vehículo 1', 'Vehículo 2', 'Vehículo 3'],
+            datasets: [{
+                label: 'Tiempo de Actividad',
+                data: activityData,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    var deliveryChart = new Chart(deliveryChartCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Vehículo 1', 'Vehículo 2', 'Vehículo 3'],
+            datasets: [{
+                label: 'Cumplimiento de Horarios de Entrega',
+                data: deliveryData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
