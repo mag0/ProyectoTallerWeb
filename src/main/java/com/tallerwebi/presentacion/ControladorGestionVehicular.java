@@ -17,9 +17,10 @@ public class ControladorGestionVehicular {
     public ModelAndView irAGestionVehicular() {
         List<Vehiculo> vehiculos = new ArrayList<>();
         vehiculos.add(new Vehiculo("Toyota", "Corolla", "Moto", 1000, 200, 100, 4));
-        vehiculos.add(new Vehiculo("Mercedes-Benz", "Sprinter", "Auto", 1000, 200, 100, 4));
-        vehiculos.add(new Vehiculo("Volvo", "FH", "Camion", 1000, 200, 100, 4));
-        ModelMap model = new ModelMap();
+        vehiculos.add(new Vehiculo("Mercedes-Benz", "Sprinter", "Auto", 1200, 180, 90, 3));
+        vehiculos.add(new Vehiculo("Volvo", "FH", "Camion", 1500, 250, 120, 5));        ModelMap model = new ModelMap();
+        vehiculos.add(new Vehiculo("Ford", "Fiesta", "Auto", 800, 150, 80, 3));
+        vehiculos.add(new Vehiculo("Chevrolet", "Cruze", "Auto", 1100, 190, 95, 4));
         model.put("vehiculos", vehiculos);
         return new ModelAndView("gestionVehicular", model);
     }

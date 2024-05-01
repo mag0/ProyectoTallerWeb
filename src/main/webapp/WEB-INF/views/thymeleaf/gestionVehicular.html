@@ -12,9 +12,9 @@
 
 <header>
     <h1>FleetManager</h1>
-    <div style="display: flex; justify-content: center; align-items: center" class="perfil">
-        <a style="border: none; color: blue" th:href="@{/perfil.html}">P</a>
-    </div>
+    <a th:href="@{/perfil.html}">
+        <div style="display: flex; justify-content: center; align-items: center" class="perfil">P</div>
+    </a>
 </header>
 
 <nav>
@@ -29,7 +29,7 @@
 
 <main>
 
-    <section>
+    <section class="vehiculos">
 
         <article class="vehiculo" th:each="vehiculo : ${vehiculos}">
             <div class="perfil-auto">
@@ -43,7 +43,7 @@
                 <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
                 <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
                 <p th:text="'Capacidad: '+ ${vehiculo.capacidad}"></p>
-                <button>Ver rendimiento</button>
+                <a href="rendimiento"><button>Ver rendimiento</button></a>
             </div>
         </article>
 
