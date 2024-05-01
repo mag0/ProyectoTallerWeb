@@ -34,14 +34,14 @@ li{
     margin: 0 1em;
 }
 
-a{
+li a{
     font-size: 1.4em;
     padding: 1em 2.5em;
     text-decoration: none;
     color: white;
 }
 
-a:hover{
+li a:hover{
     border-bottom: 4px solid blue;
 }
 
@@ -107,6 +107,8 @@ form{
     flex-direction: column;
     align-items: center;
     font-size: 1.2em;
+    background-color: #C5C4C4;
+    padding: 2em;
 }
 
 form input{
