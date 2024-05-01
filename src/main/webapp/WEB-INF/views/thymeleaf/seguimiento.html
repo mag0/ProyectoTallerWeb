@@ -5,6 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FleetManager</title>
     <link rel="stylesheet" th:href="@{/css/gestionVehicular.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-y3P/Ji+9w03G4Jb6RS4uUKjQ5f3JEWye0nqLwZX7qxF6i2+k/q5jL9iVZSNgP3vx" crossorigin="anonymous">
+
+
+    <style>
+        .zone {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            display: inline-block;
+            margin: 5px;
+            position: relative;
+        }
+        .zone span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        .map {
+            width: 50px;
+            height: 150px;
+            display: inline-block;
+            margin-left: 20px;
+            position: relative;
+        }
+        .map div {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .completed {
+            background-color: green;
+        }
+        .incomplete {
+            background-color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,6 +64,88 @@
         <li><a href="costo">Costos</a></li>
     </ul>
 </nav>
+
+
+
+
+<div class="container">
+    <h1 class="mt-5">Seguimiento de Zonas Asignadas - FleetManager</h1>
+    <div class="row mt-4">
+        <!-- Vehículo 1 -->
+        <div class="col-md-4">
+            <h2>Vehículo 1</h2>
+            <div class="zone completed">
+                <span>Zona 1</span>
+            </div>
+            <div class="zone incomplete">
+                <span>Zona 2</span>
+            </div>
+            <div class="zone incomplete">
+                <span>Zona 3</span>
+            </div>
+            <!-- Agrega más zonas según sea necesario -->
+        </div>
+
+        <!-- Vehículo 2 -->
+        <div class="col-md-4">
+            <h2>Vehículo 2</h2>
+            <div class="zone completed">
+                <span>Zona 4</span>
+            </div>
+            <div class="zone completed">
+                <span>Zona 5</span>
+            </div>
+            <div class="zone incomplete">
+                <span>Zona 6</span>
+            </div>
+            <!-- Agrega más zonas según sea necesario -->
+        </div>
+
+        <!-- Vehículo 3 -->
+        <div class="col-md-4">
+            <h2>Vehículo 3</h2>
+            <div class="zone completed">
+                <span>Zona 7</span>
+            </div>
+            <div class="zone completed">
+                <span>Zona 8</span>
+            </div>
+            <div class="zone completed">
+                <span>Zona 9</span>
+            </div>
+            <!-- Agrega más zonas según sea necesario -->
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h3>Mapa Simbólico</h3>
+            <div class="map">
+                <div class="completed"></div> <span>Completado</span> <br>
+                <div class="incomplete"></div> <span>Incompleto</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hJ6Ajb0LlC6Y0+ttAxVYk5Aqm9a1hrIz2FR6gIaE7Z2HGCsbz6tZ/rhoKqzvI4fB" crossorigin="anonymous"></script>
+
+<script>
+    // Simulación de estado de las zonas (completadas o incompletas)
+    var zones = document.querySelectorAll('.zone');
+    zones.forEach(function(zone) {
+        zone.addEventListener('click', function() {
+            if (zone.classList.contains('completed')) {
+                zone.classList.remove('completed');
+                zone.classList.add('incomplete');
+            } else {
+                zone.classList.remove('incomplete');
+                zone.classList.add('completed');
+            }
+        });
+    });
+</script>
 
 
 </body>
