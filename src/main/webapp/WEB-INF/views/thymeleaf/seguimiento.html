@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetManager</title>
+    <link rel="stylesheet" th:href="@{/css/gestionVehicular.css}">
 </head>
+
 <body>
-$END$
+
+<header>
+    <h1>FleetManager</h1>
+    <div style="display: flex; justify-content: center; align-items: center" class="perfil">
+        <a style="border: none; color: blue" th:href="@{/perfil.html}">P</a>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="gestionVehicular">Gestion de vehiculos</a></li>
+        <li><a href="pedidos">Pedidos</a></li>
+        <li><a href="rendimiento">Rendimiento</a></li>
+        <li><a class="vistaActual" href="seguimiento">Seguimiento</a></li>
+        <li><a href="costo">Costos</a></li>
+    </ul>
+</nav>
+
+
 </body>
 </html>
