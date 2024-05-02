@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ControladorAgregarVehiculo {
-    @RequestMapping ("/agregarvehiculo")
+    @RequestMapping ("/agregarVehiculo")
     public ModelAndView irAAgregarVehiculo() {
         ModelMap model = new ModelMap();
         return new ModelAndView("agregarVehiculo", model);

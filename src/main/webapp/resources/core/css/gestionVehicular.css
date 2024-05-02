@@ -93,3 +93,17 @@ footer{
     color: white;
     height: 10em;
 }
+
+.botones-perfil{
+    margin: 2em 0;
+}
+
+.botones-perfil a{
+    cursor: pointer;
+    padding: .6em;
+    font-size: 1.2em;
+    background-color: orange;
+    border: none;
+    border-radius: 2em;
+    color: white;
+}

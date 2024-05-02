@@ -13,18 +13,18 @@
 
 <header>
     <h1>FleetManager</h1>
-    <a th:href="@{/perfil.html}">
+    <a th:href="@{/perfil}">
         <div style="display: flex; justify-content: center; align-items: center" class="perfil">P</div>
     </a>
 </header>
 
 <nav>
     <ul>
-        <li><a href="gestionVehicular">Gestion de vehiculos</a></li>
-        <li><a href="pedidos">Pedidos</a></li>
-        <li><a class="vistaActual" href="rendimiento">Rendimiento</a></li>
-        <li><a href="seguimiento">Seguimiento</a></li>
-        <li><a href="costo">Costos</a></li>
+        <li><a class="vistaActual" th:href="@{/gestionVehicular}">Gestion de vehiculos</a></li>
+        <li><a th:href="@{/pedidos}">Pedidos</a></li>
+        <li><a th:href="@{/rendimiento}">Rendimiento</a></li>
+        <li><a th:href="@{/seguimiento}">Seguimiento</a></li>
+        <li><a th:href="@{/costo}">Costos</a></li>
     </ul>
 </nav>
 

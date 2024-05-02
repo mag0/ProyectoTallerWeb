@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="form__contenedor">
-    <form class="form" action="index.html" method="get">
+    <form class="form" th:action="@{/index}" method="get">
         <label for="username" class="form__label">Usuario</label>
         <input
                 type="text"
@@ -45,7 +45,7 @@
         <button type="submit" class="form__input-button">Registrarme</button>
         <div class="form__sign-in">
             <p>¿Ya tienes una cuenta?</p>
-            <a href="#" class="form__link">Inicia sesión</a>
+            <a th:href="@{/index}" class="form__link">Inicia sesión</a>
         </div>
     </form>
 </div>
