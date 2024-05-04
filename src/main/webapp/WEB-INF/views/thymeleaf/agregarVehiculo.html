@@ -29,42 +29,43 @@
 </nav>
 
 <section style="display: flex;justify-content: center;align-items: center;">
-    <form th:action="@{/gestionVehicular}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;">
+    <form th:action="@{/gestionVehicular}" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;">
         <div class="mb-3">
             <label for="marca" class="form-label">Marca</label>
-            <input type="text" class="form-control" id="marca" name="marca">
+            <input th:field="*{marca}" type="text" class="form-control" id="marca" name="marca">
         </div>
         <div class="mb-3">
             <label for="modelo" class="form-label">Modelo</label>
-            <input type="text" class="form-control" id="modelo" name="modelo">
+            <input th:field="*{modelo}" type="text" class="form-control" id="modelo" name="modelo">
         </div>
-        <select class="form-select" aria-label="Default select example">
-            <option selected>Tipo de vehiculo</option>
+        <select class="form-select" aria-label="Default select example" th:field="*{tipo}">
+            <option value="" selected disabled hidden>Tipo de vehiculo</option>
             <option value="moto">Moto</option>
             <option value="auto">Auto</option>
             <option value="camion">Camion</option>
         </select>
         <div class="mb-3">
             <label for="kilometrajeMaximo" class="form-label">Kilometraje maximo</label>
-            <input type="text" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo"
+            <input th:field="*{kilometrajeMaximo}" type="text" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo"
                    aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="combustible" class="form-label">Combustible</label>
-            <input type="text" class="form-control" id="combustible" name="combustible"
+            <input th:field="*{combustible}" type="text" class="form-control" id="combustible" name="combustible"
                    aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="resistencia" class="form-label">Resistencia</label>
-            <input type="text" class="form-control" id="resistencia" name="resistencia"
+            <input th:field="*{resistencia}" type="text" class="form-control" id="resistencia" name="resistencia"
                    aria-describedby="emailHelp">
         </div>
-        <select class="form-select" aria-label="Default select example">
-            <option selected>Capacidad</option>
+        <select class="form-select" aria-label="Default select example" th:field="*{capacidad}">
+            <option value="" selected disabled hidden>Capacidad</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
         </select>
+        <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>
         <div class="botones-perfil" style="margin: 2rem 0">
             <a th:href="@{/gestionVehicular}">Volver</a>
