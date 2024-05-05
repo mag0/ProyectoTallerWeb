@@ -13,10 +13,10 @@ public class ServicioAgregarVehiculoImpl implements ServicioAgregarVehiculo {
     public void agregarVehiculo(Vehiculo vehiculo, FlotaDeVehiculos flotaDeVehiculos) {
 
         if(verificarQueSeRecibioTodosLosDatos(vehiculo)){
-            throw new DatosIncompletos("Faltan datos");
+            throw new DatosIncompletos();
         }
         if (flotaDeVehiculos.contieneVehiculo(vehiculo)) {
-            throw new VehiculoExistente("El vehiculo ya existe");
+            throw new VehiculoExistente();
         }
         flotaDeVehiculos.agregarVehiculo(vehiculo);
     }

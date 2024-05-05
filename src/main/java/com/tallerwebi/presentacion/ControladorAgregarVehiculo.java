@@ -3,7 +3,6 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.ServicioAgregarVehiculo;
-import com.tallerwebi.dominio.ServicioAgregarVehiculoImpl;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
@@ -22,9 +21,9 @@ public class ControladorAgregarVehiculo {
     FlotaDeVehiculos flotaDeVehiculos;
 
     @Autowired
-    public ControladorAgregarVehiculo(ServicioAgregarVehiculo servicioAgregarVehiculo) {
+    public ControladorAgregarVehiculo(ServicioAgregarVehiculo servicioAgregarVehiculo, FlotaDeVehiculos flotaDeVehiculos) {
         this.servicioAgregarVehiculo = servicioAgregarVehiculo;
-
+        this.flotaDeVehiculos = flotaDeVehiculos;
     }
 
     @RequestMapping ("/agregarVehiculo")
@@ -41,18 +40,22 @@ public class ControladorAgregarVehiculo {
         try {
             servicioAgregarVehiculo.agregarVehiculo(vehiculo, flotaDeVehiculos);
         } catch (DatosIncompletos ex) {
-            return autoNoAgregado(model, "Faltan datos");
+            return autoNoAgregado(model, "Faltan datos",vehiculo);
+        }catch (VehiculoExistente ex) {
+            return autoNoAgregado(model, "Ya existe este vehiculo",vehiculo);
         }
 
         return autoAgregadoCorrectamente();
     }
 
     private ModelAndView autoAgregadoCorrectamente() {
-        return new ModelAndView("redirect:/gestionVehicular");
+        return new ModelAndView("gestionVehicular");
     }
 
-    private ModelAndView autoNoAgregado(ModelMap model,String mensaje) {
+    private ModelAndView autoNoAgregado(ModelMap model, String mensaje, Vehiculo vehiculo) {
         model.put("error", mensaje);
+        model.put("vehiculo", vehiculo); // Agrega el vehículo al modelo
         return new ModelAndView("agregarVehiculo", model);
     }
+
 }

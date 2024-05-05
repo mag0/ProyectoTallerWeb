@@ -29,7 +29,7 @@
 </nav>
 
 <section style="display: flex;justify-content: center;align-items: center;">
-    <form th:action="@{/gestionVehicular}" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;">
+    <form th:action="@{/agregarVehiculo}" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;">
         <div class="mb-3">
             <label for="marca" class="form-label">Marca</label>
             <input th:field="*{marca}" type="text" class="form-control" id="marca" name="marca">
@@ -68,7 +68,7 @@
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>
         <div class="botones-perfil" style="margin: 2rem 0">
-            <a th:href="@{/gestionVehicular}">Volver</a>
+            <a>Volver</a>
         </div>
     </form>
 
