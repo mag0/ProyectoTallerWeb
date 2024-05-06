@@ -36,25 +36,32 @@ public class ControladorAgregarVehiculo {
     @RequestMapping(path = "/agregarVehiculo", method = RequestMethod.POST)
         public ModelAndView agregarVehiculo(@ModelAttribute("vehiculo") Vehiculo vehiculo) {
         ModelMap model = new ModelMap();
+        System.out.println("Datos recibidos del formulario:");
+        System.out.println("Marca: " + vehiculo.getMarca());
+        System.out.println("Modelo: " + vehiculo.getModelo());
+        System.out.println("Tipo: " + vehiculo.getTipo());
+        System.out.println("Kilometraje Máximo: " + vehiculo.getKilometrajeMaximo());
+        System.out.println("Combustible: " + vehiculo.getCombustible());
+        System.out.println("Resistencia: " + vehiculo.getResistencia());
+        System.out.println("Capacidad: " + vehiculo.getCapacidad());
 
         try {
-            servicioAgregarVehiculo.agregarVehiculo(vehiculo, flotaDeVehiculos);
+            servicioAgregarVehiculo.agregarVehiculo(vehiculo,flotaDeVehiculos);
         } catch (DatosIncompletos ex) {
-            return autoNoAgregado(model, "Faltan datos",vehiculo);
+            return autoNoAgregado(model, "Faltan datos");
         }catch (VehiculoExistente ex) {
-            return autoNoAgregado(model, "Ya existe este vehiculo",vehiculo);
+            return autoNoAgregado(model, "Ya existe este vehiculo");
         }
 
         return autoAgregadoCorrectamente();
     }
 
     private ModelAndView autoAgregadoCorrectamente() {
-        return new ModelAndView("gestionVehicular");
+        return new ModelAndView("redirect:/gestionVehicular");
     }
 
-    private ModelAndView autoNoAgregado(ModelMap model, String mensaje, Vehiculo vehiculo) {
+    private ModelAndView autoNoAgregado(ModelMap model, String mensaje) {
         model.put("error", mensaje);
-        model.put("vehiculo", vehiculo); // Agrega el vehículo al modelo
         return new ModelAndView("agregarVehiculo", model);
     }
 

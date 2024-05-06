@@ -16,15 +16,15 @@ public class ServicioAgregarVehiculoTest {
     @Test
     public void siSeRecibenTodosLosDatosDelVehiculoLaAltaEsExitosa() {
         Vehiculo vehiculo = givenSeRecibieronLosDatosDelVehiculo();
-        whenAltaDeVehiculo(vehiculo,flotaDeVehiculos);
+        whenAltaDeVehiculo(vehiculo);
         thenAltaDeVehiculoExistoso(vehiculo);
     }
 
     private Vehiculo givenSeRecibieronLosDatosDelVehiculo() {
-        return new Vehiculo("otro", "si", "Auto", 1100, 190, 95, 4);
+        return new Vehiculo("otro", "si", "Auto", 1100, 190, 95, "4");
     }
 
-    private void whenAltaDeVehiculo(Vehiculo vehiculo,FlotaDeVehiculos flotaDeVehiculos) {
+    private void whenAltaDeVehiculo(Vehiculo vehiculo) {
         servicioAgregarVehiculo.agregarVehiculo(vehiculo,flotaDeVehiculos);
     }
 
@@ -38,21 +38,21 @@ public class ServicioAgregarVehiculoTest {
         Vehiculo vehiculo = givenSeRecibieronLosDatosDelVehiculo();
 
         assertThrows(VehiculoExistente.class,
-                ()-> whenAltaDeVehiculo(vehiculo,flotaDeVehiculos));
+                ()-> whenAltaDeVehiculo(vehiculo));
     }
 
     private void givenTengoUnVehiculoEnLaFlota() {
-        whenAltaDeVehiculo(givenSeRecibieronLosDatosDelVehiculo(),flotaDeVehiculos);
+        whenAltaDeVehiculo(givenSeRecibieronLosDatosDelVehiculo());
     }
 
     @Test
     public void siNoSeRecibenTodosLosDatosDelVehiculoNoSeDaDeAlta() {
         Vehiculo vehiculo = givenNoSeRecibenTodosLosDatosDelVehiculo();
         assertThrows(DatosIncompletos.class,
-                ()-> whenAltaDeVehiculo(vehiculo,flotaDeVehiculos));
+                ()-> whenAltaDeVehiculo(vehiculo));
     }
 
     private Vehiculo givenNoSeRecibenTodosLosDatosDelVehiculo() {
-        return new Vehiculo("otro", "other", "Auto", null, 190, 95, 4);
+        return new Vehiculo("otro", "other", "", 1231, 190, 95, "3");
     }
 }

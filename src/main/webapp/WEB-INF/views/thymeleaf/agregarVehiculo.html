@@ -29,7 +29,8 @@
 </nav>
 
 <section style="display: flex;justify-content: center;align-items: center;">
-    <form th:action="@{/agregarVehiculo}" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;">
+
+    <form th:action="@{/agregarVehiculo}" method="POST" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
         <div class="mb-3">
             <label for="marca" class="form-label">Marca</label>
             <input th:field="*{marca}" type="text" class="form-control" id="marca" name="marca">
@@ -46,17 +47,17 @@
         </select>
         <div class="mb-3">
             <label for="kilometrajeMaximo" class="form-label">Kilometraje maximo</label>
-            <input th:field="*{kilometrajeMaximo}" type="text" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo"
+            <input th:field="*{kilometrajeMaximo}" type="number" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo"
                    aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="combustible" class="form-label">Combustible</label>
-            <input th:field="*{combustible}" type="text" class="form-control" id="combustible" name="combustible"
+            <input th:field="*{combustible}" type="number" class="form-control" id="combustible" name="combustible"
                    aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="resistencia" class="form-label">Resistencia</label>
-            <input th:field="*{resistencia}" type="text" class="form-control" id="resistencia" name="resistencia"
+            <input th:field="*{resistencia}" type="number" class="form-control" id="resistencia" name="resistencia"
                    aria-describedby="emailHelp">
         </div>
         <select class="form-select" aria-label="Default select example" th:field="*{capacidad}">
@@ -68,7 +69,7 @@
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>
         <div class="botones-perfil" style="margin: 2rem 0">
-            <a>Volver</a>
+            <a th:href="@{/gestionVehicular}">Volver</a>
         </div>
     </form>
 

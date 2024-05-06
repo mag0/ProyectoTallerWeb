@@ -27,7 +27,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private Vehiculo givenTengoLosDatosDelVehiculo() {
-        return new Vehiculo("Chevrolet", "Cruze", "Auto", 1100, 190, 95, 4);
+        return new Vehiculo("Chevrolet", "Cruze", "Auto", 1100, 190, 95, "3");
     }
 
     private ModelAndView whenEnvioDatosDelVehiculoAlServicio(Vehiculo vehiculo) {
@@ -36,7 +36,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private void thenSeVaALaVistaDeGestionVehicular(ModelAndView mav) {
-        assertThat(mav.getViewName(), equalToIgnoringCase("gestionVehicular"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/gestionVehicular"));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ControladorAgregarVehiculoTest {
 
         doThrow(DatosIncompletos.class)
                 .when(servicioAgregarVehiculo)
-                .agregarVehiculo(vehiculoIncompleto, flotaDeVehiculos);
+                .agregarVehiculo(vehiculoIncompleto,flotaDeVehiculos);
 
         ModelAndView mav = whenEnvioDatosDelVehiculoAlServicio(vehiculoIncompleto);
 
@@ -54,7 +54,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private Vehiculo givenTengoLosDatosDelVehiculoSalvoUno() {
-        return new Vehiculo("Chevrolet", "", "auto", 1234, 190, 95, 4);
+        return new Vehiculo("Chevrolet", "", "auto", 1234, 190, 95, "3");
     }
 
     private void thenSeMantieneEnLaVistaDelFormulario(ModelAndView mav, String mensaje) {

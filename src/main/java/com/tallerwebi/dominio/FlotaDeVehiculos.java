@@ -25,4 +25,8 @@ public class FlotaDeVehiculos {
     public boolean contieneVehiculo(Vehiculo vehiculo) {
         return vehiculos.contains(vehiculo);
     }
+
+    public void eliminarVehiculo(Vehiculo vehiculo) {
+        vehiculos.remove(vehiculo);
+    }
 }
