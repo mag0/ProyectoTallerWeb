@@ -36,14 +36,6 @@ public class ControladorAgregarVehiculo {
     @RequestMapping(path = "/agregarVehiculo", method = RequestMethod.POST)
         public ModelAndView agregarVehiculo(@ModelAttribute("vehiculo") Vehiculo vehiculo) {
         ModelMap model = new ModelMap();
-        System.out.println("Datos recibidos del formulario:");
-        System.out.println("Marca: " + vehiculo.getMarca());
-        System.out.println("Modelo: " + vehiculo.getModelo());
-        System.out.println("Tipo: " + vehiculo.getTipo());
-        System.out.println("Kilometraje Máximo: " + vehiculo.getKilometrajeMaximo());
-        System.out.println("Combustible: " + vehiculo.getCombustible());
-        System.out.println("Resistencia: " + vehiculo.getResistencia());
-        System.out.println("Capacidad: " + vehiculo.getCapacidad());
 
         try {
             servicioAgregarVehiculo.agregarVehiculo(vehiculo,flotaDeVehiculos);
