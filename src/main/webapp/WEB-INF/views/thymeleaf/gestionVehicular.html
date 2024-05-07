@@ -39,17 +39,21 @@
             </div>
             <div class="info">
                 <p th:text="'Tipo de vehiculo: '+ ${vehiculo.tipo}"></p>
-                <p th:text="'kilometraje maximo: '+ ${vehiculo.KILOMETRAJEMAXIMO}+'Km'"></p>
+                <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
                 <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
                 <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
                 <p th:text="'Capacidad: '+ ${vehiculo.capacidad}"></p>
-                <button>Ver rendimiento</button>
+                <form th:action="@{/eliminarVehiculo}" method="POST">
+                    <input type="hidden" name="marca" th:value="${vehiculo.marca}" />
+                    <input type="hidden" name="modelo" th:value="${vehiculo.modelo}" />
+                    <button type="submit">Eliminar</button>
+                </form>
             </div>
         </article>
-        <a th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
     </section>
-
-
+    <div style="text-align: center; margin-bottom: 2rem; font-size: 1.2em">
+        <a style="background-color: #FFA500;padding: .3em 1em;text-decoration: none; color:white;border-radius: 1em;text-align: center" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
+    </div>
 
 </main>
 
