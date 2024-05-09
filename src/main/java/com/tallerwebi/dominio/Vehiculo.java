@@ -1,6 +1,11 @@
 package com.tallerwebi.dominio;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Vehiculo {
 
     private String marca;
@@ -11,6 +16,9 @@ public class Vehiculo {
     private int resistencia;
     private Integer capacidad;
     private String patente;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public Vehiculo(){}
 
@@ -101,5 +109,13 @@ public class Vehiculo {
     @Override
     public int hashCode() {
         return Objects.hash(marca, modelo);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,20 +1,32 @@
 package com.tallerwebi.dominio;
 
-public class Pedidos {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Pedido {
     private String nombre;
     private String tipo;
     private String codigo;
     private Integer tamanio;
     private Integer peso;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    public Pedidos(String nombre, String tipo, String codigo, Integer tamanio, Integer peso) {
+    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso) {
        this.nombre = nombre;
         this.tipo = tipo;
         this.codigo = codigo;
         this.tamanio = tamanio;
         this.peso = peso;
+    }
+
+    public Pedido() {
+
     }
 
     public Long getId() {

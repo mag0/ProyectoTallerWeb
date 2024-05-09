@@ -1,6 +1,6 @@
 package com.tallerwebi.servicios;
 
-import com.tallerwebi.dominio.Pedidos;
+import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
@@ -16,7 +16,7 @@ public class ServicioPedidoTest {
     @Test
     public void seAgregaUnPedidoAUnVehiculo() throws Exception {
         Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,123);
-        Pedidos pedido = new Pedidos("pedido1","asd","asd",123,123);
+        Pedido pedido = new Pedido("pedido1","asd","asd",123,123);
 
         ServicioPedido servicio = new ServicioPedidoImpl();
 
@@ -32,7 +32,7 @@ public class ServicioPedidoTest {
     @Test
     public void noSePuedeAgregarUnPedidoAUnVehiculoLleno(){
         Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10);
-        Pedidos pedido = new Pedidos("pedido1","asd","asd",123,123);
+        Pedido pedido = new Pedido("pedido1","asd","asd",123,123);
 
         ServicioPedido servicio = new ServicioPedidoImpl();
 

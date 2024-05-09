@@ -1,20 +1,30 @@
 package com.tallerwebi.dominio;
 
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Viaje {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long vehiculoId;
     private String vehiculoPatente;
     private Long zonaId;
-    private List<Long> PedidosIds;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pedidos_id")
+    private List<Pedido> PedidosIds;
 
-    public Viaje(Long id, Long zonaId, List<Long> PedidosIds, String vehiculoPatente) {
+    public Viaje(Long id, Long zonaId, List<Pedido> PedidosIds, String vehiculoPatente) {
         this.id = id;
         this.vehiculoPatente = vehiculoPatente;
         this.zonaId = zonaId;
         this.PedidosIds = PedidosIds;
+    }
+
+    public Viaje() {
+
     }
 
     public String getVehiculoPatente() {
@@ -33,11 +43,11 @@ public class Viaje {
         this.id = id;
     }
 
-    public List<Long> getPaqueteIds() {
+    public List<Pedido> getPaqueteIds() {
         return PedidosIds;
     }
 
-    public void setPaqueteIds(List<Long> paqueteIds) {
+    public void setPaqueteIds(List<Pedido> paqueteIds) {
         this.PedidosIds = paqueteIds;
     }
 

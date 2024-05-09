@@ -1,6 +1,6 @@
 package com.tallerwebi.servicios.impl;
 
-import com.tallerwebi.dominio.Pedidos;
+import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.servicios.ServicioPedido;
@@ -14,15 +14,15 @@ import java.util.List;
 @Transactional
 public class ServicioPedidoImpl implements ServicioPedido {
     @Override
-    public Viaje agregarPedido(Vehiculo vehiculo, Pedidos pedidos) throws Exception {
-        List<Long> pedidosList = new ArrayList<>();
+    public Viaje agregarPedido(Vehiculo vehiculo, Pedido pedidos) throws Exception {
+        List<Pedido> pedidosList = new ArrayList<>();
 
         if(vehiculo.getCapacidad() < pedidos.getPeso()){
             throw new Exception("El vehiculo no tiene la capacidad para cargar el pedido");
         }
 
         try {
-            pedidosList.add(pedidos.getId());
+            pedidosList.add(pedidos);
 
             Viaje viaje = new Viaje(1L, 1L, pedidosList, vehiculo.getPatente());
             return viaje;
