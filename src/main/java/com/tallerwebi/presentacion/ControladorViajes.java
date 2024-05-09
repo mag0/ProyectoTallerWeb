@@ -18,7 +18,7 @@ public class ControladorViajes {
         List<Viaje> viajes = new ArrayList<>();
         List<Pedidos> pedidos = new ArrayList<>();
         pedidos.add(new Pedidos("Paquete 1","Fragil", "DS225", 5, 10));
-        viajes.add(new Viaje("sara","sasa",new Date(), "5", pedidos));
+       // viajes.add(new Viaje("sara","sasa",new Date(), "5", pedidos));
 
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("viajes", viajes);
