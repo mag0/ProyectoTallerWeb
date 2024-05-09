@@ -6,14 +6,23 @@ import java.util.List;
 public class Viaje {
     private Long id;
     private Long vehiculoId;
+    private String vehiculoPatente;
     private Long zonaId;
     private List<Long> PedidosIds;
 
-    public Viaje(Long id, Long vehiculoId, Long zonaId, List<Long> PedidosIds) {
+    public Viaje(Long id, Long zonaId, List<Long> PedidosIds, String vehiculoPatente) {
         this.id = id;
-        this.vehiculoId = vehiculoId;
+        this.vehiculoPatente = vehiculoPatente;
         this.zonaId = zonaId;
         this.PedidosIds = PedidosIds;
+    }
+
+    public String getVehiculoPatente() {
+        return vehiculoPatente;
+    }
+
+    public void setVehiculoPatente(String vehiculoPatente) {
+        this.vehiculoPatente = vehiculoPatente;
     }
 
     public Long getId() {

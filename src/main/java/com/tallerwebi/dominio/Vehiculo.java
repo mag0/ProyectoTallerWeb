@@ -9,11 +9,13 @@ public class Vehiculo {
     private int kilometrajeMaximo;
     private int combustible;
     private int resistencia;
-    private String capacidad;
+    private Integer capacidad;
+    private String patente;
 
     public Vehiculo(){}
 
-    public Vehiculo(String marca, String modelo, String tipo, int kilometrajeMaximo, int combustible, int resistencia, String capacidad) {
+    public Vehiculo(String patente,String marca, String modelo, String tipo, int kilometrajeMaximo, int combustible, int resistencia, int capacidad) {
+        this.patente = patente;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo = tipo;
@@ -21,6 +23,14 @@ public class Vehiculo {
         this.combustible = combustible;
         this.resistencia = resistencia;
         this.capacidad = capacidad;
+    }
+
+    public String getPatente() {
+        return patente;
+    }
+
+    public void setPatente(String patente) {
+        this.patente = patente;
     }
 
     public void setMarca(String marca) {
@@ -47,7 +57,7 @@ public class Vehiculo {
         this.resistencia = resistencia;
     }
 
-    public void setCapacidad(String capacidad) {
+    public void setCapacidad(Integer capacidad) {
         this.capacidad = capacidad;
     }
 
@@ -75,7 +85,7 @@ public class Vehiculo {
         return resistencia;
     }
 
-    public String getCapacidad() {
+    public Integer getCapacidad() {
         return capacidad;
     }
 

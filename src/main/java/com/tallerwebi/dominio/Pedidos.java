@@ -6,6 +6,7 @@ public class Pedidos {
     private String codigo;
     private Integer tamanio;
     private Integer peso;
+    private Long id;
 
 
     public Pedidos(String nombre, String tipo, String codigo, Integer tamanio, Integer peso) {
@@ -14,6 +15,10 @@ public class Pedidos {
         this.codigo = codigo;
         this.tamanio = tamanio;
         this.peso = peso;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTipo() {

@@ -27,7 +27,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private Vehiculo givenTengoLosDatosDelVehiculo() {
-        return new Vehiculo("Chevrolet", "Cruze", "Auto", 1100, 190, 95, "3");
+        return new Vehiculo("asd123","Chevrolet", "Cruze", "Auto", 1100, 190, 95, 3);
     }
 
     private ModelAndView whenEnvioDatosDelVehiculoAlServicio(Vehiculo vehiculo) {
@@ -54,7 +54,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private Vehiculo givenTengoLosDatosDelVehiculoSalvoUno() {
-        return new Vehiculo("Chevrolet", "", "auto", 1234, 190, 95, "3");
+        return new Vehiculo("ASD321","Chevrolet", "", "auto", 1234, 190, 95, 3);
     }
 
     private void thenSeMantieneEnLaVistaDelFormulario(ModelAndView mav, String mensaje) {

@@ -33,9 +33,9 @@ public class ControladorGestionVehicular {
     }
 
     private void crearFlotaPorDefecto(FlotaDeVehiculos flotaDeVehiculos) {
-        flotaDeVehiculos.agregarVehiculo(new Vehiculo("Toyota", "Corolla", "Moto", 1000, 200, 100, "2"));
-        flotaDeVehiculos.agregarVehiculo(new Vehiculo("Mercedes-Benz", "Sprinter", "Auto", 1200, 180, 90, "1"));
-        flotaDeVehiculos.agregarVehiculo(new Vehiculo("Volvo", "FH", "Camion", 1500, 250, 120, "4"));
-        flotaDeVehiculos.agregarVehiculo(new Vehiculo("Chevrolet", "Cruze", "Auto", 1100, 190, 95, "2"));
+        flotaDeVehiculos.agregarVehiculo(new Vehiculo("ASD123","Toyota", "Corolla", "Moto", 1000, 200, 100, 2));
+        flotaDeVehiculos.agregarVehiculo(new Vehiculo("ASD124","Mercedes-Benz", "Sprinter", "Auto", 1200, 180, 90, 1));
+        flotaDeVehiculos.agregarVehiculo(new Vehiculo("ASD125","Volvo", "FH", "Camion", 1500, 250, 120, 4));
+        flotaDeVehiculos.agregarVehiculo(new Vehiculo("ASD126","Chevrolet", "Cruze", "Auto", 1100, 190, 95, 2));
     }
 }
