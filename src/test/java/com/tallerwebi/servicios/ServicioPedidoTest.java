@@ -6,6 +6,8 @@ import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +18,7 @@ public class ServicioPedidoTest {
     @Test
     public void seAgregaUnPedidoAUnVehiculo() throws Exception {
         Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,123);
-        Pedido pedido = new Pedido("pedido1","asd","asd",123,123);
+        Pedido pedido = new Pedido("pedido1","asd","asd",123,123, LocalDate.now());
 
         ServicioPedido servicio = new ServicioPedidoImpl();
 
@@ -32,7 +34,7 @@ public class ServicioPedidoTest {
     @Test
     public void noSePuedeAgregarUnPedidoAUnVehiculoLleno(){
         Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10);
-        Pedido pedido = new Pedido("pedido1","asd","asd",123,123);
+        Pedido pedido = new Pedido("pedido1","asd","asd",123,123, LocalDate.now());
 
         ServicioPedido servicio = new ServicioPedidoImpl();
 

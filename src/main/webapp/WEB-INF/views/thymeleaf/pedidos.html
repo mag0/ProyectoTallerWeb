@@ -43,11 +43,15 @@
         </div>
 
     </header>
+    <div class="content-date">
+        <h4>Filtrar por dia</h4>
+        <input type="date" id="fechaFiltro" onchange="filtrarPedidosPorFecha()" class="input-date">
+    </div>
     <section class="conteiner-principal">
         <div class="conteiner-pedidos">
-            
-            <div class="item-box" th:each="pedido : ${pedido}">
-                <div class="item">
+
+            <div class="item-box" th:each="pedido, pedidoIndex : ${pedido}">
+                <div class="item" th:id="'pedido_' + ${pedidoIndex.index}">
                     <div class="img"><img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="" class="img2"></div>
                     <div class="content">
                         <p th:text="'Nombre: ' + ${pedido.nombre}" class="title"></p>
@@ -55,41 +59,40 @@
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                         <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
                         <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
+                        <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
+                        <div class="botones">
+                            <button onclick="cancelarPedido(${pedidoIndex.index})" class="btn-cancelar">Cancelar</button>
+                            <button onclick="reprogramarPedido(${pedidoIndex.index})" class="btn-reprogramar">Reprogramar</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="conteiner-calendario">
-            <h3>Calendario</h3>
-
-        </div>
-
-        <div class="fixed-calendar-container">
-            <div id="datepicker"></div>
-        </div>
     </section>
 </div>
-    <script th:inline="javascript">
-        /* Inicializar el Datepicker */
-        $(function() {
-            // Configuración del Datepicker para mostrar siempre el calendario
-            $("#datepicker").datepicker({
-                showOn: 'button', // Mostrar el botón del calendario
-                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // Imagen del botón del calendario
-                buttonImageOnly: true, // Mostrar solo la imagen del botón
-                showButtonPanel: true, // Mostrar el panel de botones
-                showOtherMonths: true, // Mostrar días de otros meses
-                selectOtherMonths: true, // Permitir seleccionar días de otros meses
-                showWeek: true, // Mostrar números de semana
-                numberOfMonths: 1, // Mostrar solo un mes
-                showAnim: 'slideDown', // Efecto de animación al mostrar el calendario
-                onSelect: function(dateText) {
-                    // Aquí puedes agregar lógica para manejar la fecha seleccionada
-                }
-            });
-        });
-    </script>
+<script>
+    function filtrarPedidosPorFecha() {
+        var fechaSeleccionada = new Date(document.getElementById("fechaFiltro").value);
+        // Convertir la fecha seleccionada a la zona horaria local
+        fechaSeleccionada.setMinutes(fechaSeleccionada.getMinutes() - fechaSeleccionada.getTimezoneOffset());
+
+        var pedidos = document.getElementsByClassName("item-box");
+
+        for (var i = 0; i < pedidos.length; i++) {
+            var fechaPedido = new Date(pedidos[i].querySelector(".fecha-entrega").textContent);
+            // Convertir la fecha del pedido a la zona horaria local
+            fechaPedido.setMinutes(fechaPedido.getMinutes() - fechaPedido.getTimezoneOffset());
+
+            if (fechaPedido.toDateString() !== fechaSeleccionada.toDateString()) {
+                pedidos[i].style.display = "none"; // Oculta las tarjetas que no coincidan con la fecha seleccionada
+            } else {
+                pedidos[i].style.display = "block"; // Muestra las tarjetas que coincidan con la fecha seleccionada
+            }
+        }
+    }
+
+</script>
 </body>
 </html>
