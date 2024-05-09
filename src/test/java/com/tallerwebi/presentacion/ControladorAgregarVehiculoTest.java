@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.FlotaDeVehiculos;
-import com.tallerwebi.dominio.ServicioAgregarVehiculo;
+import com.tallerwebi.servicios.ServicioAgregarVehiculo;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
@@ -41,7 +41,6 @@ public class ControladorAgregarVehiculoTest {
 
     @Test
     public void noSeLograDarDeAltaAlVehiculoDebidoAQueFaltanDatos() {
-
         Vehiculo vehiculoIncompleto = givenTengoLosDatosDelVehiculoSalvoUno();
 
         doThrow(DatosIncompletos.class)

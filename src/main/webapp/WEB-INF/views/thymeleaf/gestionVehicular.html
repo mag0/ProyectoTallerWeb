@@ -50,6 +50,7 @@
                 </form>
             </div>
         </article>
+        <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
     </section>
     <div style="text-align: center; margin-bottom: 2rem; font-size: 1.2em">
         <a style="background-color: #FFA500;padding: .3em 1em;text-decoration: none; color:white;border-radius: 1em;text-align: center" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
