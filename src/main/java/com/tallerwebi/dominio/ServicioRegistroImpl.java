@@ -21,7 +21,7 @@ public class ServicioRegistroImpl implements ServicioRegistro {
     }
 
     @Override
-    public void registrar(Usuario usuario) {
+    public void registrar(Usuario1 usuario) {
         if(usuario.getUsuario().isEmpty()||usuario.getEmail().isEmpty()
                 ||usuario.getPassword().isEmpty()||usuario.getPasswordRepetida().isEmpty()
                 ||usuario.getFechaDeNacimiento().toString().isEmpty()){

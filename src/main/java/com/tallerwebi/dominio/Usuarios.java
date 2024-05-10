@@ -8,25 +8,25 @@ import java.util.List;
 @Component
 public class Usuarios {
 
-    List<Usuario> usuarios;
+    List<Usuario1> usuarios;
 
     public Usuarios() {
         this.usuarios = new ArrayList<>();
     }
 
-    public List<Usuario> getUsuarios() {
+    public List<Usuario1> getUsuarios() {
         return this.usuarios;
     }
 
-    public void agregarUsuario(Usuario usuario) {
+    public void agregarUsuario(Usuario1 usuario) {
         usuarios.add(usuario);
     }
 
-    public boolean contieneVehiculo(Usuario usuario) {
+    public boolean contieneVehiculo(Usuario1 usuario) {
         return usuarios.contains(usuario);
     }
 
-    public void eliminarUsuario(Usuario usuario) {
+    public void eliminarUsuario(Usuario1 usuario) {
         usuarios.remove(usuario);
     }
 }

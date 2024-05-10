@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.Usuario1;
 import com.tallerwebi.dominio.excepcion.ContraseniasDistintas;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
@@ -26,12 +26,13 @@ public class ControladorRegistro {
     @RequestMapping("/registro")
     public ModelAndView irARegistro(){
         ModelMap model = new ModelMap();
+        model.addAttribute("usuario1", new Usuario1());
         return new ModelAndView("registro", model);
 
     }
 
-    @RequestMapping(path = "/registro", method = RequestMethod.POST)
-    public ModelAndView registrar(@ModelAttribute("usuario")Usuario usuario) {
+    @RequestMapping(path = "/registrar", method = RequestMethod.POST)
+    public ModelAndView registrar(@ModelAttribute("usuario1") Usuario1 usuario) {
         ModelMap model = new ModelMap();
         try{
             servicioRegistro.registrar(usuario);
@@ -47,7 +48,7 @@ public class ControladorRegistro {
     }
 
     private ModelAndView registroExitoso() {
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/index");
     }
 
     private ModelAndView registroFallido(ModelMap model,String mensaje) {

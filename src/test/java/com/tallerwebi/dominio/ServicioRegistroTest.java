@@ -16,14 +16,14 @@ public class ServicioRegistroTest {
     @Test
     public void siElUsuarioCargaTodosLosDatosElRegistroEsExistoso() {
         givenNoExisteUsuario();
-        Usuario usuario = new Usuario("Jose", "afka@gmail", "232453", "232453", new Date(2 / 1999));
+        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "232453", "232453", "fdsf");
         whenRegistroUsuario(usuario);
         thenElRegitroEsExistoso();
     }
 
     private void givenNoExisteUsuario() {}
 
-    private void whenRegistroUsuario(Usuario usuario) {
+    private void whenRegistroUsuario(Usuario1 usuario) {
         servicioUsuario.registrar(usuario);
     }
 
@@ -32,14 +32,14 @@ public class ServicioRegistroTest {
     @Test
     public void siElUsuarioNoCargaTodosLosDatosElRegistroEsFallidoYRecibeExcepcion() {
         givenNoExisteUsuario();
-        Usuario usuario = new Usuario("Jose", "", "234531", "234531", new Date(2 / 1999));
+        Usuario1 usuario = new Usuario1("Jose", "", "234531", "234531", "fdsf");
         assertThrows(DatosIncompletos.class,
                 ()-> whenRegistroUsuario(usuario));
     }
 
     @Test
     public void siElUsuarioCargaUnaContraseniaMenorASeisDigitosRecibeExcepcion() {
-        Usuario usuario = new Usuario("Jose", "afka@gmail", "23453", "23453", new Date(2 / 1999));
+        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "23453", "23453", "fdsf");
         givenNoExisteUsuario();
         assertThrows(PasswordLongitudIncorrecta.class,
                 ()-> whenRegistroUsuario(usuario));
@@ -47,7 +47,7 @@ public class ServicioRegistroTest {
 
     @Test
     public void siLasContraseniasSonDistintasLanzaExcepcion() {
-        Usuario usuario = new Usuario("Jose", "afka@gmail", "2345", "23453", new Date(2 / 1999));
+        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "2345", "23453", "fdsf");
         givenNoExisteUsuario();
         assertThrows(ContraseniasDistintas.class,
                 ()-> whenRegistroUsuario(usuario));
