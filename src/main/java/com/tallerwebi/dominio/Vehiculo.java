@@ -14,7 +14,7 @@ public class Vehiculo {
     private int kilometrajeMaximo;
     private int combustible;
     private int resistencia;
-    private Integer capacidad;
+    private int capacidad;
     private String patente;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,7 +93,7 @@ public class Vehiculo {
         return resistencia;
     }
 
-    public Integer getCapacidad() {
+    public int getCapacidad() {
         return capacidad;
     }
 
@@ -102,13 +102,12 @@ public class Vehiculo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vehiculo vehiculo = (Vehiculo) o;
-        return Objects.equals(marca, vehiculo.marca) &&
-                Objects.equals(modelo, vehiculo.modelo);
+        return Objects.equals(patente, vehiculo.patente);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(marca, modelo);
+        return Objects.hash(patente);
     }
 
     public void setId(Long id) {

@@ -15,14 +15,14 @@ public class ControladorGestionVehicularTest {
 
     FlotaDeVehiculos flotaDeVehiculos = new FlotaDeVehiculos();
     ServicioMostrarVehiculos servicioMostrarVehiculos = mock(ServicioMostrarVehiculos.class);
-    ControladorGestionVehicular controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos);
+    ControladorGestionVehicular controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos, flotaDeVehiculos);
 
     @Test void noSeLogranMostrarLosVehiculosDebidoAQueNoHay(){
         givenNoTengoVehiculos();
 
         doThrow(NoHayVehiculosEnLaFlota.class)
                 .when(servicioMostrarVehiculos)
-                .mostrarFlota();
+                .mostrarFlota(flotaDeVehiculos);
 
 
         ModelAndView mav = whenReciboListaDeVehiculos();

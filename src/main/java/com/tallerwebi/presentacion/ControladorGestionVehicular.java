@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Vehiculo;
-import com.tallerwebi.dominio.excepcion.DatosIncompletos;
+import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +13,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorGestionVehicular {
 
     private final ServicioMostrarVehiculos servicioMostrarVehiculos;
+    private FlotaDeVehiculos flotaDeVehiculos;
 
     @Autowired
-    public ControladorGestionVehicular(ServicioMostrarVehiculos servicioMostrarVehiculos) {
+    public ControladorGestionVehicular(ServicioMostrarVehiculos servicioMostrarVehiculos,FlotaDeVehiculos flotaDeVehiculos) {
         this.servicioMostrarVehiculos = servicioMostrarVehiculos;
+        this.flotaDeVehiculos = flotaDeVehiculos;
     }
 
     @RequestMapping("/gestionVehicular")
     public ModelAndView irAGestionVehicular() {
         ModelMap model = new ModelMap();
         try {
-            servicioMostrarVehiculos.mostrarFlota();
+            servicioMostrarVehiculos.mostrarFlota(flotaDeVehiculos);
         } catch (NoHayVehiculosEnLaFlota ex) {
             return mostrarListaVacia(model,"No hay vehiculos en la flota");
         }
-        model.put("vehiculos", servicioMostrarVehiculos.mostrarFlota());
+        model.put("vehiculos", servicioMostrarVehiculos.mostrarFlota(flotaDeVehiculos));
         return mostrarVehiculos(model);
     }
 

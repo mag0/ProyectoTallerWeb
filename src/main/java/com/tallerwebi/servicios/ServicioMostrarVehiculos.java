@@ -5,5 +5,5 @@ import com.tallerwebi.dominio.Vehiculo;
 import java.util.List;
 
 public interface ServicioMostrarVehiculos{
-    List<Vehiculo> mostrarFlota();
+    List<Vehiculo> mostrarFlota(FlotaDeVehiculos flotaDeVehiculos);
 }

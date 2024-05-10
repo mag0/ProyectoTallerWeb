@@ -23,7 +23,7 @@ public class ServicioAgregarVehiculoImpl implements ServicioAgregarVehiculo {
     }
 
     private Boolean verificarQueSeRecibioTodosLosDatos(Vehiculo vehiculo) {
-        return vehiculo.getCombustible() == 0 || vehiculo.getCapacidad() == 0 ||
+        return vehiculo.getPatente().isEmpty() || vehiculo.getCombustible() == 0 || vehiculo.getCapacidad() == 0 ||
                 vehiculo.getResistencia() == 0 || vehiculo.getMarca().isEmpty() ||
                 vehiculo.getKilometrajeMaximo() == 0 || vehiculo.getModelo().isEmpty()
                 ||vehiculo.getTipo().isEmpty();
