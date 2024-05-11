@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 public class ControladorRegistroTest {
 
-
     ServicioRegistro servicioRegistro = mock(ServicioRegistro.class);
     ControladorRegistro controladorRegistro = new ControladorRegistro(servicioRegistro);
 
