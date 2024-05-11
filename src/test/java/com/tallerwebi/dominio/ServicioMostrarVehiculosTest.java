@@ -8,20 +8,29 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/*public class ServicioMostrarVehiculosTest {
+public class ServicioMostrarVehiculosTest {
 
     ServicioMostrarVehiculos servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl();
 
+    @Test
+    public void alHaberVehiculosEnLaFlotaElServicioDevuelveLosVehiculos() {
+        givenNoHayVehiculosEnLaFlota();
+        List<Vehiculo> vehiculos= whenVerificoSiHayVehiculosEnLaFlota();
+        assertThat(vehiculos,is(notNullValue()));
+    }
+    private void givenNoHayVehiculosEnLaFlota() {
+    }
+    private List<Vehiculo> whenVerificoSiHayVehiculosEnLaFlota() {
+        return servicioMostrarVehiculos.mostrarFlota(new FlotaDeVehiculos());
+    }
+/*
     @Test
     public void alNoHaberVehiculosEnLaFlotaElServicioDevuelveUnaExcepcionDeQueNoHayVehiculos() {
         givenNoHayVehiculosEnLaFlota();
         assertThrows(NoHayVehiculosEnLaFlota.class,()-> whenVerificoSiHayVehiculosEnLaFlota());
     }
 
-    private void givenNoHayVehiculosEnLaFlota() {
-    }
 
-    private List<Vehiculo> whenVerificoSiHayVehiculosEnLaFlota() {
-        return servicioMostrarVehiculos.mostrarFlota(new FlotaDeVehiculos());
-    }
-}*/
+
+    */
+}
