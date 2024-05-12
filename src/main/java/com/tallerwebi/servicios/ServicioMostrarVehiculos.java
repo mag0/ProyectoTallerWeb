@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ServicioMostrarVehiculos{
     List<Vehiculo> mostrarFlota(FlotaDeVehiculos flotaDeVehiculos);
+
+    List<Vehiculo> obtenerVehiculosDisponibles();
 }

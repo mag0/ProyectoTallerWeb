@@ -20,6 +20,11 @@ public class ServicioMostrarVehiculosImpl implements ServicioMostrarVehiculos {
         return flotaDeVehiculos.getVehiculos();
     }
 
+    @Override
+    public List<Vehiculo> obtenerVehiculosDisponibles() {
+        return List.of();
+    }
+
     private void inicializarFlota(FlotaDeVehiculos flotaDeVehiculos) {
         if (flotaDeVehiculos.getVehiculos().isEmpty()) {
 

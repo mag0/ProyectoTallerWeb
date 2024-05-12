@@ -1,6 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.dominio.Pedido;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,13 @@ import java.util.List;
 @Controller
 public class ControladorPedidos {
 
+    private final ServicioMostrarVehiculos servicioMostrarVehiculos;
+
+    @Autowired
+    public ControladorPedidos(ServicioMostrarVehiculos servicioMostrarVehiculos) {
+        this.servicioMostrarVehiculos = servicioMostrarVehiculos;
+    }
+
     @RequestMapping("/pedidos")
     public ModelAndView irAPedidos() {
         List<Pedido> pedido = new ArrayList<>();
@@ -22,9 +32,14 @@ public class ControladorPedidos {
         pedido.add(new Pedido("Paquete 4","Normal", "XXS345", 2, 9, LocalDate.now().plusDays(1)));
         pedido.add(new Pedido("Paquete 5","Fragil", "KJH764", 7, 45, LocalDate.now().plusDays(1)));
 
+        List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponibles();
+
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedido", pedido);
+        modelMap.addAttribute("vehiculos", vehiculos);
         return new ModelAndView("pedidos", modelMap);
 
     }
+
+
 }
