@@ -24,7 +24,8 @@ public class ControladorPedidos {
     @Autowired
     private ServicioPedidoImpl servicioPedidoImpl;
 
-    public ControladorPedidos(ServicioPedido pedidoService) {
+    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo) {
+
         this.pedidoService = pedidoService;
     }
 
@@ -51,7 +52,11 @@ public class ControladorPedidos {
         Integer vehiculoId = request.getVehiculoId();
         int pedidoId = id;
 
-        pedidoService.agregarPedido(vehiculoId,pedidoId)
+        Vehiculo vehiculo =
+
+
+
+        pedidoService.agregarPedido();
 
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedido", pedidoId);
