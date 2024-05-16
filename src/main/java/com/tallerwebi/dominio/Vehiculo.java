@@ -8,6 +8,9 @@ import java.util.Objects;
 @Entity
 public class Vehiculo {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String marca;
     private String modelo;
     private String tipo;
@@ -16,9 +19,7 @@ public class Vehiculo {
     private int resistencia;
     private Integer capacidad;
     private String patente;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     public Vehiculo(){}
 
@@ -111,11 +112,11 @@ public class Vehiculo {
         return Objects.hash(marca, modelo);
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 }

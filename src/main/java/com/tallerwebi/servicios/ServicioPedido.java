@@ -6,4 +6,6 @@ import com.tallerwebi.dominio.Viaje;
 
 public interface ServicioPedido {
     Viaje agregarPedido(Vehiculo vehiculo, Pedido pedidos) throws Exception;
+    Pedido getPedido(int id);
+
 }

@@ -1,6 +1,6 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.repositorios.impl;
 
-import com.tallerwebi.dominio.RepositorioUsuario;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

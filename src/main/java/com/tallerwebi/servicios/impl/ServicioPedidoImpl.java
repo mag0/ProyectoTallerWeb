@@ -30,4 +30,9 @@ public class ServicioPedidoImpl implements ServicioPedido {
             throw new Exception(e.getMessage());
         }
     }
+
+    @Override
+    public Pedido getPedido(int id) {
+        return null;
+    }
 }

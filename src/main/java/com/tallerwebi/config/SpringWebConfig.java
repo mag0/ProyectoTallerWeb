@@ -1,5 +1,8 @@
 package com.tallerwebi.config;
 
+import com.tallerwebi.dominio.FlotaDeVehiculos;
+import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +18,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio", "com.tallerwebi.infraestructura"})
+@ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio","com.tallerwebi.servicios","com.tallerwebi.repositorios"})
 public class SpringWebConfig implements WebMvcConfigurer {
 
     // Spring + Thymeleaf need this
@@ -45,6 +48,21 @@ public class SpringWebConfig implements WebMvcConfigurer {
         // templates to be automatically updated when modified.
         templateResolver.setCacheable(true);
         return templateResolver;
+    }
+
+   @Bean
+    public FlotaDeVehiculos flotaDeVehiculos() {
+        return new FlotaDeVehiculos();
+    }
+
+    @Bean
+    public Vehiculo vehiculo() {
+        return new Vehiculo();
+    }
+
+    @Bean
+    public Zona zona() {
+        return new Zona();
     }
 
     // Spring + Thymeleaf

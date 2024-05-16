@@ -2,10 +2,10 @@ package com.tallerwebi.presentacion;
 
 
 import com.tallerwebi.dominio.FlotaDeVehiculos;
-import com.tallerwebi.dominio.ServicioAgregarVehiculo;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
+import com.tallerwebi.servicios.ServicioAgregarVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorAgregarVehiculo {
 
-    ServicioAgregarVehiculo servicioAgregarVehiculo;
-    FlotaDeVehiculos flotaDeVehiculos;
+    private ServicioAgregarVehiculo servicioAgregarVehiculo;
+    private FlotaDeVehiculos flotaDeVehiculos;
 
     @Autowired
     public ControladorAgregarVehiculo(ServicioAgregarVehiculo servicioAgregarVehiculo, FlotaDeVehiculos flotaDeVehiculos) {
