@@ -18,16 +18,16 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
 
     @Override
     public Pedido buscarPedido(int id) {
-        return null;
+        return sessionFactory.getCurrentSession().get(Pedido.class, id);
     }
 
     @Override
     public void guardar(Pedido pedido) {
-
+        sessionFactory.getCurrentSession().save(pedido);
     }
 
     @Override
     public void modificar(Pedido pedido) {
-
+        sessionFactory.getCurrentSession().update(pedido);
     }
 }

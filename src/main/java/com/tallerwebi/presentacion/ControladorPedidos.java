@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.ServicioPedido;
+import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,15 +20,13 @@ import java.util.List;
 @RestController
 @Controller
 public class ControladorPedidos {
-
-    @Autowired
     private ServicioPedido pedidoService;
+    private ServicioVehiculo vehiculoService;
+
     @Autowired
-    private ServicioPedidoImpl servicioPedidoImpl;
-
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo) {
-
+    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService) {
         this.pedidoService = pedidoService;
+        this.vehiculoService = vehiculoService;
     }
 
 
@@ -47,21 +47,25 @@ public class ControladorPedidos {
 
     @PostMapping("/pedidos/{id}/asignar")
     @ResponseBody
-    public ModelAndView asignarPedido(@PathVariable("id") int id, AsignarPedidoRequest request) throws IOException {
-
+    public ModelAndView asignarPedido(@PathVariable("id") int id, AsignarPedidoRequest request) {
         Integer vehiculoId = request.getVehiculoId();
         int pedidoId = id;
 
-        Vehiculo vehiculo =
+        try{
+            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+            Long viajeId = pedidoService.agregarPedido(vehiculo,pedidoId);
 
+            ModelMap modelMap = new ModelMap();
+            modelMap.addAttribute("pedido", viajeId);
 
+            return new ModelAndView("test", modelMap);
+        }catch(Exception e){
+            ModelMap modelMap = new ModelMap();
+            modelMap.addAttribute("error", e.getMessage());
 
-        pedidoService.agregarPedido();
+            return new ModelAndView("test", modelMap);
+        }
 
-        ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("pedido", pedidoId);
-
-        return new ModelAndView("test", modelMap);
     }
 
 }
