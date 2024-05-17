@@ -1,3 +1,5 @@
+/**/
+
 package com.tallerwebi.dominio;
 
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nombreUsuario;
     private String email;
     private String password;
     private String rol;
@@ -22,6 +25,12 @@ public class Usuario {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+    public void setNombreUsuario(String nombreUsuario) {
+        this.email = email;
+    }
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
     public String getEmail() {
         return email;

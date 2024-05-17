@@ -30,7 +30,7 @@
             </div>
             <nav>
                 <ul>
-                    <li><a class="vistaActual" th:href="@{/gestionVehicular}">Gestion de vehiculos</a></li>
+                    <li><a th:href="@{/gestionVehicular}">Gestion de vehiculos</a></li>
                     <li><a th:href="@{/pedidos}">Pedidos</a></li>
                     <li><a th:href="@{/rendimiento}">Rendimiento</a></li>
                     <li><a th:href="@{/seguimiento}">Seguimiento</a></li>
@@ -68,11 +68,44 @@
                 </div>
             </div>
 
+
+
         </div>
 
 
     </section>
+    <button type="button" class="btn shadow p-3 mb-5 bg-body rounded d-flex align-items-center" onclick="mostrarVentanaEmergente()">Sugerir</button>
+
+
 </div>
+
+
+
+
+<div id="ventanaEmergente" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarVentanaEmergente()">&times;</span>
+        <div class="card">
+            <div class="card-header">
+                Vehículos disponibles para viajes
+            </div>
+            <div class="card-body">
+                <form id="seleccionVehiculosForm">
+                    <div class="form-check" th:each="vehiculo : ${vehiculos}">
+                        <input class="form-check-input" type="checkbox" name="vehiculo" th:id="'vehiculo' + ${vehiculo.id}" th:value="${vehiculo.id}">
+                        <label class="form-check-label" th:for="'vehiculo' + ${vehiculo.id}" th:text="${vehiculo.nombre}">
+                            Vehículo 1
+                        </label>
+                    </div>
+                    <button type="button" onclick="enviarSeleccion()" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
     function filtrarPedidosPorFecha() {
         var fechaSeleccionada = new Date(document.getElementById("fechaFiltro").value);
@@ -92,6 +125,30 @@
                 pedidos[i].style.display = "block"; // Muestra las tarjetas que coincidan con la fecha seleccionada
             }
         }
+    }
+    function mostrarVentanaEmergente() {
+        document.getElementById("ventanaEmergente").style.display = "block";
+    }
+
+    function cerrarVentanaEmergente() {
+        document.getElementById("ventanaEmergente").style.display = "none";
+    }
+
+    function enviarSeleccion() {
+        var form = document.getElementById("seleccionVehiculosForm");
+        var checkboxes = form.querySelectorAll('input[name="vehiculo"]:checked');
+        var vehiculosSeleccionados = [];
+
+        checkboxes.forEach(function(checkbox) {
+            vehiculosSeleccionados.push(checkbox.value);
+        });
+
+        // Aquí puedes hacer lo que quieras con la información seleccionada,
+        // por ejemplo, enviarla a través de una solicitud HTTP o procesarla localmente.
+        console.log("Vehículos seleccionados:", vehiculosSeleccionados);
+
+        // Cerrar la ventana emergente después de enviar la selección
+        cerrarVentanaEmergente();
     }
 
     function asignarPedido(id) {

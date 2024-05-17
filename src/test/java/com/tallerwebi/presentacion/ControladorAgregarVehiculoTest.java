@@ -41,7 +41,6 @@ public class ControladorAgregarVehiculoTest {
 
     @Test
     public void noSeLograDarDeAltaAlVehiculoDebidoAQueFaltanDatos() {
-
         Vehiculo vehiculoIncompleto = givenTengoLosDatosDelVehiculoSalvoUno();
 
         doThrow(DatosIncompletos.class)

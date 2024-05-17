@@ -1,4 +1,4 @@
-package com.tallerwebi.servicios.impl;
+package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.Vehiculo;
