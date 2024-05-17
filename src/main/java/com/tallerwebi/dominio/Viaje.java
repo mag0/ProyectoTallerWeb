@@ -9,31 +9,21 @@ public class Viaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long vehiculoId;
-    private String vehiculoPatente;
+    @OneToOne
+    private Vehiculo vehiculo;
     private Long zonaId;
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pedidos_id")
-    private List<Pedido> PedidosIds;
+    private List<Pedido> pedidos;
 
-    public Viaje(Long id, Long zonaId, List<Pedido> PedidosIds, String vehiculoPatente) {
-        this.id = id;
-        this.vehiculoPatente = vehiculoPatente;
+    public Viaje(Long zonaId, Vehiculo vehiculo,List<Pedido> pedidos) {
+        this.vehiculo = vehiculo;
         this.zonaId = zonaId;
-        this.PedidosIds = PedidosIds;
+        this.pedidos = pedidos;
     }
 
-    public Viaje() {
+    public Viaje() {}
 
-    }
-
-    public String getVehiculoPatente() {
-        return vehiculoPatente;
-    }
-
-    public void setVehiculoPatente(String vehiculoPatente) {
-        this.vehiculoPatente = vehiculoPatente;
-    }
 
     public Long getId() {
         return id;
@@ -44,19 +34,19 @@ public class Viaje {
     }
 
     public List<Pedido> getPaqueteIds() {
-        return PedidosIds;
+        return this.pedidos;
     }
 
-    public void setPaqueteIds(List<Pedido> paqueteIds) {
-        this.PedidosIds = paqueteIds;
+    public void setPaqueteIds(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
-    public Long getVehiculoId() {
-        return vehiculoId;
+    public Vehiculo getVehiculo() {
+        return this.vehiculo;
     }
 
-    public void setVehiculoId(Long vehiculoId) {
-        this.vehiculoId = vehiculoId;
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
     public Long getZonaId() {

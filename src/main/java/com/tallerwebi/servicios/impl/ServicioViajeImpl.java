@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class ServicioViajeImpl implements ServicioViaje {
 
-    private Vehiculo vehiculo = new Vehiculo();
+    private Vehiculo vehiculo;
     private Zona zona;
 
 

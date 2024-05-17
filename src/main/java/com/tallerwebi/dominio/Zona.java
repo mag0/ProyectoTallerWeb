@@ -22,6 +22,10 @@ public class Zona {
         this.tiempoDemora = tiempoDemora;
     }
 
+    public Zona() {
+
+    }
+
 
     public Long getId() {
         return id;

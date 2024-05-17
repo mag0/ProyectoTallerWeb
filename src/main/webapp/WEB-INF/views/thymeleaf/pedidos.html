@@ -12,7 +12,6 @@
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{css/pedidos.css}" />
 
-    <link rel="stylesheet" th:href="@{js/pedidos.js}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -60,9 +59,10 @@
                         <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
                         <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
                         <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
-                        <div class="botones">
-                            <button onclick="cancelarPedido(${pedidoIndex.index})" class="btn-cancelar">Cancelar</button>
-                            <button onclick="reprogramarPedido(${pedidoIndex.index})" class="btn-reprogramar">Reprogramar</button>
+                        <div class="col">
+                            <button th:attr="onclick='cancelarPedido(' + ${pedidoIndex} + ')'" class="btn btn-secondary">Cancelar</button>
+                            <button th:attr="onclick='reprogramarPedido(' + ${pedidoIndex} + ')'" class="btn btn-warning">Reprogramar</button>
+                            <button th:attr="onclick='asignarPedido(' + ${pedido.id} + ')'" class="btn btn-primary">Despachar</button>
                         </div>
                     </div>
                 </div>
@@ -71,6 +71,7 @@
 
 
         </div>
+
 
     </section>
     <button type="button" class="btn shadow p-3 mb-5 bg-body rounded d-flex align-items-center" onclick="mostrarVentanaEmergente()">Sugerir</button>
@@ -148,6 +149,45 @@
 
         // Cerrar la ventana emergente después de enviar la selección
         cerrarVentanaEmergente();
+    }
+
+    function asignarPedido(id) {
+        // URL a la que deseas enviar la solicitud POST
+        const url = `/spring/api/pedidos/${id}/asignar`;
+
+        // Datos que deseas enviar en el cuerpo de la solicitud
+        const data = {
+            pedidoId: id
+        };
+
+        // Opciones de configuración de la solicitud
+        const opciones = {
+            method: 'POST', // Método de la solicitud
+            headers: {
+                'Content-Type': 'application/json' // Tipo de contenido del cuerpo de la solicitud
+            },
+            body: JSON.stringify(data) // Convertimos los datos a formato JSON
+        };
+
+        console.log({url, data, opciones})
+
+        fetch(url, opciones)
+            .then(response => {
+                // Verificar si la solicitud fue exitosa
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud: ' + response.status);
+                }
+                // Procesar la respuesta
+                return response.json(); // Convertir la respuesta a JSON
+            })
+            .then(data => {
+                // Hacer algo con los datos de la respuesta
+                console.log(data);
+            })
+            .catch(error => {
+                // Capturar y manejar errores
+                console.error('Hubo un problema con la solicitud:', error);
+            });
     }
 
 </script>

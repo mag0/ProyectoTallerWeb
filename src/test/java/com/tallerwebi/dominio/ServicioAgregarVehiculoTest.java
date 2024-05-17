@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ServicioAgregarVehiculoTest {
 
-    ServicioAgregarVehiculo servicioAgregarVehiculo = new ServicioAgregarVehiculoImpl();
+    ServicioAgregarVehiculo servicioAgregarVehiculo = new com.tallerwebi.dominio.ServicioAgregarVehiculoImpl() {
+    };
 
     FlotaDeVehiculos flotaDeVehiculos = new FlotaDeVehiculos();
 
