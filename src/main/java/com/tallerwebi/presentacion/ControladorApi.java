@@ -1,46 +1,30 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import java.util.ArrayList;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ControladorPedidos {
-    private ServicioPedido pedidoService;
-    private ServicioVehiculo vehiculoService;
+public class ControladorApi {
 
-    @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService) {
-        this.pedidoService = pedidoService;
+    private final ServicioVehiculo vehiculoService;
+    private final ServicioPedido pedidoService;
+
+    public ControladorApi(ServicioVehiculo vehiculoService, ServicioPedido pedidoService) {
         this.vehiculoService = vehiculoService;
+        this.pedidoService = pedidoService;
     }
 
-
-    @RequestMapping("/pedidos")
-    public ModelAndView irAPedidos() {
-        List<Pedido> pedidos = new ArrayList<>();
-        Pedido pedido = pedidoService.getPedido(1L);
-        pedidos.add(pedido);
-
-        ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("pedido", pedido);
-        return new ModelAndView("pedidos", modelMap);
-
-    }
-
-    @PostMapping(value ="/pedidos/{id}/asignar", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/api/pedidos/{id}/asignar", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> asignarPedido(@PathVariable("id") Long id, @RequestBody AsignarPedidoRequest request) {
         Integer vehiculoId = request.getVehiculoId();
         Long pedidoId = id;
@@ -58,5 +42,4 @@ public class ControladorPedidos {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

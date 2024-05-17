@@ -29,11 +29,11 @@ public class ServicioPedidoTest {
         ServicioVehiculo servicioV = Mockito.mock(ServicioVehiculo.class);
 
         Mockito.when(servicioV.buscarVehiculo(1)).thenReturn(vehiculo);
-        Mockito.when(servicioP.agregarPedido(vehiculo, 1)).thenReturn(viajeId);
+        Mockito.when(servicioP.agregarPedido(vehiculo, 1L)).thenReturn(viajeId);
 
         // Llamar al método y realizar las aserciones
         Vehiculo vehiculoEsperado = servicioV.buscarVehiculo(1);
-        Long result = servicioP.agregarPedido(vehiculo, 1);
+        Long result = servicioP.agregarPedido(vehiculo, 1L);
 
         assertThat(vehiculoEsperado, notNullValue());
         assertThat(result, is(viajeId));
@@ -48,9 +48,9 @@ public class ServicioPedidoTest {
         ServicioPedido servicio = Mockito.mock(ServicioPedido.class);
 
         // Definir el comportamiento esperado del mock
-        doThrow(new Exception("El vehículo está lleno")).when(servicio).agregarPedido(vehiculo, 1);
+        doThrow(new Exception("El vehículo está lleno")).when(servicio).agregarPedido(vehiculo, 1L);
 
         // Llamar al método y verificar que lanza la excepción esperada
-        assertThrows(Exception.class, () -> servicio.agregarPedido(vehiculo, 1));
+        assertThrows(Exception.class, () -> servicio.agregarPedido(vehiculo, 1L));
     }
 }

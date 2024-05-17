@@ -12,7 +12,6 @@
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{css/pedidos.css}" />
 
-    <link rel="stylesheet" th:href="@{js/pedidos.js}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -61,9 +60,9 @@
                         <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
                         <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
                         <div class="col">
-                            <button onclick="cancelarPedido(${pedidoIndex.index})" class="btn btn-secondary">Cancelar</button>
-                            <button onclick="reprogramarPedido(${pedidoIndex.index})" class="btn btn-warning">Reprogramar</button>
-                            <button onclick="asignarPedido(${pedidoIndex.id})" class="btn btn-primary">Despachar</button>
+                            <button th:attr="onclick='cancelarPedido(' + ${pedidoIndex} + ')'" class="btn btn-secondary">Cancelar</button>
+                            <button th:attr="onclick='reprogramarPedido(' + ${pedidoIndex} + ')'" class="btn btn-warning">Reprogramar</button>
+                            <button th:attr="onclick='asignarPedido(' + ${pedido.id} + ')'" class="btn btn-primary">Despachar</button>
                         </div>
                     </div>
                 </div>
@@ -97,7 +96,7 @@
 
     function asignarPedido(id) {
         // URL a la que deseas enviar la solicitud POST
-        const url = `/pedidos/${id}/asignar`;
+        const url = `/spring/api/pedidos/${id}/asignar`;
 
         // Datos que deseas enviar en el cuerpo de la solicitud
         const data = {
@@ -112,6 +111,8 @@
             },
             body: JSON.stringify(data) // Convertimos los datos a formato JSON
         };
+
+        console.log({url, data, opciones})
 
         fetch(url, opciones)
             .then(response => {

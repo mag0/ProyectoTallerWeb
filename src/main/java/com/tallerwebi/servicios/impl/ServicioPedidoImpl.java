@@ -26,7 +26,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public Long agregarPedido(Vehiculo vehiculo, int pedidoId) throws Exception {
+    public Long agregarPedido(Vehiculo vehiculo, Long pedidoId) throws Exception {
         List<Pedido> pedidosList = new ArrayList<>();
         Pedido pedido = this.getPedido(pedidoId);
 
@@ -47,7 +47,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public Pedido getPedido(int id) {
+    public Pedido getPedido(Long id) {
         return pedidoRepository.buscarPedido(id);
     }
 }

@@ -17,7 +17,7 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
     }
 
     @Override
-    public Pedido buscarPedido(int id) {
+    public Pedido buscarPedido(Long id) {
         return sessionFactory.getCurrentSession().get(Pedido.class, id);
     }
 
