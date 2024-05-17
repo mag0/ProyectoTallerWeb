@@ -29,4 +29,13 @@ public class FlotaDeVehiculos {
     public void eliminarVehiculo(Vehiculo vehiculo) {
         vehiculos.remove(vehiculo);
     }
+
+    public Vehiculo buscarVehiculoPorId(String id) {
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getPatente().equals(id)) {
+                return vehiculo;
+            }
+        }
+        return null; // Si no se encuentra ningún vehículo con ese ID
+    }
 }

@@ -2,16 +2,19 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
+import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.ServicioAgregarVehiculo;
+import com.tallerwebi.servicios.impl.ServicioAgregarVehiculoImpl;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 public class ServicioAgregarVehiculoTest {
 
-    ServicioAgregarVehiculo servicioAgregarVehiculo = new com.tallerwebi.dominio.ServicioAgregarVehiculoImpl() {
-    };
+    RepositorioVehiculo repositorioMock = mock(RepositorioVehiculo.class);
+    ServicioAgregarVehiculo servicioAgregarVehiculo = new ServicioAgregarVehiculoImpl(repositorioMock);
 
     FlotaDeVehiculos flotaDeVehiculos = new FlotaDeVehiculos();
 

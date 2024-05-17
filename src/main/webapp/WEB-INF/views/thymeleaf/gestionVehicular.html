@@ -103,8 +103,7 @@
                 <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
                 <p th:text="'Capacidad: '+ ${vehiculo.capacidad}"></p>
                 <form th:action="@{/eliminarVehiculo}" method="POST">
-                    <input type="hidden" name="marca" th:value="${vehiculo.marca}" />
-                    <input type="hidden" name="modelo" th:value="${vehiculo.modelo}" />
+                    <input type="hidden" name="patente" th:value="${vehiculo.patente}" />
                     <button type="submit">Eliminar</button>
                 </form>
             </div>

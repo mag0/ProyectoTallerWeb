@@ -6,9 +6,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RepositorioVehiculoImpl implements RepositorioVehiculo {
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioVehiculoImpl(SessionFactory sessionFactory) {
@@ -24,4 +26,16 @@ public class RepositorioVehiculoImpl implements RepositorioVehiculo {
     public Vehiculo buscar(int id) {
         return sessionFactory.getCurrentSession().get(Vehiculo.class, id);
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Vehiculo> buscarTodos() {
+        return sessionFactory.getCurrentSession().createQuery("from Vehiculo").list();
+    }
+
+    @Override
+    public void eliminar(Vehiculo vehiculo) {
+        sessionFactory.getCurrentSession().delete(vehiculo);
+    }
 }
+
