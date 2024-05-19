@@ -32,7 +32,8 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public Long agregarPedido(Vehiculo vehiculo, Long pedidoId) throws Exception {
         List<Pedido> pedidosList = new ArrayList<>();
         Pedido pedido = this.getPedido(pedidoId);
-        try {
+
+
             if(vehiculo.getCapacidad() < pedido.getPeso()){
                 throw new Exception("El vehiculo no tiene la capacidad para cargar el pedido");
             }
@@ -42,11 +43,11 @@ public class ServicioPedidoImpl implements ServicioPedido {
             vehiculoRepository.actualizar(vehiculo);
 
             Viaje viaje = new Viaje(1L,vehiculo,pedidosList);
+            pedido.setViaje(viaje);
+            pedidoRepository.modificar(pedido);
 
             return viajeRepository.guardar(viaje);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
+
     }
 
     @Override

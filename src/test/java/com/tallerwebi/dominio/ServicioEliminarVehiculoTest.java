@@ -22,7 +22,7 @@ public class ServicioEliminarVehiculoTest {
     }
 
     private Vehiculo givenSeRecibeVehiculo() {
-        return new Vehiculo("ASD123","otro", "si", "Auto", 1100, 190, 95, 4);
+        return new Vehiculo("ASD123","otro", "si", "Auto", 1100, 190, 95, 4,true);
     }
 
     private void whenSeEliminaVehiculo(Vehiculo vehiculo) {

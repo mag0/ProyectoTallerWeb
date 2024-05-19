@@ -38,10 +38,10 @@ public class ServicioMostrarVehiculosTest {
 
     private void givenVehiculosEnLaBaseDeDatos() {
         List<Vehiculo> vehiculos = List.of(
-                new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1),
-                new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5),
-                new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3),
-                new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1)
+                new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1,true),
+                new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5,true),
+                new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3,true),
+                new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1,true)
         );
         when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
     }

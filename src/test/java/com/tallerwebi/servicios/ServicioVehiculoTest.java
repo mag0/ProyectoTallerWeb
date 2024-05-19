@@ -19,7 +19,7 @@ public class ServicioVehiculoTest {
     public void seCargaUnPedidoAUnVehiculo() throws Exception {
         List<Pedido> pedidoList = new ArrayList<>();
         Pedido pedido = new Pedido();
-        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10);
+        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10,true);
         Viaje viaje = new Viaje(1L,vehiculo,pedidoList);
 
         pedidoList.add(pedido);

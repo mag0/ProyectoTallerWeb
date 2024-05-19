@@ -22,7 +22,7 @@ public class ServicioPedidoTest {
     public void seAgregaUnPedidoAUnVehiculo() throws Exception {
         // Definir el comportamiento esperado del mock
         Long viajeId = 1L;
-        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10);
+        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10,true);
 
         // Crear el mock del servicio
         ServicioPedido servicioP = Mockito.mock(ServicioPedido.class);
@@ -42,7 +42,7 @@ public class ServicioPedidoTest {
     @Test
     public void noSePuedeAgregarUnPedidoAUnVehiculoLleno() throws Exception {
         // Crear el vehículo y el pedido
-        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10);
+        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Fusca", 1994, 123,123,10,true);
 
         // Crear el mock del servicio
         ServicioPedido servicio = Mockito.mock(ServicioPedido.class);

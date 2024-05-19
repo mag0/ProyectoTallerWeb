@@ -26,7 +26,7 @@ public class ServicioAgregarVehiculoTest {
     }
 
     private Vehiculo givenSeRecibieronLosDatosDelVehiculo() {
-        return new Vehiculo("ASD123","otro", "si", "Auto", 1100, 190, 95, 4);
+        return new Vehiculo("ASD123","otro", "si", "Auto", 1100, 190, 95, 4,true);
     }
 
     private void whenAltaDeVehiculo(Vehiculo vehiculo) {
@@ -57,6 +57,6 @@ public class ServicioAgregarVehiculoTest {
     }
 
     private Vehiculo givenNoSeRecibenTodosLosDatosDelVehiculo() {
-        return new Vehiculo("ASD123","otro", "other", "", 1231, 190, 95, 3);
+        return new Vehiculo("ASD123","otro", "other", "", 1231, 190, 95, 3,true);
     }
 }

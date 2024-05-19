@@ -37,15 +37,21 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
     public Viaje cargarUnPaquete(Vehiculo vehiculo, Pedido pedido) throws VehiculoNoTieneCapacidad {
         List<Pedido> pedidosList = new ArrayList<>();
         pedidosList.add(pedido);
-        assert vehiculo != null : "Debug info: " + vehiculo;
+        Viaje viaje = new Viaje();
 
         if(vehiculo.getCapacidad() < pedido.getPeso()){
             throw new VehiculoNoTieneCapacidad("El vehiculo no tiene la capacidad para cargar el pedido");
         }
 
+        pedido.setViaje(viaje);
+
         vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getPeso());
         vehiculoRepository.actualizar(vehiculo);
 
-        return new Viaje(1L,vehiculo,pedidosList);
+        viaje.setVehiculo(vehiculo);
+        viaje.setPaqueteIds(pedidosList);
+        viaje.setId(1L);
+
+        return viaje;
     }
 }

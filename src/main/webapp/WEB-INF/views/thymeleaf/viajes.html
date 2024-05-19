@@ -8,38 +8,17 @@
     <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-    <!-- custom style -->
-    <link rel="stylesheet" th:href="@{css/pedidos.css}" />
-
-    <link rel="stylesheet" th:href="@{js/pedidos.js}">
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
-<body class="body">
-<div class="fondo-oscuro">
-    <header>
-        <div class="header">
-            <h1>FleetManager</h1>
-            <div class="circulo">
-                <img src="https://img.lovepik.com/element/45001/3052.png_860.png" class="perfil">
-            </div>
-            <nav>
-                <ul>
-                    <li><a class="vistaActual" th:href="@{/gestionVehicular}">Gestion de vehiculos</a></li>
-                    <li><a th:href="@{/pedidos}">Pedidos</a></li>
-                    <li><a th:href="@{/viajes}">Viajes</a></li>
-                    <li><a th:href="@{/rendimiento}">Rendimiento</a></li>
-                    <li><a th:href="@{/seguimiento}">Seguimiento</a></li>
-                    <li><a th:href="@{/costo}">Costos</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <section class="conteiner-principal">
-        <div class="" th:each="viaje : ${viajes}">
+<body>
+<div th:replace="parts/navbar :: navbar"></div>
+
+<div class="container">
+    <section class="row">
+        <div class="col" th:each="viaje : ${viajes}">
             <div class="card">
                 <div class="card-body">
                     <p th:text="'KB-Zona: ' + ${viaje.getZonaId()}"></p>
@@ -49,6 +28,7 @@
         </div>
     </section>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

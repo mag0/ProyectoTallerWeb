@@ -19,11 +19,12 @@ public class Vehiculo {
     private int resistencia;
     private int capacidad;
     private String patente;
+    private boolean status;
 
 
     public Vehiculo(){}
 
-    public Vehiculo(String patente,String marca, String modelo, String tipo, int kilometrajeMaximo, int combustible, int resistencia, int capacidad) {
+    public Vehiculo(String patente,String marca, String modelo, String tipo, int kilometrajeMaximo, int combustible, int resistencia, int capacidad, boolean status) {
         this.patente = patente;
         this.marca = marca;
         this.modelo = modelo;
@@ -32,6 +33,19 @@ public class Vehiculo {
         this.combustible = combustible;
         this.resistencia = resistencia;
         this.capacidad = capacidad;
+        this.status = status;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getPatente() {

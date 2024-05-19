@@ -83,10 +83,10 @@ public class ControladorGestionVehicularTest {
 
     private List<Vehiculo> crearVehiculosDePrueba() {
         List<Vehiculo> vehiculos = new ArrayList<>();
-        vehiculos.add(new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1));
-        vehiculos.add(new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5));
-        vehiculos.add(new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3));
-        vehiculos.add(new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1));
+        vehiculos.add(new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1,true));
+        vehiculos.add(new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5,true));
+        vehiculos.add(new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3,true));
+        vehiculos.add(new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1,true));
         return vehiculos;
     }
 

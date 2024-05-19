@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -17,19 +14,36 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private Viaje viaje;
 
 
-    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha) {
-       this.nombre = nombre;
+    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha, Viaje viaje) {
+        this.nombre = nombre;
         this.tipo = tipo;
         this.codigo = codigo;
         this.tamanio = tamanio;
         this.peso = peso;
         this.fecha = fecha;
+        this.viaje = viaje;
     }
 
-    public Pedido() {
+    public Pedido() {}
 
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
     }
 
     public LocalDate getFecha() {
