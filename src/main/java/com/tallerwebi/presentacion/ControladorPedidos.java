@@ -2,9 +2,12 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
+import com.tallerwebi.presentacion.requests.DatosLogin;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
+import com.tallerwebi.servicios.ServicioViaje;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,13 @@ import java.util.List;
 public class ControladorPedidos {
     private ServicioPedido pedidoService;
     private ServicioVehiculo vehiculoService;
-
-    private static final Logger logger = LoggerFactory.getLogger(ControladorPedidos.class);
+    private ServicioViaje viajeService;
 
     @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService) {
+    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService, ServicioViaje viajeService) {
         this.pedidoService = pedidoService;
         this.vehiculoService = vehiculoService;
+        this.viajeService = viajeService;
     }
 
 
@@ -40,15 +43,19 @@ public class ControladorPedidos {
 
     }
 
-    @RequestMapping("/pedidos/{id}/asignar")
+    @GetMapping("/pedidos/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
         try{
-            Vehiculo vehiculo = vehiculoService.buscarVehiculo(1);
+            List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
             Pedido pedido = pedidoService.getPedido(id);
 
             ModelMap modelMap = new ModelMap();
+            AsignarPedidoRequest asignarPedido = new AsignarPedidoRequest(pedido);
+
             modelMap.addAttribute("pedido", pedido);
-            modelMap.addAttribute("vehiculo", vehiculo);
+            modelMap.addAttribute("vehiculos", vehiculos);
+            modelMap.addAttribute("asignarPedido", asignarPedido);
+
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
             ModelMap modelMap = new ModelMap();
@@ -57,21 +64,18 @@ public class ControladorPedidos {
         }
     }
 
-    @PostMapping("/pedidos/{id}/asignar")
-    public ModelAndView asignarPedido(@PathVariable("id") Long id, @ModelAttribute AsignarPedidoRequest request) throws Exception {
-        Integer vehiculoId = request.getVehiculoId();
-        Long pedidoId = id;
+    @PostMapping("/pedidos/{pedidoId}/asignar/{vehiculoId}")
+    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId, @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+        Pedido pedido = pedidoService.getPedido(pedidoId);
+        Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+        Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
+        Long viajeId = viajeService.guardar(viaje);
 
-        // Crear la respuesta
-        Vehiculo vehiculo = vehiculoService.buscarVehiculo(1);
-        Long viajeId = pedidoService.agregarPedido(vehiculo, pedidoId);
-
-
-
-        // Crear ModelAndView y agregar la respuesta al modelo
         ModelAndView mav = new ModelAndView("resultadoAsignacion");
         mav.addObject("viajeId", viajeId);
         mav.addObject("vehiculo", vehiculo);
+        mav.addObject("asignarPedido", asignarPedido);
+        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+")");
 
         return mav;
     }

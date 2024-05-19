@@ -28,11 +28,11 @@ public class ServicioPedidoTest {
         ServicioPedido servicioP = Mockito.mock(ServicioPedido.class);
         ServicioVehiculo servicioV = Mockito.mock(ServicioVehiculo.class);
 
-        Mockito.when(servicioV.buscarVehiculo(1)).thenReturn(vehiculo);
+        Mockito.when(servicioV.buscarVehiculo(1L)).thenReturn(vehiculo);
         Mockito.when(servicioP.agregarPedido(vehiculo, 1L)).thenReturn(viajeId);
 
         // Llamar al método y realizar las aserciones
-        Vehiculo vehiculoEsperado = servicioV.buscarVehiculo(1);
+        Vehiculo vehiculoEsperado = servicioV.buscarVehiculo(1L);
         Long result = servicioP.agregarPedido(vehiculo, 1L);
 
         assertThat(vehiculoEsperado, notNullValue());

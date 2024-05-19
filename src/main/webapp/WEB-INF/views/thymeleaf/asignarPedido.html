@@ -2,45 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar pedido</title>
 
-    <!-- Boostrap core css -->
+    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-    <!-- custom style -->
-    <link rel="stylesheet" th:href="@{css/pedidos.css}" />
+    <!-- jQuery and jQuery UI -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <title>Asignar pedido</title>
 </head>
-<body>
-<section class="container">
-    <h1>Asignar pedido</h1>
-    <div class="row">
-        <div class="col">
-            <p th:text="${pedido.getNombre()}"></p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <p th:text="${vehiculo.getTipo()}"></p>
-        </div>
-    </div>
+<body class="d-flex justify-content-center align-items-center bg-light" style="height: 100vh;">
 
-    <form th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar'}" th:object="${asignarPedidoRequest}" method="post">
-        <div>
-            <label for="pedidoId">Pedido ID:</label>
-            <input type="text" id="pedidoId" name="pedidoId" th:value="${pedido.getId()}" readonly/>
-        </div>
-        <div>
-            <label for="vehiculoId">Vehículo ID:</label>
-            <input type="text" id="vehiculoId" th:value="${vehiculo.getId()}" />
-        </div>
-        <div>
-            <button type="submit">Asignar Pedido</button>
-        </div>
-    </form>
-</section>
+<div class="card shadow-sm" style="width: 100%; max-width: 500px;">
+    <div class="card-body">
+        <h1 class="card-title text-center text-primary mb-3">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
+
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>
+                        </div>
+                        <div class="card-body">
+
+                            <p class="card-text">Marca: <span th:text="${vehiculo.getMarca()}"></span></p>
+                            <p class="card-text">Modelo: <span th:text="${vehiculo.getModelo()}"></span></p>
+                            <p class="card-text">Capacidad: <span th:text="${vehiculo.getCapacidad()}"></span> kg</p>
+
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-outline-primary w-100" type="submit">Seleccionar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+    </div>
+</div>
+
 </body>
 </html>

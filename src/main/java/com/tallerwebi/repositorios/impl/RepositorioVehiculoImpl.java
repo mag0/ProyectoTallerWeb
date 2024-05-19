@@ -23,7 +23,12 @@ public class RepositorioVehiculoImpl implements RepositorioVehiculo {
     }
 
     @Override
-    public Vehiculo buscar(int id) {
+    public void actualizar(Vehiculo vehiculo) {
+        sessionFactory.getCurrentSession().update(vehiculo);
+    }
+
+    @Override
+    public Vehiculo buscar(Long id) {
         return sessionFactory.getCurrentSession().get(Vehiculo.class, id);
     }
 

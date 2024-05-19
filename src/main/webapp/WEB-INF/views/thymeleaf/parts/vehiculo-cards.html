@@ -1,0 +1,13 @@
+<div class="row row-cols-1 row-cols-md-2 g-4" th:fragment="vehiculoCards(vehiculos)">
+    <div class="col" th:each="vehiculo : ${vehiculos}">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${vehiculo.getTipo()}"></h5>
+                <p class="card-text">Marca: <span th:text="${vehiculo.getMarca()}"></span></p>
+                <p class="card-text">Modelo: <span th:text="${vehiculo.getModelo()}"></span></p>
+                <p class="card-text">Capacidad: <span th:text="${vehiculo.getCapacidad()}"></span></p>
+                <button class="btn btn-outline-primary w-100" type="submit">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>

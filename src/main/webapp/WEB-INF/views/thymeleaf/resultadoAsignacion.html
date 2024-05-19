@@ -15,21 +15,13 @@
     <title>Asignar pedido</title>
 </head>
 <body>
-<section class="container">
-    <h1>Resultado Asignar pedido</h1>
-    <div class="row">
-        <div class="col">
-            <h3>viaje</h3>
-            <p th:text="${viajeId}"></p>
-        </div>
+<div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+        <h1 class="alert-heading">El pedido se asigno!</h1>
+        <p th:text="${successMessage}"></p>
+        <p th:text="${vehiculo.getId()}"></p>
     </div>
-    <div class="row">
-        <div class="col">
-            <p th:text="${vehiculo.getTipo()}"></p>
-        </div>
-    </div>
+</div>
 
-
-</section>
 </body>
 </html>
