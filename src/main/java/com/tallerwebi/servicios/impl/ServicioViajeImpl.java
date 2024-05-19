@@ -25,5 +25,10 @@ public class ServicioViajeImpl implements ServicioViaje {
         return viajeRepository.guardar(viaje);
     }
 
+    @Override
+    public List<Viaje> buscarTodos() {
+        return viajeRepository.getAll();
+    }
+
 
 }

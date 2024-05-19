@@ -12,15 +12,23 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <title>Asignar pedido</title>
+    <title>Pedido asignado</title>
 </head>
 <body>
 <div class="container mt-5">
-    <div class="alert alert-success" role="alert">
-        <h1 class="alert-heading">El pedido se asigno!</h1>
-        <p th:text="${successMessage}"></p>
-        <p th:text="${vehiculo.getId()}"></p>
-    </div>
+   <div class="row">
+       <div class="col-12">
+           <div class="alert alert-success text-center" role="alert">
+               <h1 class="alert-heading">El pedido se asigno!</h1>
+               <p th:text="${successMessage}"></p>
+           </div>
+          <div class="col-12 justify-content-center">
+              <a class="btn btn-secondary" th:href="@{'/pedidos'}">Volver a pedidos</a>
+              <a class="btn btn-success" th:href="@{'/viajes'}">Ir a viajes</a>
+          </div>
+
+       </div>
+   </div>
 </div>
 
 </body>

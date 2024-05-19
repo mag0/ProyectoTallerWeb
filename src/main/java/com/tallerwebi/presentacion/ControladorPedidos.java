@@ -72,10 +72,7 @@ public class ControladorPedidos {
         Long viajeId = viajeService.guardar(viaje);
 
         ModelAndView mav = new ModelAndView("resultadoAsignacion");
-        mav.addObject("viajeId", viajeId);
-        mav.addObject("vehiculo", vehiculo);
-        mav.addObject("asignarPedido", asignarPedido);
-        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+")");
+        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+"");
 
         return mav;
     }

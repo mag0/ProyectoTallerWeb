@@ -42,7 +42,8 @@
         <div class="" th:each="viaje : ${viajes}">
             <div class="card">
                 <div class="card-body">
-                    <p th:text="'Origen: ' + ${viaje.origen}"></p>
+                    <p th:text="'KB-Zona: ' + ${viaje.getZonaId()}"></p>
+                    <p th:text="'Vehiculo: ' + ${viaje.getVehiculo().getPatente()}"></p>
                 </div>
             </div>
         </div>
