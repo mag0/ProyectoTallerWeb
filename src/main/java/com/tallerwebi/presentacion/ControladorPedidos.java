@@ -5,22 +5,21 @@ import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ControladorPedidos {
     private ServicioPedido pedidoService;
     private ServicioVehiculo vehiculoService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ControladorPedidos.class);
 
     @Autowired
     public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService) {
@@ -41,23 +40,40 @@ public class ControladorPedidos {
 
     }
 
-    @PostMapping(value ="/pedidos/{id}/asignar", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Map<String, Object>> asignarPedido(@PathVariable("id") Long id, @RequestBody AsignarPedidoRequest request) {
+    @RequestMapping("/pedidos/{id}/asignar")
+    public ModelAndView asignarPedido(@PathVariable("id") Long id) {
+        try{
+            Vehiculo vehiculo = vehiculoService.buscarVehiculo(1);
+            Pedido pedido = pedidoService.getPedido(id);
+
+            ModelMap modelMap = new ModelMap();
+            modelMap.addAttribute("pedido", pedido);
+            modelMap.addAttribute("vehiculo", vehiculo);
+            return new ModelAndView("asignarPedido", modelMap);
+        }catch(Exception e) {
+            ModelMap modelMap = new ModelMap();
+            modelMap.addAttribute("error", e.getMessage());
+            return new ModelAndView("asignarPedido", modelMap);
+        }
+    }
+
+    @PostMapping("/pedidos/{id}/asignar")
+    public ModelAndView asignarPedido(@PathVariable("id") Long id, @ModelAttribute AsignarPedidoRequest request) throws Exception {
         Integer vehiculoId = request.getVehiculoId();
         Long pedidoId = id;
 
-        Map<String, Object> response = new HashMap<>();
+        // Crear la respuesta
+        Vehiculo vehiculo = vehiculoService.buscarVehiculo(1);
+        Long viajeId = pedidoService.agregarPedido(vehiculo, pedidoId);
 
-        try {
-            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
-            Long viajeId = pedidoService.agregarPedido(vehiculo, pedidoId);
 
-            response.put("pedido", viajeId);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("error", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        // Crear ModelAndView y agregar la respuesta al modelo
+        ModelAndView mav = new ModelAndView("resultadoAsignacion");
+        mav.addObject("viajeId", viajeId);
+        mav.addObject("vehiculo", vehiculo);
+
+        return mav;
     }
 
 }

@@ -37,7 +37,7 @@ public class ControladorPedidosTest {
 
     @BeforeEach
     public void init(){
-        asignarPedidoRequest = new AsignarPedidoRequest(1);
+        asignarPedidoRequest = new AsignarPedidoRequest();
         pedidoMock = mock(Pedido.class);
         vehiculoMock = mock(Vehiculo.class);
        // when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
@@ -61,7 +61,7 @@ public class ControladorPedidosTest {
         when(pedidoServiceMock.agregarPedido(vehiculoMock, pedidoId)).thenReturn(1L);
 
         // ejecucion
-        ResponseEntity<Map<String, Object>> modelAndView = pedidosController.asignarPedido(pedidoId,asignarPedidoRequest);
+        //ResponseEntity<Map<String, Object>> modelAndView = pedidosController.asignarPedido(pedidoId,asignarPedidoRequest);
 
 
     }

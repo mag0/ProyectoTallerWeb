@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{css/pedidos.css}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <title>Asignar pedido</title>
+</head>
+<body>
+<section class="container">
+    <h1>Asignar pedido</h1>
+    <div class="row">
+        <div class="col">
+            <p th:text="${pedido.getNombre()}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p th:text="${vehiculo.getTipo()}"></p>
+        </div>
+    </div>
+
+    <form th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar'}" th:object="${asignarPedidoRequest}" method="post">
+        <div>
+            <label for="pedidoId">Pedido ID:</label>
+            <input type="text" id="pedidoId" name="pedidoId" th:value="${pedido.getId()}" readonly/>
+        </div>
+        <div>
+            <label for="vehiculoId">Vehículo ID:</label>
+            <input type="text" id="vehiculoId" th:value="${vehiculo.getId()}" />
+        </div>
+        <div>
+            <button type="submit">Asignar Pedido</button>
+        </div>
+    </form>
+</section>
+</body>
+</html>
