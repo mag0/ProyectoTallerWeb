@@ -13,32 +13,40 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
-<body class="d-flex justify-content-center align-items-center bg-light" style="height: 100vh;">
+<body>
+<div th:replace="parts/navbar :: navbar"></div>
 
-<div class="card shadow-sm" style="width: 100%; max-width: 500px;">
-    <div class="card-body">
-        <h1 class="card-title text-center text-primary mb-3">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card shadow-sm" >
+                <div class="card-body">
+                    <h1 class="card-title text-center text-primary mb-5">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
+                    <h3 class="mb-2">Vehiculos disponibles</h3>
 
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>
-                        </div>
-                        <div class="card-body">
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>
+                                </div>
+                                <div class="card-body">
 
-                            <p class="card-text">Marca: <span th:text="${vehiculo.getMarca()}"></span></p>
-                            <p class="card-text">Modelo: <span th:text="${vehiculo.getModelo()}"></span></p>
-                            <p class="card-text">Capacidad: <span th:text="${vehiculo.getCapacidad()}"></span> kg</p>
+                                    <p class="card-text">Marca: <span th:text="${vehiculo.getMarca()}"></span></p>
+                                    <p class="card-text">Modelo: <span th:text="${vehiculo.getModelo()}"></span></p>
+                                    <p class="card-text">Capacidad: <span th:text="${vehiculo.getCapacidad()}"></span> kg</p>
 
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-outline-primary w-100" type="submit">Seleccionar</button>
-                        </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-outline-primary w-100" type="submit">Seleccionar</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

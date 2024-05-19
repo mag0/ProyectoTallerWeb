@@ -14,25 +14,7 @@
 </head>
 
 <body>
-
-<header>
-    <h1>FleetManager</h1>
-    <a th:href="@{/perfil}">
-        <div style="display: flex; justify-content: center; align-items: center" class="perfil">P</div>
-    </a>
-</header>
-
-<nav>
-    <ul>
-        <li><a class="vistaActual" th:href="@{/gestionVehicular}">Gestion de vehiculos</a></li>
-        <li><a th:href="@{/pedidos}">Pedidos</a></li>
-        <li><a th:href="@{/rendimiento}">Rendimiento</a></li>
-        <li><a th:href="@{/seguimiento}">Seguimiento</a></li>
-        <li><a th:href="@{/costo}">Costos</a></li>
-    </ul>
-</nav>
-
-<main>
+<div th:replace="parts/navbar :: navbar"></div>
 
     <section class="container">
         <div class="row mt-3" th:each="vehiculo : ${vehiculos}">
@@ -66,11 +48,15 @@
 
     </section>
     <p th:if="${error != null}" class="alert alert-danger" th:text="${error}"></p>
-    <div style="text-align: center; margin: 2rem 0; font-size: 1.2em">
-        <a style="background-color: #FFA500;padding: .3em 1em;text-decoration: none; color:white;border-radius: 1em;text-align: center" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
-    </div>
+    <div class="container" >
+        <div class="row my-4 ">
+            <div class="col-4 offset-5">
+                <a class="btn btn-warning btn-lg" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
 
-</main>
+            </div>
+
+        </div>
+    </div>
 
 <footer>
     <h2>FleetManager</h2>
