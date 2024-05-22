@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reprogramar Pedido</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h2>Reprogramar Pedido</h2>
+    <form th:action="@{/pedidos/{id}/reprogramar-pedido(id=${pedido.id})}" method="post">
+        <div class="form-group">
+            <label for="nuevaFecha">Nueva Fecha de Entrega</label>
+            <input type="date" class="form-control" id="nuevaFecha" name="nuevaFecha" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Reprogramar</button>
+    </form>
+</div>
+</body>
+</html>

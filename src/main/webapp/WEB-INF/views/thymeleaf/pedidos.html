@@ -45,6 +45,7 @@
                             <button class="btn btn-danger" type="submit">Eliminar</button>
                         </form>
                         <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
+                        <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
                     </div>
                 </div>
             </div>
