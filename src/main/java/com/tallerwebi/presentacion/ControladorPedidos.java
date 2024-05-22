@@ -4,16 +4,16 @@ import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
-import com.tallerwebi.presentacion.requests.DatosLogin;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.ServicioViaje;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,4 +77,23 @@ public class ControladorPedidos {
         return mav;
     }
 
+    @PostMapping ("/pedidos/cancelar/{id}")
+    public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean isDeleted = pedidoService.eliminarPedido(id);
+        ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
+        if (isDeleted) {
+            redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
+        }
+        return modelAndView;
+    }
+
+
+    @GetMapping
+    public String listarPedidos(Model model) {
+        List<Pedido> pedidos = pedidoService.obtenerTodosLosPedidos();
+        model.addAttribute("pedidos", pedidos);
+        return "pedidos";
+    }
 }

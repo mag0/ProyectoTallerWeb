@@ -54,4 +54,14 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public Pedido getPedido(Long id) {
         return pedidoRepository.buscarPedido(id);
     }
+
+    @Override
+    public boolean eliminarPedido(Long id) {
+        return pedidoRepository.eliminarPedido(id);
+    }
+
+    @Override
+    public List<Pedido> obtenerTodosLosPedidos() {
+        return pedidoRepository.obtenerTodosLosPedidos();
+    }
 }
