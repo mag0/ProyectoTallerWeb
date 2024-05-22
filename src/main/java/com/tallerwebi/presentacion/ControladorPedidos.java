@@ -109,6 +109,6 @@ public class ControladorPedidos {
     @PostMapping("/pedidos/{id}/reprogramar-pedido")
     public ModelAndView reprogramarPedido(@PathVariable ("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
         pedidoService.reprogramarFecha(id, nuevaFecha);
-        return new ModelAndView("pedidos");
+        return new ModelAndView("redirect:/pedidos");
     }
 }
