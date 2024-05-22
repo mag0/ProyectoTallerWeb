@@ -35,12 +35,10 @@ public class ControladorPedidos {
 
     @RequestMapping("/pedidos")
     public ModelAndView irAPedidos() {
-        List<Pedido> pedidos = new ArrayList<>();
-        Pedido pedido = pedidoService.getPedido(1L);
-        pedidos.add(pedido);
+        List<Pedido> pedidos = pedidoService.obtenerTodosLosPedidos();
 
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("pedido", pedido);
+        modelMap.addAttribute("pedido", pedidos);
         return new ModelAndView("pedidos", modelMap);
 
     }
