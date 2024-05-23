@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +64,27 @@ public class ServicioPedidoImpl implements ServicioPedido {
     @Override
     public List<Pedido> getAllPedidosSinViaje() {
         return pedidoRepository.buscarSinViajes();
+    }
+
+    @Override
+    public boolean eliminarPedido(Long id) {
+        return pedidoRepository.eliminarPedido(id);
+    }
+
+    @Override
+    public List<Pedido> obtenerTodosLosPedidos() {
+        return pedidoRepository.obtenerTodosLosPedidos();
+    }
+
+    @Override
+    public Pedido buscarPorId(Long id) {
+        return pedidoRepository.buscarPedido(id);
+    }
+
+    @Override
+    public void reprogramarFecha(Long id, LocalDate nuevaFecha) {
+        Pedido pedido = buscarPorId(id);
+       pedido.setFecha(nuevaFecha);
+       pedidoRepository.guardar(pedido);
     }
 }

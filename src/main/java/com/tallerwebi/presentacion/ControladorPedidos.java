@@ -8,9 +8,15 @@ import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.ServicioViaje;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +39,8 @@ public class ControladorPedidos {
 
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedidos", pedidos);
-
         return new ModelAndView("pedidos", modelMap);
+
     }
 
     @GetMapping("/pedidos/{id}/asignar")
@@ -71,4 +77,38 @@ public class ControladorPedidos {
         return mav;
     }
 
+    @PostMapping ("/pedidos/cancelar/{id}")
+    public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean isDeleted = pedidoService.eliminarPedido(id);
+        ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
+        if (isDeleted) {
+            redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
+        }
+        return modelAndView;
+    }
+
+
+    @GetMapping
+    public String listarPedidos(Model model) {
+        List<Pedido> pedidos = pedidoService.obtenerTodosLosPedidos();
+        model.addAttribute("pedidos", pedidos);
+        return "pedidos";
+    }
+
+    @GetMapping("/pedidos/{id}/reprogramar-pedido")
+    public ModelAndView mostrarFormularioReprogramacion(@PathVariable Long id) {
+        ModelAndView mav = new ModelAndView("reprogramar-pedido");
+        Pedido pedido = pedidoService.buscarPorId(id);
+        mav.addObject("pedido", pedido);
+        return mav;
+    }
+
+    // Método para procesar el formulario de reprogramación
+    @PostMapping("/pedidos/{id}/reprogramar-pedido")
+    public ModelAndView reprogramarPedido(@PathVariable ("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
+        pedidoService.reprogramarFecha(id, nuevaFecha);
+        return new ModelAndView("redirect:/pedidos");
+    }
 }

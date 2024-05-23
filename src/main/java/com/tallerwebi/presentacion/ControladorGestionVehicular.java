@@ -49,10 +49,10 @@ public class ControladorGestionVehicular {
         if (vehiculo != null) {
             servicioEliminarVehiculo.eliminarVehiculo(vehiculo, flotaDeVehiculos);
             model.put("vehiculos", flotaDeVehiculos.getVehiculos());
-            return "gestionVehicular"; // Redirige a la vista con la lista actualizada de vehículos
+            return "redirect:/gestionVehicular";
         } else {
             model.put("error", "No se encontró el vehículo");
-            return "gestionVehicular"; // Si no se encuentra el vehículo, muestra un mensaje de error en la vista
+            return "gestionVehicular";
         }
     }
 

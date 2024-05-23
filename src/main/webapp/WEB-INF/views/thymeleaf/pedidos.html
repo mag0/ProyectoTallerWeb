@@ -3,17 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Pedidos</title>
-
-    <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-
 </head>
 
 <body>
@@ -47,9 +41,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="col flex-column">
-                        <button th:attr="onclick='cancelarPedido(' + ${pedidoIndex} + ')'" class="btn btn-secondary">Cancelar</button>
-                        <button th:attr="onclick='reprogramarPedido(' + ${pedidoIndex} + ')'" class="btn btn-warning">Reprogramar</button>
+                        <form id="eliminarPedidoForm" th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="post">
+                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                        </form>
                         <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
+                        <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
                     </div>
                 </div>
             </div>
@@ -89,9 +85,12 @@
         </div>
     </div>
 </div>
+
+<!-- <div th:replace="parts/footer :: footer"></div> -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
+
     function filtrarPedidosPorFecha() {
         var fechaSeleccionada = new Date(document.getElementById("fechaFiltro").value);
         // Convertir la fecha seleccionada a la zona horaria local
@@ -162,7 +161,10 @@
             console.error('Error:', error);
         }
     };
-
+    document.getElementById('eliminarPedidoForm').addEventListener('submit', function() {
+        // Recargar la página después de enviar el formulario de eliminación
+        location.reload();
+    });
 </script>
 </body>
 </html>
