@@ -45,7 +45,7 @@ public class ControladorPedidos {
 
     @GetMapping("/pedidos/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
-        try{
+        try {
             List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
             Pedido pedido = pedidoService.getPedido(id);
 
@@ -57,7 +57,7 @@ public class ControladorPedidos {
             modelMap.addAttribute("asignarPedido", asignarPedido);
 
             return new ModelAndView("asignarPedido", modelMap);
-        }catch(Exception e) {
+        } catch (Exception e) {
             ModelMap modelMap = new ModelMap();
             modelMap.addAttribute("error", e.getMessage());
             return new ModelAndView("asignarPedido", modelMap);
@@ -65,28 +65,34 @@ public class ControladorPedidos {
     }
 
     @PostMapping("/pedidos/{pedidoId}/asignar/{vehiculoId}")
-    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId, @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId, @PathVariable("vehiculoId") Long vehiculoId, @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
         Pedido pedido = pedidoService.getPedido(pedidoId);
         Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
         Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
         Long viajeId = viajeService.guardar(viaje);
 
         ModelAndView mav = new ModelAndView("resultadoAsignacion");
-        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+"");
+        mav.addObject("successMessage", "El " + pedido.getNombre() + " se ha asignado correctamente al Viaje Nº " + viajeId + "");
 
         return mav;
     }
 
-    @PostMapping ("/pedidos/cancelar/{id}")
+    @PostMapping("/pedidos/cancelar/{id}")
     public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        boolean isDeleted = pedidoService.eliminarPedido(id);
-        ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
-        if (isDeleted) {
-            redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
+        try {
+            boolean isDeleted = pedidoService.eliminarPedido(id);
+            ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
+            if (isDeleted) {
+                redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
+            }
+            return modelAndView;
+        } catch (Exception e){
+            ModelAndView mav = new ModelAndView();
+            mav.addObject("error", "No se puedo eliminar el pedido");
         }
-        return modelAndView;
+        return new ModelAndView("redirect:/pedidos");
     }
 
 
@@ -100,15 +106,27 @@ public class ControladorPedidos {
     @GetMapping("/pedidos/{id}/reprogramar-pedido")
     public ModelAndView mostrarFormularioReprogramacion(@PathVariable Long id) {
         ModelAndView mav = new ModelAndView("reprogramar-pedido");
-        Pedido pedido = pedidoService.buscarPorId(id);
-        mav.addObject("pedido", pedido);
+        try {
+            Pedido pedido = pedidoService.buscarPorId(id);
+            mav.addObject("pedido", pedido);
+        } catch (Exception e) {
+            mav.addObject("errorMessage", "El pedido" + id + "no existe");
+        }
         return mav;
     }
 
     // Método para procesar el formulario de reprogramación
     @PostMapping("/pedidos/{id}/reprogramar-pedido")
-    public ModelAndView reprogramarPedido(@PathVariable ("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
-        pedidoService.reprogramarFecha(id, nuevaFecha);
+    public ModelAndView reprogramarPedido(@PathVariable("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
+
+       try {
+           pedidoService.reprogramarFecha(id, nuevaFecha);
+           return new ModelAndView("redirect:/pedidos");
+       } catch (Exception e) {
+           ModelAndView mav = new ModelAndView();
+            mav.addObject("error", "El pedido" + id + "no se puede reprogramar");
+       }
         return new ModelAndView("redirect:/pedidos");
     }
+
 }
