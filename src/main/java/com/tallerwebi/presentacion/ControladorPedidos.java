@@ -76,6 +76,12 @@ public class ControladorPedidos {
 
         return mav;
     }
+    @GetMapping("/pedidos/cancelar/{id}")
+    public ModelAndView confirmarCancelacion(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("confirmar_cancelacion");
+        modelAndView.addObject("pedidoId", id);
+        return modelAndView;
+    }
 
     @PostMapping("/pedidos/cancelar/{id}")
     public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
@@ -89,10 +95,10 @@ public class ControladorPedidos {
             }
             return modelAndView;
         } catch (Exception e){
-            ModelAndView mav = new ModelAndView();
-            mav.addObject("error", "No se puedo eliminar el pedido");
+            redirectAttributes.addFlashAttribute("error", "No se pudo eliminar el pedido.");
+            return new ModelAndView("redirect:/pedidos");
         }
-        return new ModelAndView("redirect:/pedidos");
+
     }
 
 

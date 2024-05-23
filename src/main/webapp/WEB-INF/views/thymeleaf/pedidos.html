@@ -41,7 +41,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col flex-column">
-                        <form id="eliminarPedidoForm" th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="post">
+                        <form th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="get">
                             <button class="btn btn-danger" type="submit">Eliminar</button>
                         </form>
                         <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
