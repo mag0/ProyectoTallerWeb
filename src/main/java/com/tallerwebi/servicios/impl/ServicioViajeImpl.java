@@ -1,8 +1,6 @@
 package com.tallerwebi.servicios.impl;
 
-import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
-import com.tallerwebi.dominio.Zona;
 import com.tallerwebi.repositorios.RepositorioViaje;
 import com.tallerwebi.servicios.ServicioViaje;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,7 @@ public class ServicioViajeImpl implements ServicioViaje {
 
     @Override
     public List<Viaje> buscarTodos() {
+
         return viajeRepository.getAll();
     }
 

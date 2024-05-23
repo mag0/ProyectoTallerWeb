@@ -4,17 +4,13 @@ import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
-import com.tallerwebi.presentacion.requests.DatosLogin;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.ServicioViaje;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,14 +29,12 @@ public class ControladorPedidos {
 
     @RequestMapping("/pedidos")
     public ModelAndView irAPedidos() {
-        List<Pedido> pedidos = new ArrayList<>();
-        Pedido pedido = pedidoService.getPedido(1L);
-        pedidos.add(pedido);
+        List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
 
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("pedido", pedido);
-        return new ModelAndView("pedidos", modelMap);
+        modelMap.addAttribute("pedidos", pedidos);
 
+        return new ModelAndView("pedidos", modelMap);
     }
 
     @GetMapping("/pedidos/{id}/asignar")

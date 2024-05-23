@@ -12,8 +12,7 @@ public class Viaje {
     @OneToOne
     private Vehiculo vehiculo;
     private Long zonaId;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
     public Viaje(Long zonaId, Vehiculo vehiculo,List<Pedido> pedidos) {

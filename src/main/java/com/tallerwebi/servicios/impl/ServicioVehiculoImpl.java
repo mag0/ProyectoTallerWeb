@@ -1,5 +1,6 @@
 package com.tallerwebi.servicios.impl;
 
+import com.tallerwebi.dominio.Paquete;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
@@ -47,10 +48,12 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
 
         vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getPeso());
         vehiculoRepository.actualizar(vehiculo);
+        //Paquete paquete = new Paquete(viaje,pedido);
 
         viaje.setVehiculo(vehiculo);
+
         viaje.setPaqueteIds(pedidosList);
-        viaje.setId(1L);
+        viaje.setZonaId(1L);
 
         return viaje;
     }

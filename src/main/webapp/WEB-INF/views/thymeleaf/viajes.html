@@ -21,8 +21,12 @@
         <div class="col" th:each="viaje : ${viajes}">
             <div class="card">
                 <div class="card-body">
-                    <p th:text="'KB-Zona: ' + ${viaje.getZonaId()}"></p>
+                    <p th:text="'Zona: ' + ${viaje.getZonaId()}"></p>
                     <p th:text="'Vehiculo: ' + ${viaje.getVehiculo().getPatente()}"></p>
+                    Pedidos:
+                    <ul th:each="pedido : ${viaje.getPaqueteIds()}">
+                        <li th:text="${pedido.getCodigo()}"></li>
+                    </ul>
                 </div>
             </div>
         </div>

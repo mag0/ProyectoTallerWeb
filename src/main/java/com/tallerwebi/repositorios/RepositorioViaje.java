@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface RepositorioViaje {
     Long guardar(Viaje viaje);
-
     List<Viaje> getAll();
 }

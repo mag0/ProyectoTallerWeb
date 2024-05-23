@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("repositorioPedido")
 public class RepositorioPedidoImpl implements RepositorioPedido {
 
@@ -29,5 +31,15 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
     @Override
     public void modificar(Pedido pedido) {
         sessionFactory.getCurrentSession().update(pedido);
+    }
+
+    @Override
+    public List<Pedido> buscarTodos() {
+        return sessionFactory.getCurrentSession().createQuery("from Pedido").list();
+    }
+
+    @Override
+    public List<Pedido> buscarSinViajes() {
+        return sessionFactory.getCurrentSession().createQuery("from Pedido where viaje is null").list();
     }
 }

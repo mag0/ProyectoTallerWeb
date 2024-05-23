@@ -54,4 +54,14 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public Pedido getPedido(Long id) {
         return pedidoRepository.buscarPedido(id);
     }
+
+    @Override
+    public List<Pedido> getAll() {
+        return pedidoRepository.buscarTodos();
+    }
+
+    @Override
+    public List<Pedido> getAllPedidosSinViaje() {
+        return pedidoRepository.buscarSinViajes();
+    }
 }

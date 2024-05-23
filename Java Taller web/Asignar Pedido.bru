@@ -1,0 +1,19 @@
+meta {
+  name: Asignar Pedido
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/spring/pedidos/1/asignar
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  { "vehiculoId": 1 }
+}
