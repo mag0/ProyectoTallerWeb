@@ -37,7 +37,7 @@
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                         <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
                         <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
-                        <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
+                        <p th:text="'Entrega: ' + ${pedido.fecha.plusDays(1)}" class="fecha-entrega"></p>
                     </div>
                 </div>
                 <div class="card-footer">
