@@ -54,11 +54,8 @@
         </div>
         <div class="mb-3">
             <label for="capacidad" class="form-label">Capacidad</label>
-            <select class="form-select" name="capacidad" id="capacidad" aria-label="Default select example" th:field="*{capacidad}">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
+            <input th:field="*{capacidad}" type="number" class="form-control" id="capacidad" name="capacidad"
+                   aria-describedby="emailHelp">
         </div>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>

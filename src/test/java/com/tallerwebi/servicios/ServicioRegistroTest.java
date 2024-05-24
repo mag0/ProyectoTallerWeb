@@ -1,11 +1,13 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.servicios;
 
+import com.tallerwebi.dominio.ServicioRegistroImpl;
+import com.tallerwebi.dominio.Usuario1;
+import com.tallerwebi.dominio.Usuarios;
 import com.tallerwebi.dominio.excepcion.ContraseniasDistintas;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.servicios.ServicioRegistro;
 import org.junit.jupiter.api.Test;
-import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServicioRegistroTest {

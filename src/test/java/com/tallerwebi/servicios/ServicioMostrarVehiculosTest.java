@@ -1,15 +1,14 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.servicios;
 
+import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
-import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,37 +16,29 @@ import static org.mockito.Mockito.*;
 
 public class ServicioMostrarVehiculosTest {
 
-    private RepositorioVehiculo repositorioVehiculo;
-    private ServicioMostrarVehiculos servicioMostrarVehiculos;
-    private FlotaDeVehiculos flotaDeVehiculos;
-
-    @BeforeEach
-    public void setUp() {
-        repositorioVehiculo = Mockito.mock(RepositorioVehiculo.class);
-        flotaDeVehiculos = new FlotaDeVehiculos();
-        servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo, flotaDeVehiculos);
-    }
+    private RepositorioVehiculo repositorioVehiculo = Mockito.mock(RepositorioVehiculo.class);
+    private ServicioMostrarVehiculos servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo);
 
     @Test
     public void alHaberVehiculosEnLaFlotaElServicioDevuelveLosVehiculos() {
         givenVehiculosEnLaBaseDeDatos();
         List<Vehiculo> vehiculos = whenVerificoSiHayVehiculosEnLaFlota();
         assertThat(vehiculos, is(notNullValue()));
-        assertThat(vehiculos.size(), is(4));
+        assertThat(vehiculos.size(), is(2));
     }
 
     private void givenVehiculosEnLaBaseDeDatos() {
-        List<Vehiculo> vehiculos = List.of(
-                new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1,true),
-                new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5,true),
-                new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3,true),
-                new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1,true)
-        );
+        Vehiculo vehiculo = new Vehiculo("ABC123", "Honda", "CBR600RR",
+                "Moto", 15000, 10, 200, 1, true);
+        Vehiculo vehiculo2 = new Vehiculo("DEF456", "Toyota", "Corolla",
+                "Auto", 80000, 50, 300, 5, true);
+        List<Vehiculo> vehiculos = Arrays.asList(vehiculo, vehiculo2);
+
         when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
     }
 
     private List<Vehiculo> whenVerificoSiHayVehiculosEnLaFlota() {
-        return servicioMostrarVehiculos.mostrarFlota(flotaDeVehiculos);
+        return servicioMostrarVehiculos.obtenerVehiculosDisponibles();
     }
 
     @Test
