@@ -13,25 +13,40 @@
 <body>
 <div th:replace="parts/navbar :: navbar"></div>
 
-<div class="container">
-    <div class="content-date">
-        <h4>Filtrar por dia</h4>
-        <input type="date" id="fechaFiltro" onchange="filtrarPedidosPorFecha()" class="input-date">
-
+<div class="container mt-5">
+    <h4>Filtrar</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <label for="fechaFiltro" class="form-label">Filtrar por fecha</label>
+            <input type="date" id="fechaFiltro" onchange="filtrarPedidos('fecha')" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="codigoFiltro" class="form-label">Filtrar por código</label>
+            <input type="text" id="codigoFiltro" placeholder="Filtrar por código" onkeyup="filtrarPedidos('codigo')" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label for="buscarPedido" class="form-label">Buscar pedido por nombre</label>
+            <div class="input-group">
+                <input type="text" id="buscarPedido" placeholder="Nombre pedido" onkeyup="buscarPedido()" class="form-control">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+            </div>
+        </div>
     </div>
-    <section class="row">
-        <div class="col-6" th:each="pedido, pedidoIndex : ${pedidos}">
-            <div class="card my-2">
+    <nav aria-label="Page navigation" class="mt-3">
+        <ul class="pagination justify-content-end">
+            <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaAnterior()">Anterior</a></li>
+            <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaSiguiente()">Siguiente</a></li>
+        </ul>
+    </nav>
+
+    <section class="row mt-5">
+        <div class="col-md-6" th:each="pedido, pedidoIndex : ${pedidos}">
+            <div class="card mb-3">
                 <div class="card-header">
                     <h4 class="card-title" th:text="${pedido.nombre}"></h4>
                 </div>
                 <div class="card-body d-flex align-items-center" th:id="'pedido_' + ${pedidoIndex.index}">
-                    <img
-                        src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw"
-                        alt="Pedido"
-                        width="130px"
-                        height="130px"
-                    />
+                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
                     <div class="ml-2 card-text">
                         <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
@@ -41,38 +56,32 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="col flex-column">
+                    <div class="d-flex justify-content-between">
                         <form th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="get">
                             <button class="btn btn-danger" type="submit">Eliminar</button>
                         </form>
-                        <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
-                        <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
+                        <div>
+                            <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
+                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
     </section>
-    <button type="button" class="btn shadow p-3 mb-5 bg-body rounded d-flex align-items-center" onclick="mostrarVentanaEmergente()">Sugerir</button>
 
-
+    <button type="button" class="btn btn-primary mt-5" onclick="mostrarVentanaEmergente()">Sugerir</button>
 </div>
 
-
-
-
-<div id="ventanaEmergente" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="cerrarVentanaEmergente()">&times;</span>
-        <div class="card">
-            <div class="card-header">
-                Vehículos disponibles para viajes
+<!-- Ventana Emergente -->
+<div id="ventanaEmergente" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Vehículos disponibles para viajes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="card-body">
+            <div class="modal-body">
                 <form id="seleccionVehiculosForm">
                     <div class="form-check" th:each="vehiculo : ${vehiculos}">
                         <input class="form-check-input" type="checkbox" name="vehiculo" th:id="'vehiculo' + ${vehiculo.id}" th:value="${vehiculo.id}">
@@ -80,35 +89,50 @@
                             Vehículo 1
                         </label>
                     </div>
-                    <button type="button" onclick="enviarSeleccion()" class="btn btn-primary">Enviar</button>
+                    <button type="button" onclick="enviarSeleccion()" class="btn btn-primary mt-3">Enviar</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- <div th:replace="parts/footer :: footer"></div> -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/js/bootstrap.min.js"></script>
 <script>
-    function filtrarPedidosPorFecha() {
-        // Obtiene la fecha seleccionada por el usuario
-        var fechaSeleccionada = new Date(document.getElementById("fechaFiltro").value);
-        // Itera sobre cada pedido
+    function filtrarPedidos(tipoFiltro) {
+        var filtro = "";
+
+        // Dependiendo del tipo de filtro, obtenemos el valor correspondiente
+        if (tipoFiltro === 'fecha') {
+            filtro = new Date(document.getElementById("fechaFiltro").value);
+        } else if (tipoFiltro === 'codigo') {
+            filtro = document.getElementById("codigoFiltro").value.toLowerCase();
+        }
+
+        // Iteramos sobre cada pedido
         var pedidos = document.getElementsByClassName("card");
         for (var i = 0; i < pedidos.length; i++) {
-            // Obtiene la fecha de entrega del pedido actual
             var fechaPedido = new Date(pedidos[i].querySelector(".fecha-entrega").textContent);
-            // Compara la fecha de entrega del pedido con la fecha seleccionada
-            if (fechaPedido.toDateString() !== fechaSeleccionada.toDateString()) {
-                // Oculta los pedidos que no coinciden con la fecha seleccionada
+            var codigoPedido = pedidos[i].querySelector(".card-text").textContent.toLowerCase();
+
+            // Comparamos la fecha o el código del pedido con el filtro correspondiente
+            if ((tipoFiltro === 'fecha' && !sonFechasIguales(fechaPedido, filtro)) ||
+                (tipoFiltro === 'codigo' && !codigoPedido.includes(filtro))) {
                 pedidos[i].style.display = "none";
             } else {
-                // Muestra los pedidos que coinciden con la fecha seleccionada
                 pedidos[i].style.display = "block";
             }
         }
     }
+
+    function sonFechasIguales(fecha1, fecha2) {
+        return fecha1.getFullYear() === fecha2.getFullYear() &&
+            fecha1.getMonth() === fecha2.getMonth() &&
+            fecha1.getDate() === fecha2.getDate();
+    }
+
 
     function mostrarVentanaEmergente() {
         document.getElementById("ventanaEmergente").style.display = "block";
@@ -165,6 +189,43 @@
         // Recargar la página después de enviar el formulario de eliminación
         location.reload();
     });
+    let paginaActual = 1;
+
+    async function cargarPagina(pagina) {
+        try {
+            const response = await fetch(`/spring/pedidos?page=${pagina}`);
+            if (!response.ok) throw new Error('Error al cargar pedidos');
+            const pedidos = await response.json();
+            actualizarVistaPedidos(pedidos);
+            paginaActual = pagina;
+        } catch (error) {
+            console.error('Error:', error);
+            mostrarMensaje('Error al cargar pedidos.', 'danger');
+        }
+    }
+
+    function cargarPaginaAnterior() {
+        if (paginaActual > 1) cargarPagina(paginaActual - 1);
+    }
+
+    function cargarPaginaSiguiente() {
+        cargarPagina(paginaActual + 1);
+    }
+
+    function buscarPedido() {
+        const query = document.getElementById('buscarPedido').value.toLowerCase();
+        const pedidos = document.querySelectorAll('.card');
+        pedidos.forEach(pedido => {
+            const nombre = pedido.querySelector('.card-title').textContent.toLowerCase();
+            if (nombre.includes(query)) {
+                pedido.style.display = 'block';
+            } else {
+                pedido.style.display = 'none';
+            }
+        });
+    }
+    
+
 </script>
 </body>
 </html>

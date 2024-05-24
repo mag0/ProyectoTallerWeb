@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 public class ControladorPedidos {
+    public static final String REDIRECT_PEDIDOS = "redirect:/pedidos";
     private ServicioPedido pedidoService;
     private ServicioVehiculo vehiculoService;
     private ServicioViaje viajeService;
@@ -87,7 +88,7 @@ public class ControladorPedidos {
     public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             boolean isDeleted = pedidoService.eliminarPedido(id);
-            ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
+            ModelAndView modelAndView = new ModelAndView(REDIRECT_PEDIDOS);
             if (isDeleted) {
                 redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
             } else {
@@ -96,7 +97,7 @@ public class ControladorPedidos {
             return modelAndView;
         } catch (Exception e){
             redirectAttributes.addFlashAttribute("error", "No se pudo eliminar el pedido.");
-            return new ModelAndView("redirect:/pedidos");
+            return new ModelAndView(REDIRECT_PEDIDOS);
         }
 
     }
@@ -127,11 +128,11 @@ public class ControladorPedidos {
 
        try {
            pedidoService.reprogramarFecha(id, nuevaFecha);
-           return new ModelAndView("redirect:/pedidos");
+           return new ModelAndView(REDIRECT_PEDIDOS);
        } catch (Exception e) {
            ModelAndView mav = new ModelAndView();
             mav.addObject("error", "El pedido" + id + "no se puede reprogramar");
        }
-        return new ModelAndView("redirect:/pedidos");
+        return new ModelAndView(REDIRECT_PEDIDOS);
     }
 }
