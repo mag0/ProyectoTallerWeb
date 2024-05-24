@@ -1,6 +1,5 @@
 package com.tallerwebi.servicios.impl;
 
-import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.ServicioEliminarVehiculo;
@@ -20,12 +19,9 @@ public class ServicioEliminarVehiculoImpl implements ServicioEliminarVehiculo {
     }
 
     @Override
-    public void eliminarVehiculo(Vehiculo vehiculo, FlotaDeVehiculos flotaDeVehiculos) {
-        // Eliminar vehículo de la base de datos
+    public void eliminarVehiculo(Long idVehiculo) {
+        Vehiculo vehiculo = repositorioVehiculo.buscar(idVehiculo);
         repositorioVehiculo.eliminar(vehiculo);
-
-        // Eliminar vehículo de la flota
-        flotaDeVehiculos.eliminarVehiculo(vehiculo);
     }
 }
 

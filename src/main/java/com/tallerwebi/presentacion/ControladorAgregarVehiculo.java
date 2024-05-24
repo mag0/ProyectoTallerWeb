@@ -1,7 +1,5 @@
 package com.tallerwebi.presentacion;
 
-
-import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
@@ -18,12 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorAgregarVehiculo {
 
     private ServicioAgregarVehiculo servicioAgregarVehiculo;
-    private FlotaDeVehiculos flotaDeVehiculos;
 
     @Autowired
-    public ControladorAgregarVehiculo(ServicioAgregarVehiculo servicioAgregarVehiculo, FlotaDeVehiculos flotaDeVehiculos) {
+    public ControladorAgregarVehiculo(ServicioAgregarVehiculo servicioAgregarVehiculo) {
         this.servicioAgregarVehiculo = servicioAgregarVehiculo;
-        this.flotaDeVehiculos = flotaDeVehiculos;
     }
 
     @RequestMapping ("/agregarVehiculo")
@@ -38,7 +34,7 @@ public class ControladorAgregarVehiculo {
         ModelMap model = new ModelMap();
 
         try {
-            servicioAgregarVehiculo.agregarVehiculo(vehiculo,flotaDeVehiculos);
+            servicioAgregarVehiculo.agregarVehiculo(vehiculo);
         } catch (DatosIncompletos ex) {
             return autoNoAgregado(model, "Faltan datos");
         }catch (VehiculoExistente ex) {

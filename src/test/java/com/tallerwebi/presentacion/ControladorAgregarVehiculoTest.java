@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.servicios.ServicioAgregarVehiculo;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
@@ -13,9 +12,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 public class ControladorAgregarVehiculoTest {
-    FlotaDeVehiculos flotaDeVehiculos = new FlotaDeVehiculos();
     ServicioAgregarVehiculo servicioAgregarVehiculo = mock(ServicioAgregarVehiculo.class);
-    ControladorAgregarVehiculo controladorAgregarVehiculo = new ControladorAgregarVehiculo(servicioAgregarVehiculo,flotaDeVehiculos);
+    ControladorAgregarVehiculo controladorAgregarVehiculo = new ControladorAgregarVehiculo(servicioAgregarVehiculo);
 
     @Test
     public void conLosDatosDelVehiculoElAltaEsExistoso(){
@@ -45,7 +43,7 @@ public class ControladorAgregarVehiculoTest {
 
         doThrow(DatosIncompletos.class)
                 .when(servicioAgregarVehiculo)
-                .agregarVehiculo(vehiculoIncompleto,flotaDeVehiculos);
+                .agregarVehiculo(vehiculoIncompleto);
 
         ModelAndView mav = whenEnvioDatosDelVehiculoAlServicio(vehiculoIncompleto);
 
@@ -68,7 +66,7 @@ public class ControladorAgregarVehiculoTest {
 
         doThrow(VehiculoExistente.class)
                 .when(servicioAgregarVehiculo)
-                .agregarVehiculo(vehiculoRepetido,flotaDeVehiculos);
+                .agregarVehiculo(vehiculoRepetido);
 
         ModelAndView mav =  whenEnvioDatosDelVehiculoAlServicio(vehiculoRepetido);
 

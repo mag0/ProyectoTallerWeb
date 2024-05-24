@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar cancelacion</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            Confirmación de Cancelación
+        </div>
+        <div class="card-body">
+            <p>¿Estás seguro de que deseas eliminar el pedido con ID: <span th:text="${pedidoId}"></span>?</p>
+            <form th:action="@{'/pedidos/cancelar/' + ${pedidoId}}" method="post">
+                <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+                <a href="/pedidos" class="btn btn-secondary">No, regresar</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

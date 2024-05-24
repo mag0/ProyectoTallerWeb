@@ -1,7 +1,9 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.servicios;
 
+import com.tallerwebi.dominio.ServicioIniciarSesionImpl;
+import com.tallerwebi.dominio.Usuario1;
+import com.tallerwebi.dominio.Usuarios;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.servicios.ServicioInicioDeSesion;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

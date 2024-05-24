@@ -1,6 +1,5 @@
 package com.tallerwebi.config;
 
-import com.tallerwebi.dominio.FlotaDeVehiculos;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +48,6 @@ public class SpringWebConfig implements WebMvcConfigurer {
         // templates to be automatically updated when modified.
         templateResolver.setCacheable(true);
         return templateResolver;
-    }
-
-   @Bean
-    public FlotaDeVehiculos flotaDeVehiculos() {
-        return new FlotaDeVehiculos();
     }
 
     @Bean

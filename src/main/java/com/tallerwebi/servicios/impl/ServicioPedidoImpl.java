@@ -78,13 +78,23 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     @Override
     public Pedido buscarPorId(Long id) {
-        return pedidoRepository.buscarPedido(id);
+      Pedido pedido = pedidoRepository.buscarPedido(id);
+        if (pedido != null){
+            return pedido;
+        } else {
+            throw new IllegalArgumentException("pedido no existe");
+        }
     }
 
     @Override
     public void reprogramarFecha(Long id, LocalDate nuevaFecha) {
         Pedido pedido = buscarPorId(id);
-       pedido.setFecha(nuevaFecha);
-       pedidoRepository.guardar(pedido);
+        if (pedido != null){
+            pedido.setFecha(nuevaFecha);
+            pedidoRepository.guardar(pedido);
+        } else {
+            throw new IllegalArgumentException("pedido no existe");
+        }
+
     }
 }

@@ -33,13 +33,13 @@
                            <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
                            <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
                            <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
-                           <p th:text="'Capacidad: '+ ${vehiculo.capacidad}"></p>
+                           <p th:text="'Capacidad: '+ ${vehiculo.capacidad}+ 'Kg'"></p>
                            <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
                        </div>
                    </div>
                    <div class="card-footer">
                        <form th:action="@{/eliminarVehiculo}" method="POST">
-                           <input type="hidden" name="patente" th:value="${vehiculo.patente}" />
+                           <input type="hidden" name="id" th:value="${vehiculo.id}"/>
                            <button class="btn btn-danger" type="submit">Eliminar</button>
                        </form>
                    </div>
@@ -48,7 +48,7 @@
         </div>
 
     </section>
-    <p th:if="${error != null}" class="alert alert-danger" th:text="${error}"></p>
+    <p th:if="${error != null}" class="alert alert-danger" th:text="${error}" style="text-align: center; margin:0 2rem"></p>
     <div class="container" >
         <div class="row my-4 ">
             <div class="col-4 offset-5">
@@ -57,16 +57,21 @@
 
         </div>
     </div>
-
-<footer th:if="${vehiculos.size()>=2}" class="alert alert-danger" th:fragment="footer"
-        style="background-color: #FFC107;color:white; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-    <h2 th:text="'Cantidad de vehiculos: ' + ${vehiculos.size()}"></h2>
-</footer>
-<footer th:if="${vehiculos.size()<=1}" th:fragment="footer"
-        style="background-color: #FFC107;color:white;
-        position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+<footer th:if="${vehiculos==null}" class="alert alert-danger"
+        style="background-color: #FFC107;color:white; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
     <h2>FleetManager</h2>
 </footer>
+<div th:if="${vehiculos!=null}">
+    <footer th:if="${vehiculos.size()>1}" class="alert alert-danger"
+            style="background-color: #FFC107;color:white; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+        <h2>FleetManager</h2>
+    </footer>
+    <footer th:if="${vehiculos.size()==1}"
+            style="background-color: #FFC107;color:white;
+            position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+        <h2>FleetManager</h2>
+    </footer>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
