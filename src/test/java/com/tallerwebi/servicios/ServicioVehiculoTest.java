@@ -13,6 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class ServicioVehiculoTest {
+    ServicioVehiculo servicioV = new ServicioVehiculo();
 
     @Test
     public void seCargaUnPedidoAUnVehiculo() throws Exception {
@@ -22,8 +23,6 @@ public class ServicioVehiculoTest {
         Viaje viaje = new Viaje(1L,vehiculo,pedidoList);
 
         pedidoList.add(pedido);
-
-        ServicioVehiculo servicioV = Mockito.mock(ServicioVehiculo.class);
 
         Mockito.when(servicioV.cargarUnPaquete(vehiculo,pedido)).thenReturn(viaje);
 
