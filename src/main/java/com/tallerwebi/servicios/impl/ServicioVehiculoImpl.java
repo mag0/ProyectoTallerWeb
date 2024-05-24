@@ -48,7 +48,6 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
 
         vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getPeso());
         vehiculoRepository.actualizar(vehiculo);
-        //Paquete paquete = new Paquete(viaje,pedido);
 
         viaje.setVehiculo(vehiculo);
 

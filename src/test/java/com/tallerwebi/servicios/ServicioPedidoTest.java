@@ -1,14 +1,8 @@
 package com.tallerwebi.servicios;
 
-import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
-import com.tallerwebi.dominio.Viaje;
-import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import java.time.LocalDate;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

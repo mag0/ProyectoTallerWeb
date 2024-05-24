@@ -18,14 +18,13 @@ public class Pedido {
     private Viaje viaje;
 
 
-    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha, Viaje viaje) {
+    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.codigo = codigo;
         this.tamanio = tamanio;
         this.peso = peso;
         this.fecha = fecha;
-        this.viaje = viaje;
     }
 
     public Pedido() {}
