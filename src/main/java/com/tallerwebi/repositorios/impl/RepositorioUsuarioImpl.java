@@ -34,9 +34,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
-    public Usuario buscar(String email) {
+    public Usuario buscar(String nombreUsuario) {
         return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
-                .add(Restrictions.eq("email", email))
+                .add(Restrictions.eq("nombreUsuario", nombreUsuario))
                 .uniqueResult();
     }
 
@@ -45,4 +45,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         sessionFactory.getCurrentSession().update(usuario);
     }
 
+    @Override
+    public Usuario buscarUsuarioActivo() {
+        return (Usuario) sessionFactory.getCurrentSession().createQuery("SELECT u FROM Usuario u WHERE u.activo = true")
+                .uniqueResult();
+    }
 }

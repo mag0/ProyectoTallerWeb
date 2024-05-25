@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS tallerwebi_db;
-INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
+INSERT INTO Usuario(email,nombreUsuario, password,passwordRepetida, rol, activo) VALUES('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', false);
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 1","Fragil", "DS225", 5, 10, "2021-01-01");
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 2","Fragil", "DS226", 5, 10, "2021-01-01");
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 3","Fragil", "DS227", 5, 10, "2021-01-01");

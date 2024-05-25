@@ -17,8 +17,20 @@ public class Usuario {
     private String nombreUsuario;
     private String email;
     private String password;
+    private String passwordRepetida;
     private String rol;
     private Boolean activo = false;
+
+    public Usuario(){
+    }
+
+    public Usuario(String passwordRepetida, String password, String email, String nombreUsuario, String rol) {
+        this.passwordRepetida = passwordRepetida;
+        this.password = password;
+        this.email = email;
+        this.nombreUsuario = nombreUsuario;
+        this.rol = rol;
+    }
 
     public Long getId() {
         return id;
@@ -27,7 +39,7 @@ public class Usuario {
         this.id = id;
     }
     public void setNombreUsuario(String nombreUsuario) {
-        this.email = email;
+        this.nombreUsuario = nombreUsuario;
     }
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -43,6 +55,12 @@ public class Usuario {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getPasswordRepetida() {
+        return passwordRepetida;
+    }
+    public void setPasswordRepetida(String passwordRepetida) {
+        this.passwordRepetida = passwordRepetida;
     }
     public String getRol() {
         return rol;

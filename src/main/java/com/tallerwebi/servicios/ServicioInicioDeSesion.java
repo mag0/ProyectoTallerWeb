@@ -1,8 +1,9 @@
 package com.tallerwebi.servicios;
 
-import com.tallerwebi.dominio.Usuario1;
-import com.tallerwebi.dominio.Usuarios;
+import com.tallerwebi.dominio.Usuario;
 
 public interface ServicioInicioDeSesion {
-    void iniciarSesion(Usuario1 usuario1, Usuarios usuarios);
+    void iniciarSesion(Usuario usuario);
+    void cerrarSesion();
+    Usuario buscarUsuarioActivo();
 }
