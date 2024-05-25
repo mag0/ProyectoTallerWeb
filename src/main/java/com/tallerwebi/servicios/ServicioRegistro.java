@@ -1,7 +1,7 @@
 package com.tallerwebi.servicios;
 
-import com.tallerwebi.dominio.Usuario1;
+import com.tallerwebi.dominio.Usuario;
 
 public interface ServicioRegistro {
-        void registrar(Usuario1 usuario);
+        void registrar(Usuario usuario);
 }

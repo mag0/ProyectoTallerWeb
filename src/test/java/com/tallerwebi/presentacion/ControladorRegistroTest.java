@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Usuario1;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.ContraseniasDistintas;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
@@ -8,7 +8,6 @@ import com.tallerwebi.servicios.ServicioRegistro;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
-import java.util.Date;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -20,7 +19,7 @@ public class ControladorRegistroTest {
 
     @Test
     public void registroFallidoPorqueNoCompletoTodosLosDatos() {
-        Usuario1 usuario = new Usuario1("Jose", "afka@", "232453", "232453", "fdsf");
+        Usuario usuario = new Usuario("Jose", "afka@", "232453", "232453", "fdsf");
         givenNoExisteUsuario();
         doThrow(DatosIncompletos.class)
                 .when(servicioRegistro)
@@ -31,7 +30,7 @@ public class ControladorRegistroTest {
 
     @Test
     public void registroFallidoPorquePassawordYRepeticionDePasswordSonDistintas() {
-        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "232453", "232453", "fdsf");
+        Usuario usuario = new Usuario("Jose", "afka@gmail", "232453", "232453", "fdsf");
         givenNoExisteUsuario();
         doThrow(ContraseniasDistintas.class)
                 .when(servicioRegistro)
@@ -48,7 +47,7 @@ public class ControladorRegistroTest {
 
     @Test
     public void conEmailYPasswordElRegistroEsExistoso() {
-        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "232453", "232453", "fdsf");
+        Usuario usuario = new Usuario("Jose", "afka@gmail", "232453", "232453", "fdsf");
         givenNoExisteUsuario();
         ModelAndView mav = whenRegistroUsuario(usuario);
         thenElRegistroEsExistoso(mav);
@@ -57,7 +56,7 @@ public class ControladorRegistroTest {
     private void givenNoExisteUsuario() {
     }
 
-    private ModelAndView whenRegistroUsuario(Usuario1 usuario) {
+    private ModelAndView whenRegistroUsuario(Usuario usuario) {
         ModelAndView  mav = controladorRegistro.registrar(usuario);
         return mav;
     }
@@ -69,7 +68,7 @@ public class ControladorRegistroTest {
 
     @Test
     public void elRegistroFallaSiLaPasswordTieneMenosDeSeisCaracteres() {
-        Usuario1 usuario = new Usuario1("Jose", "afka@gmail", "23245", "23245", "fdsf");
+        Usuario usuario = new Usuario("Jose", "afka@gmail", "23245", "23245", "fdsf");
         givenNoExisteUsuario();
         doThrow(PasswordLongitudIncorrecta.class)
                 .when(servicioRegistro)

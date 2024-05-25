@@ -13,10 +13,10 @@
 
 <div th:replace="parts/navbar :: navbar"></div>
 <section style="display: flex;justify-content: center;align-items: center;">
-    <form th:action="@{/agregarVehiculo}" method="POST" th:object="${usuario1}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
+    <form th:action="@{/modificarPerfil}" method="POST" th:object="${usuario}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
         <div class="mb-3">
             <label for="usuario" class="form-label">usuario</label>
-            <input th:field="*{usuario}" type="text" class="form-control" id="usuario" name="usuario">
+            <input th:field="*{nombreUsuario}" type="text" class="form-control" id="usuario" name="usuario">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
@@ -25,10 +25,6 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input th:field="*{email}" type="text" class="form-control" id="email" name="email">
-        </div>
-        <div class="mb-3">
-            <label for="fechaDeNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input th:field="*{fechaDeNacimiento}" type="text" class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento">
         </div>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Modificar</button>
     </form>

@@ -7,10 +7,10 @@
 </head>
 <body>
 <div class="form__contenedor">
-    <form class="form" th:action="@{/registrar}" method="POST" th:object="${usuario1}">
+    <form class="form" th:action="@{/registrar}" method="POST" th:object="${usuario}">
 
         <label for="usuario" class="form__label">Usuario</label>
-        <input th:field="*{usuario}" name="usuario" type="text" placeholder="Usuario" id="usuario" class="form__input">
+        <input th:field="*{nombreUsuario}" name="usuario" type="text" placeholder="Usuario" id="usuario" class="form__input">
 
         <label for="password" class="form__label">Contraseña</label>
         <input th:field="*{password}" name="password" type="password" placeholder="Contraseña" id="password" class="form__input">
@@ -21,8 +21,6 @@
         <label for="email" class="form__label">Email</label>
         <input th:field="*{email}" type="email" name="email" placeholder="Email" id="email" class="form__input">
 
-        <label for="fechaDeNacimiento" class="form__label">Fecha de nacimiento</label>
-        <input th:field="*{fechaDeNacimiento}" name="fechaDeNacimiento" type="text" id="fechaDeNacimiento" class="form__input">
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button type="submit" class="form__input-button">Registrarme</button>
         <div class="form__sign-in">

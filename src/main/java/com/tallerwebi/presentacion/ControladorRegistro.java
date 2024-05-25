@@ -1,9 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Usuario1;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.ContraseniasDistintas;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.servicios.ServicioRegistro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +27,13 @@ public class ControladorRegistro {
     @RequestMapping("/registro")
     public ModelAndView irARegistro(){
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario1", new Usuario1());
+        model.addAttribute("usuario", new Usuario());
         return new ModelAndView("registro", model);
 
     }
 
     @RequestMapping(path = "/registrar", method = RequestMethod.POST)
-    public ModelAndView registrar(@ModelAttribute("usuario1") Usuario1 usuario) {
+    public ModelAndView registrar(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
         try{
             servicioRegistro.registrar(usuario);
@@ -42,6 +43,8 @@ public class ControladorRegistro {
             return registroFallido(model,"Las passwords no coinciden");
         }catch(PasswordLongitudIncorrecta ex){
             return registroFallido(model,"Password con longitud incorrecta");
+        }catch(UsuarioExistente ex){
+            return registroFallido(model,"Usuario ya existente");
         }
 
         return registroExitoso();
