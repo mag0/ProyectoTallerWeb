@@ -5,7 +5,9 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.servicios.impl.ServicioRegistroImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,49 +21,47 @@ import static org.springframework.test.util.AssertionErrors.fail;
 public class ServicioIniciarSesionTest {
     private List<Usuario> usuarios = new ArrayList<>();
     private RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
-    private ServicioInicioDeSesion servicioInciciarSesion = new ServicioIniciarSesionImpl(repositorioUsuario);
-    private ServicioRegistro servicioRegistro = new ServicioRegistroImpl(repositorioUsuario);
+    private ServicioInicioDeSesion servicioInicioDeSesion = new ServicioIniciarSesionImpl(repositorioUsuario);
 
     /*@Test
     public void siElUsuarioExisteYLaPasswordEsCorrectaIniciaSesion() {
-        Usuario usuario = givenSeRegistraUnUsuario();
-
-        when(repositorioUsuario.buscar("messi")).thenReturn(usuario);
+        Usuario usuario = givenExisteUnUsuarioRegistrado();
 
         whenUsuarioIniciaSesion(usuario);
 
-        assertTrue(usuario.activo());
+        thenSeIniciaSesion(usuario);
     }*/
 
-    private void whenUsuarioIniciaSesion(Usuario usuario) {
-            servicioInciciarSesion.iniciarSesion(usuario);
+    private Usuario givenExisteUnUsuarioRegistrado() {
+        Usuario usuario = new Usuario("messi", "correctPassword", "email@gmail.com", "admin", "fdsf");
+        usuario.setActivo(false);
+        return usuario;
     }
 
-    private Usuario givenSeRegistraUnUsuario() {
-        return new Usuario("admin12", "admin12", "email@gmail", "admin", "fdsf");
+    private void whenUsuarioIniciaSesion(Usuario usuario) {
+        servicioInicioDeSesion.iniciarSesion(usuario);
     }
 
     private void thenSeIniciaSesion(Usuario usuario) {
-        Usuario usuarioRegistrado = repositorioUsuario.buscar(usuario.getNombreUsuario());
-        assertTrue(usuarioRegistrado.getActivo());
+        assertTrue(usuario.getActivo());
     }
 
     @Test
     public void siElUsuarioNoExisteSeLanzaEx() {
-        givenSeRegistraUnUsuario();
+        givenExisteUnUsuarioRegistrado();
         assertThrows(UsuarioInexistente.class,
                 ()-> whenRegistroUsuario(new Usuario("Messi", "afka@gmail", "232453", "232453", "fdsf")));
     }
 
     private void whenRegistroUsuario(Usuario usuario) {
-        servicioInciciarSesion.iniciarSesion(usuario);
+        servicioInicioDeSesion.iniciarSesion(usuario);
     }
 
     private void thenElRegitroEsExistoso() {}
 
     /*@Test
     public void siLaPasswordNoEsCorrectaSeLanzaEx() {
-        givenSeRegistraUnUsuario();
+        givenExisteUnUsuarioRegistrado();
         Usuario usuario = new Usuario("Jose1234", "Jose1234", "234531", "admin", "fdsf");
         assertThrows(PasswordIncorrecta.class,
                 ()-> whenRegistroUsuario(usuario));

@@ -25,21 +25,26 @@ public class ControladorInicioDeSesionTest {
     @Test
     public void inicioDeSesionFallidoPorqueNoExisteElUsuario() {
 
-        Usuario usuario2 = new Usuario("Messi", "", "232453", "", "");
-        Usuario usuario1 = new Usuario("Jose", "afka@gmail", "232453", "232453", "fdsf");
+        Usuario usuario1 = givenExisteUnUsuario();
+        Usuario usuario2 = new Usuario("Jose", "afka@gmail", "232453", "232453", "fdsf");
         usuarios.add(usuario1);
-        givenNoExisteUsuario();
+
         doThrow(UsuarioInexistente.class)
                 .when(servicioInicioDeSesion)
                 .iniciarSesion(usuario2);
+
         ModelAndView mav = whenRegistroUsuario(usuario2);
+
         thenElRegistroEsFallido(mav, "No existe ese usuario");
+    }
+
+    public Usuario givenExisteUnUsuario(){
+        return new Usuario("Messi", "", "232453", "", "");
     }
 
     @Test
     public void inicioDeSesionFallidoPorqueNoCoincidenLasPasswords() {
         // Configuración del usuario con contraseña incorrecta
-        Usuario usuario = new Usuario("123123", "123123", "2324531", "232453", "fdsf");
         Usuario usuarioIncorrecto = new Usuario("1231234", "1231234", "232453", "232453", "fdsf");
 
         // Configuración del mock para que lance la excepción PasswordIncorrecta
@@ -48,7 +53,7 @@ public class ControladorInicioDeSesionTest {
                 .iniciarSesion(usuarioIncorrecto);
 
         // Ejecución del método bajo prueba
-        ModelAndView mav = controladorInicioDeSesion.iniciarSesion(usuarioIncorrecto);
+        ModelAndView mav = whenRegistroUsuario(usuarioIncorrecto);
 
         // Verificación de que el registro es fallido
         thenElRegistroEsFallido(mav, "Contraseña incorrecta");
@@ -62,15 +67,13 @@ public class ControladorInicioDeSesionTest {
 
     @Test
     public void siExisteElUsuarioYLaPasswordEsCorrectaLoRedirigeALavistaGestionVehicular() {
-        givenNoExisteUsuario();
-        Usuario usuario = new Usuario("Jose", "afka@gmail", "232453", "232453", "fdsf");
+        Usuario usuario = givenExisteUnUsuario();
         Usuario usuario2 = new Usuario("Jose", "", "232453", "", "");
         usuarios.add(usuario);
-        ModelAndView mav = whenRegistroUsuario(usuario2);
-        thenElInicioDeSesionEsExistoso(mav);
-    }
 
-    private void givenNoExisteUsuario() {
+        ModelAndView mav = whenRegistroUsuario(usuario2);
+
+        thenElInicioDeSesionEsExistoso(mav);
     }
 
     private ModelAndView whenRegistroUsuario(Usuario usuario) {
@@ -81,5 +84,4 @@ public class ControladorInicioDeSesionTest {
     private void thenElInicioDeSesionEsExistoso(ModelAndView mav) {
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/gestionVehicular"));
     }
-
 }
