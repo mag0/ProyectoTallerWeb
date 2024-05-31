@@ -3,7 +3,9 @@ package com.tallerwebi.servicios;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
+import com.tallerwebi.servicios.impl.ServicioEliminarVehiculoImpl;
 import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.util.ArrayList;
@@ -16,39 +18,50 @@ import static org.mockito.Mockito.*;
 
 public class ServicioMostrarVehiculosTest {
 
-    private RepositorioVehiculo repositorioVehiculo = Mockito.mock(RepositorioVehiculo.class);
-    private ServicioMostrarVehiculos servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo);
+    private RepositorioVehiculo repositorioVehiculo;
+    private ServicioMostrarVehiculos servicioMostrarVehiculos;
+
+    @BeforeEach
+    void setUp() {
+        repositorioVehiculo = mock(RepositorioVehiculo.class);
+        servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo);
+    }
 
     @Test
     public void alHaberVehiculosEnLaFlotaElServicioDevuelveLosVehiculos() {
-        givenVehiculosEnLaBaseDeDatos();
-        List<Vehiculo> vehiculos = whenVerificoSiHayVehiculosEnLaFlota();
-        assertThat(vehiculos, is(notNullValue()));
-        assertThat(vehiculos.size(), is(2));
-    }
-
-    private void givenVehiculosEnLaBaseDeDatos() {
-        Vehiculo vehiculo = new Vehiculo("ABC123", "Honda", "CBR600RR",
-                "Moto", 15000, 10, 200, 1, true);
-        Vehiculo vehiculo2 = new Vehiculo("DEF456", "Toyota", "Corolla",
-                "Auto", 80000, 50, 300, 5, true);
-        List<Vehiculo> vehiculos = Arrays.asList(vehiculo, vehiculo2);
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos();
 
         when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
+
+        List<Vehiculo> vehiculosEnLaFlota = whenPidoLaListaDeVehiculos();
+
+        assertThat(vehiculosEnLaFlota.size(), is(2));
     }
 
-    private List<Vehiculo> whenVerificoSiHayVehiculosEnLaFlota() {
+    private List<Vehiculo> givenTengoUnaListaDeVehiculos() {
+        Vehiculo vehiculo1 = new Vehiculo("ABC123", "Honda", "CBR600RR","Moto", 15000, 10, 200, 1, true);
+        Vehiculo vehiculo2 = new Vehiculo("DEF456", "Toyota", "Corolla","Auto", 80000, 50, 300, 5, true);
+        List<Vehiculo> vehiculos = new ArrayList<>();
+        vehiculos.add(vehiculo1);
+        vehiculos.add(vehiculo2);
+        return vehiculos;
+    }
+
+    private List<Vehiculo> whenPidoLaListaDeVehiculos() {
         return servicioMostrarVehiculos.obtenerVehiculosDisponibles();
     }
 
     @Test
     public void alNoHaberVehiculosEnLaFlotaElServicioDevuelveUnaExcepcionDeQueNoHayVehiculos() {
-        givenNoHayVehiculosEnLaBaseDeDatos();
-        assertThrows(NoHayVehiculosEnLaFlota.class, this::whenVerificoSiHayVehiculosEnLaFlota);
+        givenTengoUnaListaDeVehiculosVacia();
+
+        when(repositorioVehiculo.buscarTodos()).thenReturn(new ArrayList<>());
+
+        assertThrows(NoHayVehiculosEnLaFlota.class,
+                () -> servicioMostrarVehiculos.obtenerVehiculosDisponibles());
     }
 
-    private void givenNoHayVehiculosEnLaBaseDeDatos() {
-        when(repositorioVehiculo.buscarTodos()).thenReturn(new ArrayList<>());
+    private void givenTengoUnaListaDeVehiculosVacia() {
     }
 }
 

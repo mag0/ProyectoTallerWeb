@@ -12,6 +12,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 public class ControladorAgregarVehiculoTest {
+
     ServicioAgregarVehiculo servicioAgregarVehiculo = mock(ServicioAgregarVehiculo.class);
     ControladorAgregarVehiculo controladorAgregarVehiculo = new ControladorAgregarVehiculo(servicioAgregarVehiculo);
 

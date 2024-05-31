@@ -23,7 +23,7 @@ public class ServicioIniciarSesionImpl implements ServicioInicioDeSesion {
         if(verificarQueExisteElUsuario(usuario) == null){
             throw new UsuarioInexistente();
         }
-        if(!verificarQueLaPasswordEsCorrecta(usuario)){
+        if(!laPasswordEsCorrecta(usuario)){
             throw new PasswordIncorrecta();
         }
         Usuario usuarioBuscado = verificarQueExisteElUsuario(usuario);
@@ -43,8 +43,8 @@ public class ServicioIniciarSesionImpl implements ServicioInicioDeSesion {
         return repositorioUsuario.buscarUsuarioActivo();
     }
 
-    private boolean verificarQueLaPasswordEsCorrecta(Usuario usuario) {
-        return usuario.getPassword().equals(repositorioUsuario.buscar(usuario.getNombreUsuario()).getPassword());
+    private boolean laPasswordEsCorrecta(Usuario usuario) {
+        return usuario.getPassword().equals(verificarQueExisteElUsuario(usuario).getPassword());
     }
 
     private Usuario verificarQueExisteElUsuario(Usuario usuario) {

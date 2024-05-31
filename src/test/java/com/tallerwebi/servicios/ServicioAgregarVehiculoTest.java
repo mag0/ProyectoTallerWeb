@@ -3,68 +3,79 @@ package com.tallerwebi.servicios;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
+import com.tallerwebi.repositorios.RepositorioVehiculo;
+import com.tallerwebi.servicios.impl.ServicioAgregarVehiculoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ServicioAgregarVehiculoTest {
 
     private ServicioAgregarVehiculo servicioAgregarVehiculo;
-    private ServicioMostrarVehiculos servicioMostrarVehiculos;
+    private RepositorioVehiculo repositorioVehiculo;
 
     @BeforeEach
     void setUp() {
-        servicioAgregarVehiculo = mock(ServicioAgregarVehiculo.class);
-        servicioMostrarVehiculos = mock(ServicioMostrarVehiculos.class);
+        repositorioVehiculo = mock(RepositorioVehiculo.class);
+        servicioAgregarVehiculo = new ServicioAgregarVehiculoImpl(repositorioVehiculo);
     }
-
-    @Test
-    public void siSeRecibenTodosLosDatosDelVehiculoLaAltaEsExitosa() {
-        // Given
-        Vehiculo vehiculo = new Vehiculo("ASD1123", "otro", "si", "Auto", 1100, 190, 95, 4, true);
-
-        // When
-        when(servicioMostrarVehiculos.obtenerVehiculosDisponibles()).thenReturn(new ArrayList<>());
-        // Utilizamos doNothing() para métodos void
-        doNothing().when(servicioAgregarVehiculo).agregarVehiculo(vehiculo);
-
-        // Then
-        assertDoesNotThrow(() -> servicioAgregarVehiculo.agregarVehiculo(vehiculo));
-        verify(servicioAgregarVehiculo, times(1)).agregarVehiculo(vehiculo);
-    }
-
-    @Test
-    public void siElVehiculoExisteDevuelveExVehiculoExistente() {
-        // Given
-        Vehiculo vehiculo = new Vehiculo("ASD1123", "otro", "si", "Auto", 1100, 190, 95, 4, true);
-
-        // When
-        when(servicioMostrarVehiculos.obtenerVehiculosDisponibles()).thenReturn(List.of(vehiculo));
-        // Utilizamos doThrow() para métodos void que lanzan una excepción
-        doThrow(VehiculoExistente.class).when(servicioAgregarVehiculo).agregarVehiculo(vehiculo);
-
-        // Then
-        assertThrows(VehiculoExistente.class, () -> servicioAgregarVehiculo.agregarVehiculo(vehiculo));
-        verify(servicioAgregarVehiculo, times(1)).agregarVehiculo(vehiculo);
-    }
-
 
     @Test
     public void siNoSeRecibenTodosLosDatosDelVehiculoNoSeDaDeAlta() {
-        // Given
-        Vehiculo vehiculo = new Vehiculo("ASD123", "otro", "other", "", 1231, 190, 95, 3, true);
-
-        // When
-        // Configuramos el comportamiento del método agregarVehiculo para que lance DatosIncompletos
-        doThrow(DatosIncompletos.class).when(servicioAgregarVehiculo).agregarVehiculo(vehiculo);
-
-        // Then
+        givenNoExisteVehiculo();
+        
+        Vehiculo vehiculo = whenSeRecibeUnVehiculoConLosDatosIncompletos();
+        
         assertThrows(DatosIncompletos.class, () -> servicioAgregarVehiculo.agregarVehiculo(vehiculo));
-        // Verificamos que el método agregarVehiculo fue llamado con el vehículo especificado
-        verify(servicioAgregarVehiculo, times(1)).agregarVehiculo(vehiculo);
+    }
+
+    private void givenNoExisteVehiculo() {
+    }
+
+    private Vehiculo whenSeRecibeUnVehiculoConLosDatosIncompletos() {
+        return new Vehiculo("ASD1123", "", "si", "Auto", 1100, 190, 95, 4, true);
+    }
+
+    @Test
+    public void elVehiculoNoSeAgregaYaQueExisteEnLaFlota() {
+        ArrayList<Vehiculo> vehiculos = givenTengoUnVehiculoEnLaListaDeVehiculos();
+
+        when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
+
+        thenElVehiculoNoSeAgrega(vehiculoParaDarDeAlta());
+    }
+
+    private Vehiculo vehiculoParaDarDeAlta() {
+        return new Vehiculo("ASD1123", "otro", "si", "Auto", 1100, 190, 95, 4, true);
+    }
+
+    private void thenElVehiculoNoSeAgrega(Vehiculo vehiculo) {
+        assertThrows(VehiculoExistente.class, () -> servicioAgregarVehiculo.agregarVehiculo(vehiculo));
+    }
+
+    private ArrayList<Vehiculo> givenTengoUnVehiculoEnLaListaDeVehiculos() {
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        vehiculos.add(vehiculoParaDarDeAlta());
+        return vehiculos;
+    }
+
+    @Test
+    public void seRecibenTodosLosDatosDelVehiculoYElAltaEsExitosa() {
+        givenNoExisteVehiculo();
+
+        whenEnvioLosDatosDeUnVehiculo(vehiculoParaDarDeAlta());
+
+        thenElVehiculoEsAgregadoConExisto(vehiculoParaDarDeAlta());
+    }
+
+    private void thenElVehiculoEsAgregadoConExisto(Vehiculo vehiculo) {
+        verify(repositorioVehiculo, times(1)).guardar(vehiculo);
+    }
+
+    private void whenEnvioLosDatosDeUnVehiculo(Vehiculo vehiculo) {
+        servicioAgregarVehiculo.agregarVehiculo(vehiculo);
     }
 
 }
