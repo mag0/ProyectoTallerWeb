@@ -14,40 +14,37 @@
 <body style="position: relative; height: 100vh">
 <div th:replace="parts/navbar :: navbar"></div>
 
-<section class="container">
-        <div class="row mt-3" th:each="vehiculo : ${vehiculos}">
-            <div class="col-6 offset-3">
-               <div class="card">
-                   <div class="card-body">
-                       <i class="fas fa-car" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Auto'"></i>
-                       <i class="fas fa-truck" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Camion'"></i>
-                       <i class="fas fa-motorcycle" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Moto'"></i>
-                       <div>
-                           <p th:text="'Patente: '+ ${vehiculo.patente}"></p>
-                           <p th:text="'Marca: '+ ${vehiculo.marca}"></p>
-                           <p th:text="'Modelo: '+ ${vehiculo.modelo}"></p>
-                       </div>
-
-                       <div class="info">
-                           <p th:text="'Tipo de vehiculo: '+ ${vehiculo.tipo}"></p>
-                           <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
-                           <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
-                           <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
-                           <p th:text="'Capacidad: '+ ${vehiculo.capacidad}+ 'Kg'"></p>
-                           <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
-                       </div>
-                   </div>
-                   <div class="card-footer">
-                       <form th:action="@{/eliminarVehiculo}" method="POST">
-                           <input type="hidden" name="id" th:value="${vehiculo.id}"/>
-                           <button class="btn btn-danger" type="submit">Eliminar</button>
-                       </form>
-                   </div>
-               </div>
-               </div>
+<div class="container">
+    <section class="row">
+        <div class="col-6" th:each="vehiculo : ${vehiculos}">
+            <div class="card my-2">
+                <div class="card-header">
+                    <h4 class="card-title" th:text="${vehiculo.marca+' '+vehiculo.modelo}"></h4>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-around">
+                    <i class="fas fa-car" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Auto'"></i>
+                    <i class="fas fa-truck" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Camion'"></i>
+                    <i class="fas fa-motorcycle" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Moto'"></i>
+                    <div class="ml-2 card-text">
+                        <p th:text="'Patente: '+ ${vehiculo.patente}"></p>
+                        <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
+                        <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
+                        <!--<p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>-->
+                        <p th:text="'Capacidad: '+ ${vehiculo.capacidad}+ 'Kg'"></p>
+                        <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form th:action="@{/eliminarVehiculo}" method="POST">
+                        <input type="hidden" name="id" th:value="${vehiculo.id}"/>
+                        <button class="btn btn-danger" type="submit">Modificar</button>
+                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form>
+                </div>
+            </div>
         </div>
-
     </section>
+</div>
     <p th:if="${error != null}" class="alert alert-danger" th:text="${error}" style="text-align: center; margin:0 2rem"></p>
     <div class="container" >
         <div class="row my-4 ">
