@@ -29,16 +29,19 @@
                         <p th:text="'Patente: '+ ${vehiculo.patente}"></p>
                         <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
                         <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
-                        <!--<p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>-->
+                        <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
                         <p th:text="'Capacidad: '+ ${vehiculo.capacidad}+ 'Kg'"></p>
                         <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer d-flex align-items-center justify-content-between">
                     <form th:action="@{/eliminarVehiculo}" method="POST">
                         <input type="hidden" name="id" th:value="${vehiculo.id}"/>
-                        <button class="btn btn-danger" type="submit">Modificar</button>
                         <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form>
+                    <form th:action="@{/modificarVehiculo}" method="POST">
+                        <input type="hidden" name="id" th:value="${vehiculo.id}"/>
+                        <button class="btn btn-primary" type="submit">Modificar</button>
                     </form>
                 </div>
             </div>

@@ -2,6 +2,7 @@ package com.tallerwebi.servicios.impl;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
+import com.tallerwebi.dominio.excepcion.VehiculoInexistente;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class ServicioMostrarVehiculosImpl implements ServicioMostrarVehiculos {
             throw new NoHayVehiculosEnLaFlota();
         }
         return vehiculos;
+    }
+
+    @Override
+    public Vehiculo obtenerVehiculo(Long id) {
+        return repositorioVehiculo.buscar(id);
     }
 }

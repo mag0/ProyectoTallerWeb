@@ -42,5 +42,10 @@ public class RepositorioVehiculoImpl implements RepositorioVehiculo {
     public void eliminar(Vehiculo vehiculo) {
         sessionFactory.getCurrentSession().delete(vehiculo);
     }
+
+    @Override
+    public void merge(Vehiculo vehiculo) {
+        sessionFactory.getCurrentSession().merge(vehiculo);
+    }
 }
 

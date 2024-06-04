@@ -16,7 +16,7 @@
 
 <section style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
 
-    <form th:action="@{/agregarVehiculo}" method="POST" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
+    <form th:action="@{/modificarVehiculoAction}" method="POST" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
         <div class="mb-3">
             <label for="patente" class="form-label">Patente</label>
             <input th:field="*{patente}" type="text" class="form-control" id="patente" name="patente">
@@ -57,8 +57,9 @@
             <input th:field="*{capacidad}" type="number" class="form-control" id="capacidad" name="capacidad"
                    aria-describedby="emailHelp">
         </div>
+        <input th:field="*{id}" type="hidden" name="id" th:value="${id}"/>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
-        <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>
+        <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Modificar Vehiculo</button>
     </form>
     <div class="botones-perfil" style="margin: 2rem 0">
         <a th:href="@{/gestionVehicular}">
