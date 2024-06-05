@@ -21,8 +21,8 @@ VALUES
     ("Chevrolet", "Silverado", "Camion", 220000, 16000, 1550, 350, "GHI789", false, 1),
     ("Honda", "Civic", "Auto", 140000, 12000, 1100, 115, "STU234", false, 1),
     ("Ducati", "Monster 821", "Moto", 40000, 7000, 900, 30, "VWX890", true, 1),
-    ("Toyota", "Corolla", "Auto", 120000, 11000, 1050, 110, "DEF456", false, 2),
+    ("Toyota", "Corolla", "Auto", 120000, 11000, 1050, 110, "DEU456", false, 2),
     ("Suzuki", "GSX-R600", "Moto", 35000, 6000, 850, 25, "PQR567", true, 2),
-    ("Chevrolet", "Silverado", "Camion", 220000, 16000, 1550, 350, "GHI789", true, 2),
-    ("Honda", "Civic", "Auto", 140000, 12000, 1100, 115, "STU234", true, 2),
-    ("Ducati", "Monster 821", "Moto", 40000, 7000, 900, 30, "VWX890", true, 2);
+    ("Chevrolet", "Silverado", "Camion", 220000, 16000, 1550, 350, "GHI289", true, 2),
+    ("Honda", "Civic", "Auto", 140000, 12000, 1100, 115, "STU284", true, 2),
+    ("Ducati", "Monster 821", "Moto", 40000, 7000, 900, 30, "VWX810", true, 2);
