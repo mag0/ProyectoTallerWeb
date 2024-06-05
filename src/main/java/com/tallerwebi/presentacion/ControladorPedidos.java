@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
+import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
@@ -60,6 +61,7 @@ public class ControladorPedidos {
             modelMap.addAttribute("vehiculos", vehiculos);
             modelMap.addAttribute("asignarPedido", asignarPedido);
 
+            pedido.setEstado(Estado.DESPACHADO);
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
             ModelMap modelMap = new ModelMap();
@@ -209,6 +211,7 @@ public class ControladorPedidos {
             return new ModelAndView("error");
         }
     }
+
 }
 /*
  TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado

@@ -4,11 +4,13 @@ VALUES
     ('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', false),
     ('test@unlam.edu.ar', 'admin2', 'admin2', 'admin2', 'ADMIN', false);
 
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 1","Fragil", "DS225", 5, 10, "2021-01-01");
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 2","Fragil", "DS226", 5, 10, "2021-01-01");
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 3","Fragil", "DS227", 5, 10, "2021-01-01");
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 4","Fragil", "DS228", 5, 10, "2021-01-01");
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha) VALUES  ("Paquete 5","Fragil", "DS229", 5, 10, "2021-01-01");
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 1","Fragil", "DS225", 5, 10, "2021-01-01", 'DESPACHADO');
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 2","Fragil", "DS226", 5, 10, "2021-01-01", 'ENVIADO');
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 3","Fragil", "DS227", 5, 10, "2021-01-01", 'RECIBIDO');
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 4","Fragil", "DS228", 5, 10, "2021-01-01", 'DESPACHADO');
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 5","Fragil", "DS229", 5, 10, "2021-01-01", 'ENVIADO');
+
+
 INSERT INTO Vehiculo(marca, modelo, tipo, kilometrajeMaximo, combustible, resistencia, capacidad, patente, status, usuario_id)
 VALUES
     ("Fiat", "Uno", "Auto", 100000, 10000, 1000, 100, "ABC123", true, 1),

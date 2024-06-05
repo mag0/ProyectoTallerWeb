@@ -8,6 +8,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .estado-despachado {
+            color: #ff694c;
+        }
+
+        .estado-enviado {
+            color: #2e2ea9;
+        }
+
+        .estado-recibido {
+            color: #4ea613;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -51,6 +65,7 @@
                     <div class="ml-2 card-text">
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                         <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
+                        <p th:text="'Estado: ' + ${pedido.estado}" th:class="${'estado-' + pedido.estado.toString().toLowerCase()}"></p>
                     </div>
                 </div>
                 <div class="card-footer">

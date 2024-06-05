@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.Estado;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +14,8 @@ public class Pedido {
     private Integer tamanio;
     private Integer peso;
     private LocalDate fecha;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,16 +24,25 @@ public class Pedido {
     //@ManyToOne
     //private Zona destino;
 
-    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha) {
+    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso, LocalDate fecha, Estado estado) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.codigo = codigo;
         this.tamanio = tamanio;
         this.peso = peso;
         this.fecha = fecha;
+        this.estado = estado;
     }
 
     public Pedido() {}
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;

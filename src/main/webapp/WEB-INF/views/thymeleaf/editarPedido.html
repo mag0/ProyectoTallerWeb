@@ -34,6 +34,15 @@
       <label for="tipo">Tipo:</label>
       <input type="text" id="tipo" name="tipo" th:value="${pedido.tipo}" class="form-control" required>
     </div>
+    <div class="mb-3">
+      <label for="estado">Estado:</label>
+      <select id="estado" name="estado" class="form-select" required>
+        <option value="DESPACHADO" th:selected="${pedido.estado == 'DESPACHADO'}">Despachado</option>
+        <option value="ENVIADO" th:selected="${pedido.estado == 'ENVIADO'}">Enviado</option>
+        <option value="RECIBIDO" th:selected="${pedido.estado == 'RECIBIDO'}">Recibido</option>
+        <option value="EN_ESPERA" th:selected="${pedido.estado == 'EN_ESPERA'}">En espera</option>
+      </select>
+    </div>
     <!-- Agrega otros campos del pedido aquí -->
     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
   </form>
