@@ -22,6 +22,7 @@ import static org.mockito.Mockito.mock;
 
 public class RepositorioRendimientoTest {
 
+/*
 
     RepositorioVehiculo repositorioVehiculo = mock(RepositorioVehiculo.class);
     ServicioVehiculo servicioVehiculo = new ServicioVehiculoImpl(repositorioVehiculo);
@@ -36,14 +37,16 @@ public class RepositorioRendimientoTest {
 
 
 
-
     @Test
+    @Transactional
+    @Rollback
+    public void puedoObtenerLosViajesDeUnVehiculo(){@Test
     @Transactional
     @Rollback
     public void puedoObtenerLosViajesDeUnVehiculo(){
 
-        Vehiculo auto1= givenExisteUnVehiculo("abc123","renault","clio","auto",1000,100,100,100,true);
-        Pedido pedido1 = givenExisteUnPedido();
+       Vehiculo vehiculo = new Vehiculo( "abc123","renault","clio","auto",1000,100,100,100,true);
+       givenExisteUnPedido();
         Zona zona1 =givenExisteUnaZona();
 
         Viaje viaje1 = givenExisteUnViaje(zona1,auto1,pedido1);
@@ -58,17 +61,17 @@ public class RepositorioRendimientoTest {
     }
 
     private Vehiculo givenExisteUnVehiculo(String patente, String marca, String modelo, String tipo, int kilometrajeMaximo,int resistencia, int combustible, int capacidad, boolean status) {
-
-        return servicioVehiculo.agregarVehi culo(patente, marca,  modelo,  tipo,  kilometrajeMaximo,  combustible,  resistencia,  capacidad,  status);
+        repositorioVehiculo.guardar();
+        return servicioVehiculo.(patente, marca,  modelo,  tipo,  kilometrajeMaximo,  combustible,  resistencia,  capacidad,  status);
         }
 
 
 
 
-    private void givenExisteUnViaje() {
-        Viaje nuevoViaje = new Viaje(1,);
-        Vehiculo nuevoVehiculo
-        Viaje nuevoViaje = new Viaje(1,);
+    private void givenExisteUnViaje(Zona zona, Vehiculo vehiculo, Pedido pedido) {
+        return servicioViaje.(zona,vehiculo,pedido);
+
+
     }
 
 
@@ -79,5 +82,5 @@ public class RepositorioRendimientoTest {
 
     private List<Usuario> whenBuscoUsuarios PorRol (String rol) { return repositorioUsuario.buscar PorRol (rol);
 
-}
+}*/
 }

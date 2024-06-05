@@ -16,7 +16,8 @@ public class Pedido {
     private Long id;
     @ManyToOne
     private Viaje viaje;
-
+    //@ManyToOne
+    //private Zona destino;
 
     public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso,LocalDate fecha) {
         this.nombre = nombre;

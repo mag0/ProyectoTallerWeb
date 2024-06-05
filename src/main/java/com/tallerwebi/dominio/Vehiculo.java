@@ -14,13 +14,13 @@ public class Vehiculo {
     private String marca;
     private String modelo;
     private String tipo;
-    private int kilometrajeMaximo;
-    private int combustible;
-    private int resistencia;
-    private int capacidad;
+    private int kilometrajeMaximo; //es el kilometraje maximo que va a recorrer el vehiculo
+    private int combustible; // es la cantidad de combustible que almacena en el tanque
+    private int resistencia; // pesoSoportado
+    private int capacidad;  // volumenSoportado
     private String patente;
-    private boolean status;
-
+    private boolean status; //si esta disponible o no
+    //agregar de que usuario es
 
     public Vehiculo(){}
 
