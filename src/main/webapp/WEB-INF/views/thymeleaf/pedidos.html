@@ -48,10 +48,7 @@
                 <div class="card-body d-flex align-items-center" th:id="'pedido_' + ${pedidoIndex.index}">
                     <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
                     <div class="ml-2 card-text">
-                        <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
-                        <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
-                        <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
                         <p th:text="'Entrega: ' + ${pedido.fecha.plusDays(1)}" class="fecha-entrega"></p>
                     </div>
                 </div>

@@ -146,9 +146,4 @@ public class ControladorPedidos {
         }
         return mav;
     }
-    @GetMapping("/agregar")
-    public String mostrarFormularioPedido(Model model) {
-        model.addAttribute("pedido", new Pedido());
-        return "formularioPedido";
-    }
 }
