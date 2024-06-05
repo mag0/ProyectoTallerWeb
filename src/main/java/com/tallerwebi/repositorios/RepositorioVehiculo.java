@@ -10,4 +10,5 @@ public interface RepositorioVehiculo {
     Vehiculo buscar(Long id);
     List<Vehiculo> buscarTodos();
     void eliminar(Vehiculo vehiculo);
+    void merge(Vehiculo vehiculo);
 }

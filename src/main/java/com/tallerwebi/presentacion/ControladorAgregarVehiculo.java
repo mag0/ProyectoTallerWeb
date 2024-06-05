@@ -52,5 +52,4 @@ public class ControladorAgregarVehiculo {
         model.put("error", mensaje);
         return new ModelAndView("agregarVehiculo", model);
     }
-
 }

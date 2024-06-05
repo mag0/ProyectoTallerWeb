@@ -135,4 +135,20 @@ public class ControladorPedidos {
        }
         return new ModelAndView(REDIRECT_PEDIDOS);
     }
+    @GetMapping("/pedidos/detalles/{id}")
+    public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
+        ModelAndView mav = new ModelAndView("detallesPedido");
+        try {
+            Pedido pedido = pedidoService.getPedido(id);
+            mav.addObject("pedido", pedido);
+        } catch (Exception e) {
+            mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
+        }
+        return mav;
+    }
+    @GetMapping("/agregar")
+    public String mostrarFormularioPedido(Model model) {
+        model.addAttribute("pedido", new Pedido());
+        return "formularioPedido";
+    }
 }

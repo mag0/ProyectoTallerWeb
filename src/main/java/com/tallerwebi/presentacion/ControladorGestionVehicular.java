@@ -41,7 +41,6 @@ public class ControladorGestionVehicular {
         return irAGestionVehicular();
     }
 
-
     private ModelAndView mostrarVehiculos(ModelMap model) {
         return new ModelAndView("gestionVehicular", model);
     }
