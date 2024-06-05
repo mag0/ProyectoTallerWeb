@@ -57,7 +57,9 @@
             <input th:field="*{capacidad}" type="number" class="form-control" id="capacidad" name="capacidad"
                    aria-describedby="emailHelp">
         </div>
+
         <input th:field="*{id}" type="hidden" name="id" th:value="${id}"/>
+
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Modificar Vehiculo</button>
     </form>

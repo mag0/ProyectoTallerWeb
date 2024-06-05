@@ -43,7 +43,6 @@ public class Vehiculo {
         this.usuario = usuario;
     }
 
-
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }

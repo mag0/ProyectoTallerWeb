@@ -1,5 +1,6 @@
 package com.tallerwebi.servicios;
 
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioUsuario;
@@ -29,20 +30,27 @@ public class ServicioFiltrarVehiculoTest {
 
     @Test
     public void seDevuelveUnaListaDeVehiculosQueContienenElDatoRecibido() {
-        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos();
         String datoRecibido = "toyota";
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos(usuario);
 
-        when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
+        when(repositorioVehiculo.buscarTodosPorUsuario(usuario.getId())).thenReturn(vehiculos);
 
         List<Vehiculo> vehiculosFiltrados = whenSeRecibeUnaListaDeVehiculoFiltrados(datoRecibido);
 
         thenSeEnviaUnaListaDeVehiculosFiltrados(vehiculosFiltrados);
     }
 
-    private List<Vehiculo> givenTengoUnaListaDeVehiculos() {
+    private List<Vehiculo> givenTengoUnaListaDeVehiculos(Usuario usuario) {
         Vehiculo vehiculo1 = new Vehiculo("ABC123", "Honda", "CBR600RR","Moto", 15000, 10, 200, 1, true);
+        vehiculo1.setUsuarioID(usuario);
         Vehiculo vehiculo2 = new Vehiculo("DEF456", "Toyota", "Corolla","Auto", 80000, 50, 300, 5, true);
+        vehiculo2.setUsuarioID(usuario);
         Vehiculo vehiculo3 = new Vehiculo("POA123", "Toyota", "Corolla","Auto", 80000, 50, 300, 5, true);
+        vehiculo3.setUsuarioID(usuario);
 
         List<Vehiculo> vehiculos = new ArrayList<>();
         vehiculos.add(vehiculo1);
@@ -61,10 +69,14 @@ public class ServicioFiltrarVehiculoTest {
 
     @Test
     public void siNoExistenVehiculosConElDatoEnviadoSeDevuelveMensaje() {
-        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos();
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos(usuario);
         String datoRecibido = "fiat";
 
-        when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
+        when(repositorioVehiculo.buscarTodosPorUsuario(usuario.getId())).thenReturn(vehiculos);
 
         assertThrows(NoHayVehiculosEnLaFlota.class,
                 () -> servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoRecibido));

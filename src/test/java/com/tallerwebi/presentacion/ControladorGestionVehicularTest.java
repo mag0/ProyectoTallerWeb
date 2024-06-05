@@ -3,12 +3,10 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.servicios.ServicioFiltrarVehiculo;
-import com.tallerwebi.servicios.ServicioFiltrarVehiculoTest;
 import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.ServicioEliminarVehiculo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,6 @@ public class ControladorGestionVehicularTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos, servicioEliminarVehiculo, servicioFiltrarVehiculo);
     }
 
@@ -35,7 +32,7 @@ public class ControladorGestionVehicularTest {
 
         doThrow(NoHayVehiculosEnLaFlota.class)
                 .when(servicioMostrarVehiculos)
-                .obtenerVehiculosDisponibles();
+                .obtenerVehiculosDisponiblesPorUsuario();
 
 
         ModelAndView mav = whenReciboListaDeVehiculos();
@@ -59,7 +56,7 @@ public class ControladorGestionVehicularTest {
     void cuandoHayVehiculosDeberiaMostrarListaDeVehiculos() {
         List<Vehiculo> vehiculos = givenVehiculosDePrueba();
 
-        when(servicioMostrarVehiculos.obtenerVehiculosDisponibles()).thenReturn(vehiculos);
+        when(servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario()).thenReturn(vehiculos);
 
         ModelAndView mav = whenReciboListaDeVehiculos();
         thenSeVaALaVistaDeGestionVehicularConVehiculos(mav, vehiculos);

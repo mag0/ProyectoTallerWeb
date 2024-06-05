@@ -3,6 +3,7 @@ package com.tallerwebi.servicios.impl;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.ServicioAgregarVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ServicioAgregarVehiculoImpl implements ServicioAgregarVehiculo {
 
     private final RepositorioVehiculo repositorioVehiculo;
+    private final RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioAgregarVehiculoImpl(RepositorioVehiculo repositorioVehiculo) {
+    public ServicioAgregarVehiculoImpl(RepositorioVehiculo repositorioVehiculo, RepositorioUsuario repositorioUsuario) {
         this.repositorioVehiculo = repositorioVehiculo;
+        this.repositorioUsuario = repositorioUsuario;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class ServicioAgregarVehiculoImpl implements ServicioAgregarVehiculo {
             throw new VehiculoExistente();
         }
         vehiculo.setStatus(true);
+        vehiculo.setUsuarioID(repositorioUsuario.buscarUsuarioActivo());
         repositorioVehiculo.guardar(vehiculo);
     }
 
