@@ -30,11 +30,11 @@ public class ControladorGestionVehicular {
     public ModelAndView irAGestionVehicular() {
         ModelMap model = new ModelMap();
         try {
-            servicioMostrarVehiculos.obtenerVehiculosDisponibles();
+            servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
         } catch (NoHayVehiculosEnLaFlota ex) {
             return mostrarListaVacia(model, "No hay vehiculos en la flota");
         }
-        model.put("vehiculos", servicioMostrarVehiculos.obtenerVehiculosDisponibles());
+        model.put("vehiculos", servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario());
         return mostrarVehiculos(model);
     }
 

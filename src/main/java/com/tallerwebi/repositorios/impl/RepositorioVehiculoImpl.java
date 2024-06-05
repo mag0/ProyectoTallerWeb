@@ -1,8 +1,10 @@
 package com.tallerwebi.repositorios.impl;
 
 import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +38,14 @@ public class RepositorioVehiculoImpl implements RepositorioVehiculo {
     @SuppressWarnings("unchecked")
     public List<Vehiculo> buscarTodos() {
         return sessionFactory.getCurrentSession().createQuery("from Vehiculo").list();
+    }
+
+    @Override
+    public List<Vehiculo> buscarTodosPorUsuario(Long idUsuario) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Vehiculo.class)
+                .add(Restrictions.eq("usuario.id", idUsuario))
+                .list();
     }
 
     @Override

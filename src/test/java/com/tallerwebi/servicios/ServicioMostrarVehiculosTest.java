@@ -2,26 +2,29 @@ package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.equalTo;
 
 public class ServicioMostrarVehiculosTest {
 
+    private RepositorioUsuario repositorioUsuario;
     private RepositorioVehiculo repositorioVehiculo;
     private ServicioMostrarVehiculos servicioMostrarVehiculos;
 
     @BeforeEach
     void setUp() {
         repositorioVehiculo = mock(RepositorioVehiculo.class);
-        servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo);
+        repositorioUsuario = mock(RepositorioUsuario.class);
+        servicioMostrarVehiculos = new ServicioMostrarVehiculosImpl(repositorioVehiculo, repositorioUsuario);
     }
 
     @Test
@@ -32,8 +35,7 @@ public class ServicioMostrarVehiculosTest {
 
         List<Vehiculo> vehiculosEnLaFlota = whenPidoLaListaDeVehiculos();
 
-        thenSeEnviaUnaListaDeVehiculos(vehiculosEnLaFlota);
-
+        assertThat(vehiculosEnLaFlota.size(), is(2));
     }
 
     private List<Vehiculo> givenTengoUnaListaDeVehiculos() {
@@ -47,10 +49,6 @@ public class ServicioMostrarVehiculosTest {
 
     private List<Vehiculo> whenPidoLaListaDeVehiculos() {
         return servicioMostrarVehiculos.obtenerVehiculosDisponibles();
-    }
-
-    private void thenSeEnviaUnaListaDeVehiculos(List<Vehiculo> vehiculosEnLaFlota) {
-        assertThat(vehiculosEnLaFlota.size(), equalTo(2));
     }
 
     @Test

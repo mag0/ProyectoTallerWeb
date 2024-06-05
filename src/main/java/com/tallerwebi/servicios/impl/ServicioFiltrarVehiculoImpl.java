@@ -15,15 +15,18 @@ import java.util.List;
 @Transactional
 public class ServicioFiltrarVehiculoImpl implements ServicioFiltrarVehiculo {
 
+    private final RepositorioUsuario repositorioUsuario;
     private final RepositorioVehiculo repositorioVehiculo;
 
-    public ServicioFiltrarVehiculoImpl(RepositorioVehiculo repositorioVehiculo) {
+    public ServicioFiltrarVehiculoImpl(RepositorioVehiculo repositorioVehiculo, RepositorioUsuario repositorioUsuario) {
         this.repositorioVehiculo = repositorioVehiculo;
+        this.repositorioUsuario = repositorioUsuario;
     }
 
     @Override
     public List<Vehiculo> obtenerVehiculosFiltrados(String dato) {
-        List<Vehiculo> vehiculos = repositorioVehiculo.buscarTodos();
+        Long idUsuario = repositorioUsuario.buscarUsuarioActivo().getId();
+        List<Vehiculo> vehiculos = repositorioVehiculo.buscarTodosPorUsuario(idUsuario);
         List<Vehiculo> vehiculosFiltrados = new ArrayList<>();
         String datoABuscar = dato.toLowerCase();
 

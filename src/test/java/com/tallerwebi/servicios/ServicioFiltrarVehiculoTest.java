@@ -2,13 +2,13 @@ package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.impl.ServicioFiltrarVehiculoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,11 +18,13 @@ public class ServicioFiltrarVehiculoTest {
 
     private ServicioFiltrarVehiculo servicioFiltrarVehiculo;
     private RepositorioVehiculo repositorioVehiculo;
+    private RepositorioUsuario repositorioUsuario;
 
     @BeforeEach
     void setUp() {
         repositorioVehiculo = mock(RepositorioVehiculo.class);
-        servicioFiltrarVehiculo = new ServicioFiltrarVehiculoImpl(repositorioVehiculo);
+        repositorioUsuario = mock(RepositorioUsuario.class);
+        servicioFiltrarVehiculo = new ServicioFiltrarVehiculoImpl(repositorioVehiculo, repositorioUsuario);
     }
 
     @Test

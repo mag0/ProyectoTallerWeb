@@ -1,8 +1,5 @@
 package com.tallerwebi.dominio;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +18,8 @@ public class Vehiculo {
     private String patente;
     private boolean status; //si esta disponible o no
     //agregar de que usuario es
+    @ManyToOne
+    private Usuario usuario;
 
     public Vehiculo(){}
 
@@ -35,6 +34,15 @@ public class Vehiculo {
         this.capacidad = capacidad;
         this.status = status;
     }
+
+    public Usuario getUsuarioID() {
+        return usuario;
+    }
+
+    public void setUsuarioID(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
