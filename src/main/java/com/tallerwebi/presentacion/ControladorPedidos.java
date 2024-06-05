@@ -130,8 +130,10 @@ public class ControladorPedidos {
     // Método para procesar el formulario de reprogramación
     @PostMapping("/pedidos/{id}/reprogramar-pedido")
     public ModelAndView reprogramarPedido(@PathVariable("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
-
        try {
+           Pedido pedido = pedidoService.buscarPorId(id);
+           pedido.setEstado(Estado.REPROGRAMADO);
+           pedidoService.actualizarPedido(pedido);
            pedidoService.reprogramarFecha(id, nuevaFecha);
            return new ModelAndView(REDIRECT_PEDIDOS);
        } catch (Exception e) {
@@ -145,6 +147,7 @@ public class ControladorPedidos {
         ModelAndView mav = new ModelAndView("detallesPedido");
         try {
             Pedido pedido = pedidoService.getPedido(id);
+            pedido.setEstado(Estado.REPROGRAMADO);
             mav.addObject("pedido", pedido);
         } catch (Exception e) {
             mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
@@ -214,7 +217,7 @@ public class ControladorPedidos {
 
 }
 /*
- TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado
+ TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado (HECHO 50%)
  TODO: importacion y exportacion de archivos csv o excel con los pedidos
  TODO: mostrar el historial de pedidos
  TODO: mostrar cantidad de pedidos pendientes, reprogramados o finalizados

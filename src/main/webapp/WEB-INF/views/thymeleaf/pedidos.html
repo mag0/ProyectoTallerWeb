@@ -11,15 +11,23 @@
     <style>
         .estado-despachado {
             color: #ff694c;
+
         }
 
         .estado-enviado {
             color: #2e2ea9;
+
         }
 
         .estado-recibido {
             color: #4ea613;
+
         }
+        .estado-reprogramado {
+              color: #fb9cff;
+
+          }
+
 
     </style>
 </head>
@@ -65,7 +73,9 @@
                     <div class="ml-2 card-text">
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                         <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
-                        <p th:text="'Estado: ' + ${pedido.estado}" th:class="${'estado-' + pedido.estado.toString().toLowerCase()}"></p>
+                        <p  th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
+                            Estado: <strong th:text="${pedido.estado}"></strong>
+                        </p>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -77,7 +87,7 @@
                             <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
                             <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
                             <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-info">Ver Detalles</a>
-                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning">Editar</a>
+                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning" >Editar</a>
 
                         </div>
                     </div>
