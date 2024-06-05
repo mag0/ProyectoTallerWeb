@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Editar Pedido</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Editar Pedido</h2>
+  <form th:action="@{'/pedidos/' + ${pedido.id} + '/editar'}" method="post">
+    <div class="mb-3">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" th:value="${pedido.nombre}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="codigo">Codigo:</label>
+      <input type="text" id="codigo" name="codigo" th:value="${pedido.codigo}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="fecha">Fecha:</label>
+      <input type="text" id="fecha" name="fecha" th:value="${formattedDate}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="tamanio">Tamaño:</label>
+      <input type="number" id="tamanio" name="tamanio" th:value="${pedido.tamanio}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="peso">Peso:</label>
+      <input type="number" id="peso" name="peso" th:value="${pedido.peso}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="tipo">Tipo:</label>
+      <input type="text" id="tipo" name="tipo" th:value="${pedido.tipo}" class="form-control" required>
+    </div>
+    <!-- Agrega otros campos del pedido aquí -->
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+  </form>
+</div>
+</body>
+</html>

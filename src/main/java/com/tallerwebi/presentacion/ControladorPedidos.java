@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -145,5 +148,56 @@ public class ControladorPedidos {
             mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
         }
         return mav;
+    }
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        // Registrar un editor personalizado para el tipo LocalDate
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {/**
+             +         * Este método se utiliza para convertir el valor de cadena de un parámetro de solicitud a un objeto LocalDate.
+             +         * Se espera que la cadena de fecha tenga el formato: dd/MM/yyyy.
+             +         * Si la cadena de fecha no tiene el formato esperado, se establece el valor como nulo.
+             +         * @param text El valor de cadena del parámetro de solicitud.
+             +         */
+            @Override
+            public void setAsText(String text) {
+                try {
+                    // Formato de fecha esperado: dd/MM/yyyy
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    setValue(LocalDate.parse(text, formatter));
+                } catch (DateTimeParseException e) {
+                    // Manejar el caso en que el formato de la fecha no es válido
+                    setValue(null);
+                }
+            }
+
+       /**
+             +         * Este método se utiliza para convertir un objeto LocalDate a una representación de cadena.
+             +         * La representación de cadena está en el formato: dd/MM/yyyy.
+             +         * Si el objeto LocalDate es nulo, devuelve una cadena vacía.
+             +         * @return La representación de cadena del objeto LocalDate.
+             +         */
+            @Override
+            public String getAsText() {
+                LocalDate date = (LocalDate) getValue();
+                return (date != null ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "");
+            }
+        });
+    }
+
+
+    // Mostrar página de edición de pedido
+    @GetMapping("/pedidos/{id}/editar")
+    public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+        Pedido pedido = pedidoService.buscarPorId(id);
+        model.addAttribute("pedido", pedido);
+        return new ModelAndView("editarPedido");
+    }
+
+    // Procesar solicitud de edición de pedido
+    @PostMapping("/pedidos/{id}/editar")
+    public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
+        pedido.setId(id); // Aseguramos que el pedido tenga el ID correcto
+        pedidoService.actualizarPedido(pedido);
+        return new ModelAndView(REDIRECT_PEDIDOS);
     }
 }

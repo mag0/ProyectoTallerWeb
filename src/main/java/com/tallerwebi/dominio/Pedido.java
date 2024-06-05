@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Pedido {
@@ -46,8 +47,8 @@ public class Pedido {
         this.viaje = viaje;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public String getFecha() {
+        return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public Long getId() {

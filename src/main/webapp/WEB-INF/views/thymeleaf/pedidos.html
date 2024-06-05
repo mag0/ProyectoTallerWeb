@@ -36,6 +36,7 @@
         <ul class="pagination justify-content-end">
             <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaAnterior()">Anterior</a></li>
             <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaSiguiente()">Siguiente</a></li>
+
         </ul>
     </nav>
 
@@ -49,7 +50,7 @@
                     <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
                     <div class="ml-2 card-text">
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
-                        <p th:text="'Entrega: ' + ${pedido.fecha.plusDays(1)}" class="fecha-entrega"></p>
+                        <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -61,6 +62,8 @@
                             <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
                             <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
                             <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-info">Ver Detalles</a>
+                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning">Editar</a>
+
                         </div>
                     </div>
                 </div>

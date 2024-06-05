@@ -98,4 +98,9 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     }
 
+    @Override
+    public void actualizarPedido(Pedido pedido) {
+        pedidoRepository.modificar(pedido);
+    }
+
 }

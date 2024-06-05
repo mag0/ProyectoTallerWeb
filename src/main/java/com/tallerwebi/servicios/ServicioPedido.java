@@ -18,4 +18,5 @@ public interface ServicioPedido {
     List<Pedido> obtenerTodosLosPedidos();
     Pedido buscarPorId(Long id);
     void reprogramarFecha(Long id, LocalDate nuevaFecha);
+    void actualizarPedido(Pedido pedido);
 }
