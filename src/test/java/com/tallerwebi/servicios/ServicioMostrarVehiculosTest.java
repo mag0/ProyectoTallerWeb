@@ -3,18 +3,15 @@ package com.tallerwebi.servicios;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
-import com.tallerwebi.servicios.impl.ServicioEliminarVehiculoImpl;
 import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ServicioMostrarVehiculosTest {
 
@@ -35,7 +32,8 @@ public class ServicioMostrarVehiculosTest {
 
         List<Vehiculo> vehiculosEnLaFlota = whenPidoLaListaDeVehiculos();
 
-        assertThat(vehiculosEnLaFlota.size(), is(2));
+        thenSeEnviaUnaListaDeVehiculos(vehiculosEnLaFlota);
+
     }
 
     private List<Vehiculo> givenTengoUnaListaDeVehiculos() {
@@ -49,6 +47,10 @@ public class ServicioMostrarVehiculosTest {
 
     private List<Vehiculo> whenPidoLaListaDeVehiculos() {
         return servicioMostrarVehiculos.obtenerVehiculosDisponibles();
+    }
+
+    private void thenSeEnviaUnaListaDeVehiculos(List<Vehiculo> vehiculosEnLaFlota) {
+        assertThat(vehiculosEnLaFlota.size(), equalTo(2));
     }
 
     @Test

@@ -2,6 +2,8 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
+import com.tallerwebi.servicios.ServicioFiltrarVehiculo;
+import com.tallerwebi.servicios.ServicioFiltrarVehiculoTest;
 import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.ServicioEliminarVehiculo;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +21,13 @@ public class ControladorGestionVehicularTest {
 
     ServicioMostrarVehiculos servicioMostrarVehiculos = mock(ServicioMostrarVehiculos.class);
     ServicioEliminarVehiculo servicioEliminarVehiculo = mock(ServicioEliminarVehiculo.class);
-    ControladorGestionVehicular controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos, servicioEliminarVehiculo);
+    ServicioFiltrarVehiculo servicioFiltrarVehiculo = mock(ServicioFiltrarVehiculo.class);
+    ControladorGestionVehicular controladorGestionVehicular;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos, servicioEliminarVehiculo);
+        controladorGestionVehicular = new ControladorGestionVehicular(servicioMostrarVehiculos, servicioEliminarVehiculo, servicioFiltrarVehiculo);
     }
 
     @Test void cuandoNoHayVehiculosDeberiaMostrarMensajeDeErrorEnVista(){
@@ -72,7 +75,7 @@ public class ControladorGestionVehicularTest {
         vehiculos.add(new Vehiculo("ABC123", "Honda", "CBR600RR", "Moto", 15000, 10, 200, 1,true));
         vehiculos.add(new Vehiculo("DEF456", "Toyota", "Corolla", "Auto", 80000, 50, 300, 5,true));
         vehiculos.add(new Vehiculo("GHI789", "Volvo", "FH16", "Camión", 500000, 400, 500, 3,true));
-        vehiculos.add(new Vehiculo("JKL012", "Yamaha", "MT-07", "Moto", 20000, 15, 180, 1,true));
+        vehiculos.add(new Vehiculo("JKL012", "Honda", "MT-07", "Moto", 20000, 15, 180, 1,true));
         return vehiculos;
     }
 }
