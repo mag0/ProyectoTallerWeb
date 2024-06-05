@@ -5,10 +5,6 @@ import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.impl.ServicioEliminarVehiculoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class ServicioEliminarVehiculoTest {

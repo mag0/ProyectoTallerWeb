@@ -42,7 +42,7 @@ public class ControladorModificarVehiculo {
         }catch (VehiculoExistente ex) {
             return autoNoModificadoCorrectamente(model, "Ya existe este vehiculo");
         }
-        model.put("vehiculos", servicioMostrarVehiculos.obtenerVehiculosDisponibles());
+        model.put("vehiculos", servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario());
         return new ModelAndView("gestionVehicular", model);
     }
 

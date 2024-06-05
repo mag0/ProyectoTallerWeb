@@ -1,8 +1,10 @@
 package com.tallerwebi.servicios;
 
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.VehiculoExistente;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.servicios.impl.ServicioAgregarVehiculoImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,17 +17,24 @@ public class ServicioAgregarVehiculoTest {
 
     private ServicioAgregarVehiculo servicioAgregarVehiculo;
     private RepositorioVehiculo repositorioVehiculo;
+    private RepositorioUsuario repositorioUsuario;
 
     @BeforeEach
     void setUp() {
         repositorioVehiculo = mock(RepositorioVehiculo.class);
-        servicioAgregarVehiculo = new ServicioAgregarVehiculoImpl(repositorioVehiculo);
+        repositorioUsuario = mock(RepositorioUsuario.class);
+        servicioAgregarVehiculo = new ServicioAgregarVehiculoImpl(repositorioVehiculo, repositorioUsuario);
     }
 
     @Test
     public void siNoSeRecibenTodosLosDatosDelVehiculoNoSeDaDeAlta() {
         givenNoExisteVehiculo();
-        
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
+
         Vehiculo vehiculo = whenSeRecibeUnVehiculoConLosDatosIncompletos();
         
         assertThrows(DatosIncompletos.class, () -> servicioAgregarVehiculo.agregarVehiculo(vehiculo));
@@ -41,6 +50,11 @@ public class ServicioAgregarVehiculoTest {
     @Test
     public void elVehiculoNoSeAgregaYaQueExisteEnLaFlota() {
         ArrayList<Vehiculo> vehiculos = givenTengoUnVehiculoEnLaListaDeVehiculos();
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
 
         when(repositorioVehiculo.buscarTodos()).thenReturn(vehiculos);
 
@@ -64,6 +78,11 @@ public class ServicioAgregarVehiculoTest {
     @Test
     public void seRecibenTodosLosDatosDelVehiculoYElAltaEsExitosa() {
         givenNoExisteVehiculo();
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
 
         whenEnvioLosDatosDeUnVehiculo(vehiculoParaDarDeAlta());
 
