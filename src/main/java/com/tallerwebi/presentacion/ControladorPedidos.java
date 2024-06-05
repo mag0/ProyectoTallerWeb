@@ -188,16 +188,31 @@ public class ControladorPedidos {
     // Mostrar página de edición de pedido
     @GetMapping("/pedidos/{id}/editar")
     public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        Pedido pedido = pedidoService.buscarPorId(id);
-        model.addAttribute("pedido", pedido);
-        return new ModelAndView("editarPedido");
+        try {
+            Pedido pedido = pedidoService.buscarPorId(id);
+            model.addAttribute("pedido", pedido);
+            return new ModelAndView("editarPedido");
+        } catch (Exception e) {
+            // Manejo de la excepción, por ejemplo, redireccionar a una página de error
+            return new ModelAndView("error");
+        }
     }
 
-    // Procesar solicitud de edición de pedido
     @PostMapping("/pedidos/{id}/editar")
     public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
-        pedido.setId(id); // Aseguramos que el pedido tenga el ID correcto
-        pedidoService.actualizarPedido(pedido);
-        return new ModelAndView(REDIRECT_PEDIDOS);
+        try {
+            pedido.setId(id); // Aseguramos que el pedido tenga el ID correcto
+            pedidoService.actualizarPedido(pedido);
+            return new ModelAndView(REDIRECT_PEDIDOS);
+        } catch (Exception e) {
+            // Manejo de la excepción, por ejemplo, redireccionar a una página de error
+            return new ModelAndView("error");
+        }
     }
 }
+/*
+ TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado
+ TODO: importacion y exportacion de archivos csv o excel con los pedidos
+ TODO: mostrar el historial de pedidos
+ TODO: mostrar cantidad de pedidos pendientes, reprogramados o finalizados
+ */

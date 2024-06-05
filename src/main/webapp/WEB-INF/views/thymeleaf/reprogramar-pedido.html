@@ -19,7 +19,7 @@
                     <form th:action="@{/pedidos/{id}/reprogramar-pedido(id=${pedido.id})}" method="post">
                         <div class="mb-3">
                             <label for="nuevaFecha" class="form-label">Nueva Fecha de Entrega</label>
-                            <input type="date" class="form-control" id="nuevaFecha" name="nuevaFecha" required>
+                            <input type="text" class="form-control" id="nuevaFecha" name="nuevaFecha" required>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Reprogramar</button>
