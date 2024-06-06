@@ -46,7 +46,6 @@ public class ControladorGestionVehicular {
 
     @RequestMapping(path ="/filtrarVehiculos", method = RequestMethod.GET)
     public ModelAndView filtrarVehiculos(@RequestParam("datoVehiculo") String datoVehiculo) {
-        System.out.println(datoVehiculo);
         ModelMap model = new ModelMap();
         try {
             servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoVehiculo);

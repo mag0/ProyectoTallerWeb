@@ -1,5 +1,6 @@
 package com.tallerwebi.integracion.config;
 
+import com.tallerwebi.dominio.Vehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio", "com.tallerwebi.infraestructura"})
+@ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio","com.tallerwebi.servicios","com.tallerwebi.repositorios"})
 public class SpringWebTestConfig implements WebMvcConfigurer {
 
     // Spring + Thymeleaf need this
@@ -70,5 +71,8 @@ public class SpringWebTestConfig implements WebMvcConfigurer {
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
     }
+
+    @Bean
+    public Vehiculo vehiculo() {    return new Vehiculo();}
 
 }
