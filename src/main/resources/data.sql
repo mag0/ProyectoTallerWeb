@@ -4,7 +4,7 @@ VALUES
     ('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', false),
     ('test@unlam.edu.ar', 'admin2', 'admin2', 'admin2', 'ADMIN', false);
 
-INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 1","Fragil", "DS225", 5, 10, "2021-01-01", 'DESPACHADO');
+INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 1","Fragil", "DS225", 5, 10, "2021-01-01", 'RECIBIDO');
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 2","Fragil", "DS226", 5, 10, "2021-01-01", 'ENVIADO');
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 3","Fragil", "DS227", 5, 10, "2021-01-01", 'RECIBIDO');
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado) VALUES ("Paquete 4","Fragil", "DS228", 5, 10, "2021-01-01", 'DESPACHADO');

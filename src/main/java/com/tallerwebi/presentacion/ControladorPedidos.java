@@ -147,7 +147,6 @@ public class ControladorPedidos {
         ModelAndView mav = new ModelAndView("detallesPedido");
         try {
             Pedido pedido = pedidoService.getPedido(id);
-            pedido.setEstado(Estado.REPROGRAMADO);
             mav.addObject("pedido", pedido);
         } catch (Exception e) {
             mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
@@ -198,7 +197,6 @@ public class ControladorPedidos {
             model.addAttribute("pedido", pedido);
             return new ModelAndView("editarPedido");
         } catch (Exception e) {
-            // Manejo de la excepción, por ejemplo, redireccionar a una página de error
             return new ModelAndView("error");
         }
     }
@@ -206,11 +204,10 @@ public class ControladorPedidos {
     @PostMapping("/pedidos/{id}/editar")
     public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
         try {
-            pedido.setId(id); // Aseguramos que el pedido tenga el ID correcto
+            pedido.setId(id);
             pedidoService.actualizarPedido(pedido);
             return new ModelAndView(REDIRECT_PEDIDOS);
         } catch (Exception e) {
-            // Manejo de la excepción, por ejemplo, redireccionar a una página de error
             return new ModelAndView("error");
         }
     }
