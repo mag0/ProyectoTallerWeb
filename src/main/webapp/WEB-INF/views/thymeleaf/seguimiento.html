@@ -55,6 +55,7 @@
 </head>
 
 <body>
+<div th:replace="parts/navbar :: navbar"></div>
 
 <input type="hidden" id="pedidoLat" th:value="${pedido.getLatitude()}">
 <input type="hidden" id="pedidoLon" th:value="${pedido.getLongitude()}">
