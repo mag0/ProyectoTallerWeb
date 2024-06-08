@@ -20,6 +20,9 @@
             type="text/css"
     />
     <style>
+        .bg-color {
+            background-color: #e0b24f;
+        }
         body {
             margin: 0;
             padding: 0;
@@ -35,8 +38,17 @@
         }
         .map-container {
             flex: 2;
-            height: 500px;
+            height: 800px;
+            width: 800px;
             position: relative;
+        }
+        .mapboxgl-canvas{
+            width: 800px;
+            height: 800px;
+        }
+        .mapboxgl-map{
+            width: 1000px;
+            height: 800px;
         }
         #map {
             position: absolute;
@@ -59,22 +71,27 @@
             text-align: center;
             font-family: 'Open Sans', sans-serif;
         }
+        .mapbox-directions-instructions{
+            height: 200px;
+        }
     </style>
 </head>
-<body>
+<body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 <div class="container">
     <div class="details-card">
         <!-- Mostrar detalles completos del pedido -->
-        <div class="card">
-            <div class="card-body">
+        <div class="card bg-color">
+            <div class="card-body bg-color">
+                <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
                 <h4 class="card-title" th:text="${pedido.nombre}"></h4>
+                <strong><p th:text="'Codigo: ' + ${pedido.codigo}"></p></strong>
                 <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
-                <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
-                <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
+                <p th:text="'Destino: ' + ${pedido.destino}"></p>
+
                 <!-- Otros detalles del pedido -->
             </div>
-            <a href="/spring/pedidos" class="btn btn-secondary btn-lg">Regresar</a>
+            <a href="/spring/pedidos" class="btn btn-danger btn-lg " style="margin: 5px;">Regresar</a>
         </div>
     </div>
     <div class="map-container">
