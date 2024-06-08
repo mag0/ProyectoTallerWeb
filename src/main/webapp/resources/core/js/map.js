@@ -28,6 +28,7 @@ async function renderingRoute(partida, destino, startMarker) {
             console.log({dataMapBox})
             if (dataMapBox.routes && dataMapBox.routes.length > 0) {
                 const ruta = dataMapBox.routes[0].geometry;
+                const detailedSteps = dataMapBox.routes[0].legs[0].steps;
                 const coordenadas = ruta.coordinates;
 
                 // Verifica si la capa de ruta ya existe y elimínala si es necesario

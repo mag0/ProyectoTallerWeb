@@ -5,10 +5,20 @@
     <title>Detalles y Seguimiento</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script th:src="@{/js/geolocation.js}"></script>
+
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css"
+            type="text/css"
+    />
     <style>
         body {
             margin: 0;
@@ -73,31 +83,11 @@
         <div id="map"></div>
     </div>
 </div>
-<script>
-    let pedidoLat = document.getElementById("pedidoLat").value;
-    let pedidoLon = document.getElementById("pedidoLon").value;
-
-    mapboxgl.accessToken = 'pk.eyJ1IjoibHVjb3NhIiwiYSI6ImNseDZmcXphMDFxN2UycW9lcDQwNmFidTUifQ.H4VUeIgiGUXMaQXOB849MA';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [pedidoLon, pedidoLat],
-        zoom: 13
-    });
-    // Crea un objeto directions usando tu token de acceso de Mapbox
-    var directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken
-    });
-    // Agrega las direcciones al mapa
-    map.addControl(directions, 'top-left');
-    // Establece el origen y el destino
-    directions.setOrigin([-58.4412258,-34.6051374]);
-    directions.setDestination([pedidoLon, pedidoLat]);
-    console.log({map, directions});
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/js/bootstrap.min.js"></script>
+<script th:src="@{/js/map.js}"></script>
+
 </body>
 </html>
