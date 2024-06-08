@@ -8,14 +8,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/pedidos.css">
     <style>
+        /* Estilos para texto y otros elementos en modo oscuro */
+        body {
+            color: #ffffff; /* Color del texto */
+        }
+
+        .bg-dark {
+            background-color: #343a40 !important; /* Color de fondo oscuro */
+        }
+
+        .text-light {
+            color: #ffffff !important; /* Color del texto claro */
+        }
+
+        .bg-color {
+            background-color: #e0b24f;
+        }
+        .bg-color-body{
+            background-color: #333333;
+        }
+
+
+        /* Estilos adicionales para otros elementos según sea necesario */
         .estado-despachado {
             color: #ff694c;
 
         }
 
         .estado-enviado {
-            color: #2e2ea9;
+            color: #6d6dfa;
 
         }
 
@@ -32,43 +56,43 @@
     </style>
 </head>
 
-<body>
+<body class="body bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 
 <div class="container mt-5">
-    <h4>Filtrar</h4>
+    <h4 class="text-light">Filtrar</h4>
     <div class="row">
         <div class="col-md-4">
-            <label for="fechaFiltro" class="form-label">Filtrar por fecha</label>
-            <input type="date" id="fechaFiltro" onchange="filtrarPedidos('fecha')" class="form-control">
+            <label for="fechaFiltro" class="form-label text-light">Filtrar por fecha</label>
+            <input type="text" id="fechaFiltro" placeholder="dd/mm/aaaa" onchange="filtrarPedidos()" class="form-control text-bg-light bg-dark">
         </div>
         <div class="col-md-4">
             <label for="codigoFiltro" class="form-label">Filtrar por código</label>
-            <input type="text" id="codigoFiltro" placeholder="Filtrar por código" onkeyup="filtrarPedidos('codigo')" class="form-control">
+            <input type="text" id="codigoFiltro" placeholder="Filtrar por código" onkeyup="filtrarPedidos()" class="form-control bg-dark">
         </div>
         <div class="col-md-4">
             <label for="buscarPedido" class="form-label">Buscar pedido por nombre</label>
-            <div class="input-group">
-                <input type="text" id="buscarPedido" placeholder="Nombre pedido" onkeyup="buscarPedido()" class="form-control">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+            <input type="text" id="buscarPedido" placeholder="Nombre pedido" onkeyup="filtrarPedidos()" class="form-control bg-dark">
             </div>
         </div>
-    </div>
-    <nav aria-label="Page navigation" class="mt-3">
-        <ul class="pagination justify-content-end">
-            <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaAnterior()">Anterior</a></li>
-            <li class="page-item"><a class="page-link" href="#" onclick="cargarPaginaSiguiente()">Siguiente</a></li>
 
-        </ul>
-    </nav>
+    </div>
+
 
     <section class="row mt-5">
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content-end">
+                <li class="page-item"><a class="page-link text-light bg-dark" href="#" onclick="cargarPaginaAnterior()">Anterior</a></li>
+                <li class="page-item"><a class="page-link text-light bg-dark" href="#" onclick="cargarPaginaSiguiente()">Siguiente</a></li>
+
+            </ul>
+        </nav>
         <div class="col-md-6" th:each="pedido, pedidoIndex : ${pedidos}">
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h4 class="card-title" th:text="${pedido.nombre}"></h4>
+            <div class="card mb-3 bg-dark mb-4">
+                <div class="card-header bg-color">
+                    <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
                 </div>
-                <div class="card-body d-flex align-items-center" th:id="'pedido_' + ${pedidoIndex.index}">
+                <div class="card-body d-flex align-items-center bg-color-body" th:id="'pedido_' + ${pedidoIndex.index}">
                     <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
                     <div class="ml-2 card-text">
                         <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
@@ -78,16 +102,21 @@
                         </p>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer bg-color">
                     <div class="d-flex justify-content-between">
                         <form th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="get">
-                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fas fa-times" style="margin-right: 5px;"></i>Eliminar</button>
                         </form>
                         <div>
-                            <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
+                            <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
+                                <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
                          <!-- <a th:href="@{'/pedidos/'+${pedido.id}+'/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a> -->
-                            <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-info">Ver Detalles</a>
-                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning" >Editar</a>
+                            <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-info">
+                                <i class="fas fa-info-circle" style="margin-right: 5px;"></i>Ver Detalles</a>
+                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
 
                         </div>
                     </div>
@@ -127,36 +156,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/js/bootstrap.min.js"></script>
 <script>
-    function filtrarPedidos(tipoFiltro) {
-        var filtro = "";
+    function filtrarPedidos() {
+        var fechaFiltro = new Date(document.getElementById("fechaFiltro").value);
+        var codigoFiltro = document.getElementById("codigoFiltro").value.toLowerCase();
+        var nombreFiltro = document.getElementById("buscarPedido").value.toLowerCase();
 
-        // Dependiendo del tipo de filtro, obtenemos el valor correspondiente
-        if (tipoFiltro === 'fecha') {
-            filtro = new Date(document.getElementById("fechaFiltro").value);
-        } else if (tipoFiltro === 'codigo') {
-            filtro = document.getElementById("codigoFiltro").value.toLowerCase();
-        }
-
-        // Iteramos sobre cada pedido
         var pedidos = document.getElementsByClassName("card");
         for (var i = 0; i < pedidos.length; i++) {
             var fechaPedido = new Date(pedidos[i].querySelector(".fecha-entrega").textContent);
             var codigoPedido = pedidos[i].querySelector(".card-text").textContent.toLowerCase();
+            var nombrePedido = pedidos[i].querySelector(".card-title").textContent.toLowerCase();
 
-            // Comparamos la fecha o el código del pedido con el filtro correspondiente
-            if ((tipoFiltro === 'fecha' && !sonFechasIguales(fechaPedido, filtro)) ||
-                (tipoFiltro === 'codigo' && !codigoPedido.includes(filtro))) {
-                pedidos[i].style.display = "none";
-            } else {
+            var cumpleFiltros = true;
+
+            // Aplicar filtros
+            if (fechaFiltro && !sonFechasIguales(fechaPedido, fechaFiltro)) {
+                cumpleFiltros = false;
+            }
+            if (codigoFiltro && !codigoPedido.includes(codigoFiltro)) {
+                cumpleFiltros = false;
+            }
+            if (nombreFiltro && !nombrePedido.includes(nombreFiltro)) {
+                cumpleFiltros = false;
+            }
+
+            // Mostrar o ocultar el pedido según los filtros
+            if (cumpleFiltros) {
                 pedidos[i].style.display = "block";
+            } else {
+                pedidos[i].style.display = "none";
             }
         }
-    }
-
-    function sonFechasIguales(fecha1, fecha2) {
-        return fecha1.getFullYear() === fecha2.getFullYear() &&
-            fecha1.getMonth() === fecha2.getMonth() &&
-            fecha1.getDate() === fecha2.getDate();
     }
 
 
@@ -219,10 +249,19 @@
 
     async function cargarPagina(pagina) {
         try {
-            const response = await fetch(`/spring/pedidos?page=${pagina}`);
-            if (!response.ok) throw new Error('Error al cargar pedidos');
-            const pedidos = await response.json();
-            actualizarVistaPedidos(pedidos);
+            const elementosPorPagina = 4;
+            const startIndex = (pagina - 1) * elementosPorPagina;
+            const endIndex = startIndex + elementosPorPagina;
+
+            const pedidos = document.getElementsByClassName("card");
+            for (let i = 0; i < pedidos.length; i++) {
+                if (i >= startIndex && i < endIndex) {
+                    pedidos[i].style.display = "block";
+                } else {
+                    pedidos[i].style.display = "none";
+                }
+            }
+
             paginaActual = pagina;
         } catch (error) {
             console.error('Error:', error);
@@ -230,27 +269,7 @@
         }
     }
 
-    function cargarPaginaAnterior() {
-        if (paginaActual > 1) cargarPagina(paginaActual - 1);
-    }
 
-    function cargarPaginaSiguiente() {
-        cargarPagina(paginaActual + 1);
-    }
-
-    function buscarPedido() {
-        const query = document.getElementById('buscarPedido').value.toLowerCase();
-        const pedidos = document.querySelectorAll('.card');
-        pedidos.forEach(pedido => {
-            const nombre = pedido.querySelector('.card-title').textContent.toLowerCase();
-            if (nombre.includes(query)) {
-                pedido.style.display = 'block';
-            } else {
-                pedido.style.display = 'none';
-            }
-        });
-    }
-    
 
 </script>
 </body>

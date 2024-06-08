@@ -37,6 +37,7 @@ public class Pedido {
 
     public Pedido() {}
 
+
     public Estado getEstado() {
         return estado;
     }
@@ -109,8 +110,8 @@ public class Pedido {
         this.nombre = nombre;
     }
 
-    public Zona getDestino() {
-        return destino;
+    public String getDestino() {
+        return "in progress";
     }
 
     public void setDestino(Zona destino) {
@@ -124,4 +125,6 @@ public class Pedido {
     public double getLongitude(){
         return this.destino.getLon();
     }
+
+
 }
