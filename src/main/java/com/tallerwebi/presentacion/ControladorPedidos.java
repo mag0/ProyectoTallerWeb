@@ -212,6 +212,16 @@ public class ControladorPedidos {
         }
     }
 
+    @PostMapping("/pedidos")
+    public ModelAndView crearPedido( @ModelAttribute Pedido pedido) {
+        try {
+            pedidoService.guardarPedido(pedido);
+            return new ModelAndView(REDIRECT_PEDIDOS);
+        } catch (Exception e) {
+            return new ModelAndView("error");
+        }
+    }
+
 }
 /*
  TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado (HECHO 50%)

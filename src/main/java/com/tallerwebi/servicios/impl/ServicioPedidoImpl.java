@@ -104,8 +104,8 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public void guardarPedido(Pedido pedido) {
-        pedidoRepository.guardar(pedido);
+    public Long guardarPedido(Pedido pedido) {
+      return pedidoRepository.guardar(pedido);
     }
 
 }

@@ -26,8 +26,8 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
     }
 
     @Override
-    public void guardar(Pedido pedido) {
-        sessionFactory.getCurrentSession().save(pedido);
+    public Long guardar(Pedido pedido) {
+        return (Long) sessionFactory.getCurrentSession().save(pedido);
     }
 
     @Override

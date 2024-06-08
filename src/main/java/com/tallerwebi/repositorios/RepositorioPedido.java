@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RepositorioPedido {
     Pedido buscarPedido(Long id);
-    void guardar(Pedido pedido);
+    Long guardar(Pedido pedido);
     void modificar(Pedido pedido);
     List<Pedido> buscarTodos();
     List<Pedido> buscarSinViajes();
