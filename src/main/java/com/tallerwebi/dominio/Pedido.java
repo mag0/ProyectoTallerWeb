@@ -21,10 +21,10 @@ public class Pedido {
     private Long id;
     @ManyToOne
     private Viaje viaje;
-    //@ManyToOne
-    //private Zona destino;
+    @ManyToOne
+    private Zona destino;
 
-    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso, LocalDate fecha, Estado estado) {
+    public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso, LocalDate fecha, Estado estado, Zona destino) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.codigo = codigo;
@@ -32,6 +32,7 @@ public class Pedido {
         this.peso = peso;
         this.fecha = fecha;
         this.estado = estado;
+        this.destino = destino;
     }
 
     public Pedido() {}
@@ -106,5 +107,21 @@ public class Pedido {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Zona getDestino() {
+        return destino;
+    }
+
+    public void setDestino(Zona destino) {
+        this.destino = destino;
+    }
+
+    public double getLatitude(){
+       return this.destino.getLat();
+    }
+
+    public double getLongitude(){
+        return this.destino.getLon();
     }
 }

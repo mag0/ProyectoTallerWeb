@@ -10,21 +10,17 @@ public class Zona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int naftaNecesaria;
-    private double distanciaDelDeposito;
-    private double tiempoDemora;
+    private double lat;
+    private double lon;
 
 
-    public Zona(Long id, int naftaNecesaria, double distanciaDelDeposito, double tiempoDemora) {
+    public Zona(Long id, double lat, double lon) {
         this.id = id;
-        this.naftaNecesaria = naftaNecesaria;
-        this.distanciaDelDeposito = distanciaDelDeposito;
-        this.tiempoDemora = tiempoDemora;
+        this.lat = lat;
+        this.lon = lon;
     }
 
-    public Zona() {
-
-    }
+    public Zona() {}
 
 
     public Long getId() {
@@ -35,27 +31,19 @@ public class Zona {
         this.id = id;
     }
 
-    public int getNaftaNecesaria() {
-        return naftaNecesaria;
+    public double getLat() {
+        return lat;
     }
 
-    public void setNaftaNecesaria(int naftaNecesaria) {
-        this.naftaNecesaria = naftaNecesaria;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public double getDistanciaDelDeposito() {
-        return distanciaDelDeposito;
+    public double getLon() {
+        return lon;
     }
 
-    public void setDistanciaDelDeposito(double distanciaDelDeposito) {
-        this.distanciaDelDeposito = distanciaDelDeposito;
-    }
-
-    public double getTiempoDemora() {
-        return tiempoDemora;
-    }
-
-    public void setTiempoDemora(double tiempoDemora) {
-        this.tiempoDemora = tiempoDemora;
+    public void setLon(double lon) {
+        this.lon = lon;
     }
 }
