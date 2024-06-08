@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
+import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.ServicioViaje;
@@ -22,6 +23,7 @@ public class ControladorPedidosTest {
     private ServicioPedido pedidoServiceMock;
     private ServicioVehiculo vehiculoServiceMock;
     private ServicioViaje viajeServiceMock;
+    private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private AsignarPedidoRequest asignarPedidoRequest;
 
     @BeforeEach
@@ -35,8 +37,9 @@ public class ControladorPedidosTest {
 
         pedidoServiceMock = mock(ServicioPedido.class);
         vehiculoServiceMock = mock(ServicioVehiculo.class);
+        servicioMostrarVehiculos = mock(ServicioMostrarVehiculos.class);
         viajeServiceMock = mock(ServicioViaje.class);
-        pedidosController = new ControladorPedidos(pedidoServiceMock,vehiculoServiceMock,viajeServiceMock);
+        pedidosController = new ControladorPedidos(pedidoServiceMock,servicioMostrarVehiculos,viajeServiceMock, vehiculoServiceMock);
 
     }
 

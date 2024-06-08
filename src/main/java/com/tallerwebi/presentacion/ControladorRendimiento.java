@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.presentacion.responses.VehiculoResponse;
+import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,15 +15,16 @@ import java.util.List;
 
 @Controller
 public class ControladorRendimiento {
-    private final ServicioVehiculo vehiculoService;
+    private final ServicioMostrarVehiculos vehiculoService;
 
-    public ControladorRendimiento(ServicioVehiculo vehiculoService) {
+    public ControladorRendimiento(ServicioMostrarVehiculos vehiculoService) {
         this.vehiculoService = vehiculoService;
     }
+
     @RequestMapping ("/rendimiento")
     public ModelAndView irarendimiento(){
 
-        List<Vehiculo> vehiculos= vehiculoService.getAllVehiculos();
+        List<Vehiculo> vehiculos= vehiculoService.obtenerVehiculosDisponiblesPorUsuario();
         VehiculoResponse response = new VehiculoResponse(vehiculos);
 
         ModelMap model = new ModelMap();
