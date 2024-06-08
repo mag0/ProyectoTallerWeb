@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
+import com.tallerwebi.servicios.ServicioMostrarVehiculos;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioVehiculo;
 import com.tallerwebi.servicios.ServicioViaje;
@@ -27,14 +28,16 @@ import java.util.List;
 public class ControladorPedidos {
     public static final String REDIRECT_PEDIDOS = "redirect:/pedidos";
     private ServicioPedido pedidoService;
+    private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private ServicioVehiculo vehiculoService;
     private ServicioViaje viajeService;
 
     @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioVehiculo vehiculoService, ServicioViaje viajeService) {
+    public ControladorPedidos(ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService) {
         this.pedidoService = pedidoService;
-        this.vehiculoService = vehiculoService;
+        this.servicioMostrarVehiculos = servicioMostrarVehiculos;
         this.viajeService = viajeService;
+        this.vehiculoService = vehiculoService;
     }
 
 
@@ -51,7 +54,7 @@ public class ControladorPedidos {
     @GetMapping("/pedidos/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
         try{
-            List<Vehiculo> vehiculos = vehiculoService.getAllVehiculos();
+            List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
             Pedido pedido = pedidoService.getPedido(id);
 
             ModelMap modelMap = new ModelMap();

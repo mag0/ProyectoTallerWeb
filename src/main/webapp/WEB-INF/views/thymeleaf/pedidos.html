@@ -85,7 +85,7 @@
                         </form>
                         <div>
                             <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">Despachar</a>
-                            <a th:href="@{'/pedidos/' + ${pedido.id} + '/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a>
+                         <!-- <a th:href="@{'/pedidos/'+${pedido.id}+'/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a> -->
                             <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-info">Ver Detalles</a>
                             <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning" >Editar</a>
 

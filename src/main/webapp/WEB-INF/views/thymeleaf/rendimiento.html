@@ -52,13 +52,6 @@
     </div>
 </div>
 
-<div class="card" th:each="vehiculo : ${response.getVehiculos()}">
-    <div class="card-body" >
-
-        <p th:text="'Tipo de pedido: ' + ${vehiculo.getPatente()}"></p>
-    </div>
-</div>
-
     <input type="hidden" id="vehiculosNames" th:value="${response.getVehiculosNames()}">
 
 

@@ -2,23 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detalles</title>
+    <title>Detalles y Seguimiento</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        .details-card {
+            flex: 1;
+            padding: 20px;
+        }
+        .map-container {
+            flex: 2;
+            height: 500px;
+            position: relative;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .marker {
+            background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .mapboxgl-popup {
+            max-width: 200px;
+        }
+        .mapboxgl-popup-content {
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <!-- Mostrar detalles completos del pedido -->
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title" th:text="${pedido.nombre}"></h4>
-            <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
-            <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
-            <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
-            <!-- Otros detalles del pedido -->
+<div th:replace="parts/navbar :: navbar"></div>
+<div class="container">
+    <div class="details-card">
+        <!-- Mostrar detalles completos del pedido -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title" th:text="${pedido.nombre}"></h4>
+                <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+                <p th:text="'Tamaño: ' + ${pedido.tamanio}"></p>
+                <p th:text="'Peso: ' + ${pedido.peso} + 'kg'"></p>
+                <!-- Otros detalles del pedido -->
+            </div>
+            <a href="/spring/pedidos" class="btn btn-secondary btn-lg">Regresar</a>
         </div>
-        <a href="/spring/pedidos" class="btn btn-secondary btn-lg">Regresar</a>
+    </div>
+    <div class="map-container">
+        <input type="hidden" id="pedidoLat" th:value="${pedido.getLatitude()}">
+        <input type="hidden" id="pedidoLon" th:value="${pedido.getLongitude()}">
+        <div id="map"></div>
     </div>
 </div>
+<script>
+    let pedidoLat = document.getElementById("pedidoLat").value;
+    let pedidoLon = document.getElementById("pedidoLon").value;
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoibHVjb3NhIiwiYSI6ImNseDZmcXphMDFxN2UycW9lcDQwNmFidTUifQ.H4VUeIgiGUXMaQXOB849MA';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [pedidoLon, pedidoLat],
+        zoom: 13
+    });
+    // Crea un objeto directions usando tu token de acceso de Mapbox
+    var directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    });
+    // Agrega las direcciones al mapa
+    map.addControl(directions, 'top-left');
+    // Establece el origen y el destino
+    directions.setOrigin([-58.4412258,-34.6051374]);
+    directions.setDestination([pedidoLon, pedidoLat]);
+    console.log({map, directions});
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>
