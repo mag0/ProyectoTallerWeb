@@ -109,9 +109,8 @@ public class Pedido {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public String getDestino() {
-        return "in progress";
+    public Zona getDestino() {
+        return destino;
     }
 
     public void setDestino(Zona destino) {
