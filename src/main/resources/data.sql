@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS tallerwebi_db;
 INSERT INTO Usuario(email,nombreUsuario, password,passwordRepetida, rol, activo)
 VALUES
-    ('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', false),
+    ('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', true),
     ('test@unlam.edu.ar', 'admin2', 'admin2', 'admin2', 'ADMIN', false);
 
 INSERT INTO Zona(lat,lon) VALUES (-34.6582977,-58.5701959), (-34.6681709,-58.5691465), (-34.6447646,-58.5942958);

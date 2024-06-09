@@ -8,25 +8,62 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://kit.fontawesome.com/ac3c7794f3.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<style>
+    body {
+        color: #ffffff; /* Color del texto */
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important; /* Color de fondo oscuro */
+    }
+
+    .text-light {
+        color: #ffffff !important; /* Color del texto claro */
+    }
+
+    .bg-color {
+        background-color: #e0b24f;
+    }
+    .bg-color-body{
+        background-color: #333333;
+    }
+</style>
+
+<body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 
 <div class="container">
-    <section class="row">
-        <div class="col" th:each="viaje : ${viajes}">
-            <div class="card">
-                <div class="card-body">
-                    <p th:text="'Zona: ' + ${viaje.getZonaId()}"></p>
-                    <p th:text="'Vehiculo: ' + ${viaje.getVehiculo().getPatente()}"></p>
-                    Pedidos:
-                    <ul th:each="pedido : ${viaje.getPaqueteIds()}">
-                        <li th:text="${pedido.getCodigo()}"></li>
-                    </ul>
+    <section class="row mt-5">
+        <div class="col-6" th:each="viaje : ${viajes}">
+            <div class="card bg-dark my-2">
+                <div class="card-header bg-color">
+                    <h4 class="card-title text-dark" th:text="${'Codigo de viaje: '+viaje.id}"></h4>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
+                    <i style="font-size: 5em" class="fas fa-truck-loading"></i>
+                    <div class="ml-2 card-text">
+                        <p th:text="'Tipo de vehiculo: '+ ${viaje.vehiculo.getTipo()}"></p>
+                        <p th:text="'Patente del vehiculo: '+ ${viaje.vehiculo.getPatente()}"></p>
+                        <p th:text="'Cantidad de paquetes: '+ ${viaje.paqueteIds.size()}"></p>
+                        <p th:text="'Zona: '+ ${viaje.zonaId}"></p>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-color">
+                    <form th:action="@{/}" method="POST">
+                        <input type="hidden" name="id" th:value="${viaje.id}"/>
+                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form>
+                    <form th:action="@{/}" method="POST">
+                        <input type="hidden" name="id" th:value="${viaje.id}"/>
+                        <button class="btn btn-primary" type="submit">Modificar</button>
+                    </form>
                 </div>
             </div>
         </div>
+        <p th:if="${viajes.size()==0}" class="alert alert-danger" th:text="${'No hay viajes en curso'}" style="text-align: center; margin:0 2rem"></p>
     </section>
 </div>
 <div th:replace="parts/footer :: footer"></div>

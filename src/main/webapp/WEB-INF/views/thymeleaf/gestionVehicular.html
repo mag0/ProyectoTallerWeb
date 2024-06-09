@@ -9,27 +9,49 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://kit.fontawesome.com/ac3c7794f3.js" crossorigin="anonymous"></script>
 </head>
-<body style="position: relative; height: 100vh">
+
+<style>
+    body {
+        color: #ffffff; /* Color del texto */
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important; /* Color de fondo oscuro */
+    }
+
+    .text-light {
+        color: #ffffff !important; /* Color del texto claro */
+    }
+
+    .bg-color {
+        background-color: #e0b24f;
+    }
+    .bg-color-body{
+        background-color: #333333;
+    }
+</style>
+
+<body style="position: relative; height: 100vh" class="body bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 <div class="container">
-    <h4>Filtrar</h4>
+    <h4 class="text-light">Filtrar</h4>
     <form th:action="@{/filtrarVehiculos}" method="GET">
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
                     <input type="text" id="buscarVehiculo" placeholder="Buscar por tipo de vehiculo, modelo, marca o estado(disponible/ocupado)" name="datoVehiculo" class="form-control">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+                    <button class="btn btn-outline-secondary text-light" type="submit" id="button-addon2">Buscar</button>
                 </div>
             </div>
         </div>
     </form>
     <section class="row mt-5">
         <div class="col-6" th:each="vehiculo : ${vehiculos}">
-            <div class="card my-2">
-                <div class="card-header">
-                    <h4 class="card-title" th:text="${vehiculo.marca+' '+vehiculo.modelo}"></h4>
+            <div class="card bg-dark my-2">
+                <div class="card-header bg-color">
+                    <h4 class="card-title text-dark" th:text="${vehiculo.marca+' '+vehiculo.modelo}"></h4>
                 </div>
-                <div class="card-body d-flex align-items-center justify-content-around">
+                <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
                     <i class="fas fa-car tipo-vehiculo" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Auto'" th:name="${vehiculo.tipo}"></i>
                     <i class="fas fa-truck tipo-vehiculo" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Camion'" th:name="${vehiculo.tipo}"></i>
                     <i class="fas fa-motorcycle tipo-vehiculo" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Moto'" th:name="${vehiculo.tipo}"></i>
@@ -42,7 +64,7 @@
                         <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
                     </div>
                 </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
+                <div class="card-footer d-flex align-items-center justify-content-between bg-color">
                     <form th:action="@{/eliminarVehiculo}" method="POST">
                         <input type="hidden" name="id" th:value="${vehiculo.id}"/>
                         <button class="btn btn-danger" type="submit">Eliminar</button>
@@ -60,7 +82,7 @@
 <div class="container">
     <div class="row my-4">
         <div class="col-4 offset-5">
-            <a class="btn btn-warning btn-lg" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
+            <a class="btn btn-warning btn-lg text-light" th:href="@{/agregarVehiculo}">Agregar Vehiculo</a>
         </div>
     </div>
 </div>
@@ -70,12 +92,11 @@
 </footer>
 <div th:if="${vehiculos!=null}">
     <footer th:if="${vehiculos.size()>1}" class="alert alert-danger"
-            style="background-color: #FFC107;color:white; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+            style="background-color: #FFC107; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
         <h2>FleetManager</h2>
     </footer>
     <footer th:if="${vehiculos.size()==1}"
-            style="background-color: #FFC107;color:white;
-            position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+            style="background-color: #FFC107; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
         <h2>FleetManager</h2>
     </footer>
 </div>
