@@ -86,3 +86,31 @@ function animateMarkerAlongRoute(coordinates, marker, duration=30000) {
     // Inicia la animación
     animate();
 }
+
+//--------------------------------------------------------------------------------------------
+async function reverseGeocode(latitude, longitude) {
+    const apiKey = mapboxgl.accessToken;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${apiKey}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.features && data.features.length > 0) {
+            return data.features[0].place_name;
+        } else {
+            console.error('Error in geocoding:', data.message);
+        }
+    } catch (error) {
+        console.error('Request failed', error);
+    }
+    return null;
+}
+// Ejemplo de uso
+document.addEventListener('DOMContentLoaded', async () => {
+    const latitude = pedidoLat;
+    const longitude = pedidoLon;
+    const address = await reverseGeocode(latitude, longitude);
+    if (address) {
+        document.getElementById('address').textContent = `Destino: ${address}`;
+    }
+    initializeMap(latitude, longitude);
+});

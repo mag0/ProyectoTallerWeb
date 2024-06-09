@@ -224,11 +224,10 @@ public class ControladorPedidos {
             return new ModelAndView("error");
         }
     }
+    
 
 }
-/*
- TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado (HECHO 50%)
- TODO: importacion y exportacion de archivos csv o excel con los pedidos
- TODO: mostrar el historial de pedidos
- TODO: mostrar cantidad de pedidos pendientes, reprogramados o finalizados
- */
+
+
+
+

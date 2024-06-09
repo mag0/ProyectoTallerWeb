@@ -45,6 +45,7 @@
         .mapboxgl-canvas{
             width: 800px;
             height: 800px;
+            padding-top: 20px;
         }
         .mapboxgl-map{
             width: 1000px;
@@ -74,6 +75,10 @@
         .mapbox-directions-instructions{
             height: 200px;
         }
+        #address {
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-dark">
@@ -87,7 +92,7 @@
                 <h4 class="card-title" th:text="${pedido.nombre}"></h4>
                 <strong><p th:text="'Codigo: ' + ${pedido.codigo}"></p></strong>
                 <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
-                <p th:text="'Destino: ' + ${pedido.destino}"></p>
+                <div id="address">Obteniendo dirección...</div>
 
                 <!-- Otros detalles del pedido -->
             </div>

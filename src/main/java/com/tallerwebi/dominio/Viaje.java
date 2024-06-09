@@ -55,4 +55,5 @@ public class Viaje {
     public void setZonaId(Long zonaId) {
         this.zonaId = zonaId;
     }
+
 }
