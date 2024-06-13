@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.excepcion.NoExisteFiltrado;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.servicios.ServicioEliminarVehiculo;
 import com.tallerwebi.servicios.ServicioMostrarVehiculos;
@@ -45,14 +46,18 @@ public class ControladorGestionVehicular {
     }
 
     @RequestMapping(path ="/filtrarVehiculos", method = RequestMethod.GET)
-    public ModelAndView filtrarVehiculos(@RequestParam("datoVehiculo") String datoVehiculo) {
+    public ModelAndView filtrarVehiculos(@RequestParam("tipo") String tipo, @RequestParam("marca") String marca, @RequestParam("modelo") String modelo) {
         ModelMap model = new ModelMap();
         try {
-            servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoVehiculo);
+            servicioFiltrarVehiculo.obtenerVehiculosFiltrados(tipo, marca, modelo);
         } catch (NoHayVehiculosEnLaFlota ex) {
             return mostrarListaVacia(model, "No existe el vehiculo que buscas");
+        } catch (NoExisteFiltrado ex) {
+            model.put("sinFiltro", "Ingrese un filtro");
+            model.put("vehiculos", servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario());
+            return new ModelAndView("gestionVehicular", model);
         }
-        model.put("vehiculos", servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoVehiculo));
+        model.put("vehiculos", servicioFiltrarVehiculo.obtenerVehiculosFiltrados(tipo, marca, modelo));
         return mostrarVehiculos(model);
     }
 

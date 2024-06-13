@@ -1,6 +1,7 @@
 package com.tallerwebi.servicios.impl;
 
 import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.excepcion.NoExisteFiltrado;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
@@ -24,25 +25,31 @@ public class ServicioFiltrarVehiculoImpl implements ServicioFiltrarVehiculo {
     }
 
     @Override
-    public List<Vehiculo> obtenerVehiculosFiltrados(String dato) {
+    public List<Vehiculo> obtenerVehiculosFiltrados(String tipo, String marca, String modelo) {
+        String tipoABuscar = tipo.toLowerCase();
+        String marcaABuscar = marca.toLowerCase();
+        String modeloABuscar = modelo.toLowerCase();
+
+        if (tipoABuscar.isEmpty () && marcaABuscar.isEmpty() && modeloABuscar.isEmpty()) {
+            throw new NoExisteFiltrado();
+        }
+
         Long idUsuario = repositorioUsuario.buscarUsuarioActivo().getId();
         List<Vehiculo> vehiculos = repositorioVehiculo.buscarTodosPorUsuario(idUsuario);
         List<Vehiculo> vehiculosFiltrados = new ArrayList<>();
-        String datoABuscar = dato.toLowerCase();
 
         vehiculos.forEach(vehiculo -> {
             // Filtrar por tipo o marca
-            if (vehiculo.getTipo().toLowerCase().contains(datoABuscar) ||
-                    vehiculo.getMarca().toLowerCase().contains(datoABuscar) ||
-                    vehiculo.getModelo().toLowerCase().contains(datoABuscar) ||
-                    (datoABuscar.equals("disponible") && vehiculo.isStatus()) ||
-                    (datoABuscar.equals("ocupado") && !vehiculo.isStatus())) {
+            if ((!tipoABuscar.isEmpty() && vehiculo.getTipo().toLowerCase().contains(tipoABuscar)) ||
+                    (!marcaABuscar.isEmpty() && vehiculo.getMarca().toLowerCase().contains(marcaABuscar)) ||
+                    (!modeloABuscar.isEmpty() && vehiculo.getModelo().toLowerCase().contains(modeloABuscar))) {
                 vehiculosFiltrados.add(vehiculo);
             }
         });
         if (vehiculosFiltrados.isEmpty()) {
             throw new NoHayVehiculosEnLaFlota();
         }
+
 
         return vehiculosFiltrados;
     }
