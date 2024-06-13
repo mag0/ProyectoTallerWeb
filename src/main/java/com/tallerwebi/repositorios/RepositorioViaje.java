@@ -10,4 +10,6 @@ public interface RepositorioViaje {
     List<Viaje> getAll();
     List<Viaje> buscarPorVehiculo(String patente);
     Map<String, Long> contarViajesPorVehiculo();
+    Viaje getViaje(Long id);
+    void actualizarViaje(Viaje viaje);
 }

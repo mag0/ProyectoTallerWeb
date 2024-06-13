@@ -6,6 +6,9 @@ import com.tallerwebi.servicios.ServicioViaje;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +30,6 @@ public class ServicioViajeImpl implements ServicioViaje {
 
     @Override
     public List<Viaje> buscarTodos() {
-
         return viajeRepository.getAll();
     }
 
@@ -36,5 +38,25 @@ public class ServicioViajeImpl implements ServicioViaje {
         return viajeRepository.contarViajesPorVehiculo();
     }
 
+    @Override
+    public Viaje buscarPorId(Long id) {
+            return viajeRepository.getViaje(id);
+    }
 
+    @Override
+    public void reprogramarViaje(Long id) {
+        Viaje viaje = viajeRepository.getViaje(id);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Obtener la fecha actual del viaje como String y convertirla a LocalDate
+        LocalDate fechaActual = LocalDate.parse(viaje.getFecha(), formatter);
+        // Sumar un día a la fecha actual
+        LocalDate nuevaFecha = fechaActual.plusDays(1);
+        // Convertir la nueva fecha de vuelta a String
+        String nuevaFechaStr = nuevaFecha.format(formatter);
+        // Establecer la nueva fecha en el viaje
+        viaje.setFecha(nuevaFechaStr);
+
+        viajeRepository.actualizarViaje(viaje);
+    }
 }

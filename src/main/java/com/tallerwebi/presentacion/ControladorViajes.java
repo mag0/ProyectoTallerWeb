@@ -1,11 +1,15 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.servicios.ServicioViaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
@@ -27,5 +31,12 @@ public class ControladorViajes {
 
         return new ModelAndView("viajes", modelMap);
 
+    }
+
+    @RequestMapping(path="/reprogramarViaje", method = RequestMethod.POST)
+    public ModelAndView reprogramarViaje(@RequestParam ("idViaje") Long idViaje) {
+        viajeService.reprogramarViaje(idViaje);
+
+        return irAViajes();
     }
 }

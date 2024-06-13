@@ -10,4 +10,6 @@ public interface ServicioViaje {
     Long guardar(Viaje viaje);
     List<Viaje> buscarTodos();
     Map<String, Long> obtenerViajesPorVehiculo();
+    Viaje buscarPorId(Long id);
+    void reprogramarViaje(Long id);
 }

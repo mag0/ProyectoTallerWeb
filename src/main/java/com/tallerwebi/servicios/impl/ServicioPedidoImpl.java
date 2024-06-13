@@ -43,7 +43,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
             vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getPeso());
             vehiculoRepository.actualizar(vehiculo);
 
-            Viaje viaje = new Viaje(1L,vehiculo,pedidosList);
+            Viaje viaje = new Viaje(1L,vehiculo,pedidosList, pedido.getFecha());
             pedido.setViaje(viaje);
             pedidoRepository.modificar(pedido);
 
