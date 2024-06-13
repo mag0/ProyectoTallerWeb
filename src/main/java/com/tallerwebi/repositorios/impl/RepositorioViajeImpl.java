@@ -32,8 +32,18 @@ public class RepositorioViajeImpl implements RepositorioViaje {
     }
 
     @Override
+    public Viaje getViaje(Long id) {
+        return sessionFactory.getCurrentSession().get(Viaje.class, id);
+    }
+
+    @Override
+    public void actualizarViaje(Viaje viaje) {
+        sessionFactory.getCurrentSession().update(viaje);
+    }
+
+    @Override
     public List<Viaje> getAll() {
-        return (List<Viaje>) sessionFactory.getCurrentSession().createQuery("from Viaje").list();
+        return sessionFactory.getCurrentSession().createQuery("from Viaje").list();
     }
 
     @Override

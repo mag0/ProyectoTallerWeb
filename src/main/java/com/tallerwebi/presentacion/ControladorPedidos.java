@@ -74,7 +74,8 @@ public class ControladorPedidos {
     }
 
     @PostMapping("/pedidos/{pedidoId}/asignar/{vehiculoId}")
-    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId, @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
+                                      @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
         Pedido pedido = pedidoService.getPedido(pedidoId);
         Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
         Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);

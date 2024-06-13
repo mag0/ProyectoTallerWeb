@@ -25,7 +25,7 @@ public class ServicioViajesTest {
         List<Viaje> viajesEsperados = new ArrayList<>();
         List<Pedido> pedidos = new ArrayList<>();
         pedidos.add(mock(Pedido.class));
-        viajesEsperados.add(new Viaje(1L,v,pedidos));
+        viajesEsperados.add(new Viaje(1L,v,pedidos, pedidos.get(0).getFecha()));
 
         when(viajesService.buscarTodos()).thenReturn(viajesEsperados);
 

@@ -72,7 +72,7 @@ public class RepositorioViajeTest {
         zona.setId(1l);
         nuevoViaje.setVehiculo(vehiculo);
         nuevoViaje.setZonaId(zona.getId());
-        nuevoViaje.setPaqueteIds(pedidos);
+        nuevoViaje.setPedidos(pedidos);
         sessionFactory.getCurrentSession().save(pedido);
         sessionFactory.getCurrentSession().save(nuevoViaje);
     }

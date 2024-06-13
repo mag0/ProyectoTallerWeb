@@ -51,7 +51,8 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
 
         viaje.setVehiculo(vehiculo);
 
-        viaje.setPaqueteIds(pedidosList);
+        viaje.setPedidos(pedidosList);
+        viaje.setFecha(pedidosList.get(0).getFecha());
         viaje.setZonaId(1L);
 
         return viaje;
