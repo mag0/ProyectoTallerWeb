@@ -40,11 +40,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer bg-color text-light">
+            <div th:each="pedido : ${solicitud.pedidos}" th:with="pedido=${pedido}" class="card-footer bg-color text-light">
                 <a th:href="@{'/misPedidos/detalles/' + ${solicitud.id}}" class="btn btn-info">
                     <i class="fas fa-info-circle" style="margin-right: 5px;"></i>Ver Detalles
                 </a>
-
+                <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
+                    <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
             </div>
         </div>
     </div>

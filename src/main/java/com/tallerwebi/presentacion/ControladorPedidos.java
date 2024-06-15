@@ -70,7 +70,6 @@ public class ControladorPedidos {
             modelMap.addAttribute("vehiculos", vehiculos);
             modelMap.addAttribute("asignarPedido", asignarPedido);
 
-            pedido.setEstado(Estado.DESPACHADO);
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
             ModelMap modelMap = new ModelMap();
@@ -83,6 +82,7 @@ public class ControladorPedidos {
     public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
                                       @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
         Pedido pedido = pedidoService.getPedido(pedidoId);
+        pedido.setEstado(Estado.DESPACHADO);
         Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
         Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
         Long viajeId = viajeService.guardar(viaje);

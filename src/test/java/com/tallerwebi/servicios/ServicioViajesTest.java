@@ -3,6 +3,7 @@ package com.tallerwebi.servicios;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
+import com.tallerwebi.repositorios.RepositorioPedido;
 import com.tallerwebi.repositorios.RepositorioViaje;
 import com.tallerwebi.servicios.impl.ServicioViajeImpl;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,8 @@ public class ServicioViajesTest {
     @Test
     public void buscarTodosLosViajes() {
         RepositorioViaje viajeRepository = mock(RepositorioViaje.class);
-        ServicioViaje viajesService = new ServicioViajeImpl(viajeRepository);
+        RepositorioPedido pedidoRepository = mock(RepositorioPedido.class);
+        ServicioViaje viajesService = new ServicioViajeImpl(viajeRepository, pedidoRepository);
         Vehiculo v = mock(Vehiculo.class);
         List<Viaje> viajesEsperados = new ArrayList<>();
         List<Pedido> pedidos = new ArrayList<>();

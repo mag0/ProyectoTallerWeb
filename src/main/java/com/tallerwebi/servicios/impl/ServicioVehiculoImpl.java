@@ -50,10 +50,8 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
         vehiculoRepository.actualizar(vehiculo);
 
         viaje.setVehiculo(vehiculo);
-
         viaje.setPedidos(pedidosList);
         viaje.setFecha(pedidosList.get(0).getFecha());
-        viaje.setZonaId(1L);
 
         return viaje;
     }
