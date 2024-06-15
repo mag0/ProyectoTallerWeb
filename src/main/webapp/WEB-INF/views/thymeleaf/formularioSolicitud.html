@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Solicitud</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .bg-color {
+            background-color: #e0b24f;
+        }
+        .bg-color-body{
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body class="container bg-dark">
+<h1 class="mt-5 card-header text-light">Confirmar Solicitud</h1>
+<div class="card mt-3">
+    <div class="card-body text-light bg-color-body">
+        <form th:action="@{/pedidos/confirmarSolicitud}" method="post" class="needs-validation" novalidate>
+            <input type="hidden" th:value="${pedido.id}" name="pedidoId"/>
+            <p>¿Estás seguro de que deseas solicitar el pedido: <span th:text="${pedido.nombre}"></span>?</p>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                <a href="/spring/pedidos" class="btn btn-danger">No, regresar</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

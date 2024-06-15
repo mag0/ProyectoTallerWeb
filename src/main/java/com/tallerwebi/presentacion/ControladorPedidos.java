@@ -1,14 +1,12 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
-import com.tallerwebi.servicios.ServicioMostrarVehiculos;
-import com.tallerwebi.servicios.ServicioPedido;
-import com.tallerwebi.servicios.ServicioVehiculo;
-import com.tallerwebi.servicios.ServicioViaje;
+import com.tallerwebi.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
@@ -31,9 +29,17 @@ public class ControladorPedidos {
     private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private ServicioVehiculo vehiculoService;
     private ServicioViaje viajeService;
-
+    private ServicioSolicitud servicioSolicitud;
     @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService) {
+    public ControladorPedidos(ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService, ServicioSolicitud servicioSolicitud) {
+        this.pedidoService = pedidoService;
+        this.servicioMostrarVehiculos = servicioMostrarVehiculos;
+        this.viajeService = viajeService;
+        this.vehiculoService = vehiculoService;
+        this.servicioSolicitud = servicioSolicitud;
+    }
+
+    public ControladorPedidos(ServicioPedido pedidoServiceMock, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeServiceMock, ServicioVehiculo vehiculoServiceMock) {
         this.pedidoService = pedidoService;
         this.servicioMostrarVehiculos = servicioMostrarVehiculos;
         this.viajeService = viajeService;
@@ -225,8 +231,26 @@ public class ControladorPedidos {
             return new ModelAndView("error");
         }
     }
-    
 
+    @GetMapping("/pedidos/solicitar/{id}")
+    public ModelAndView mostrarFormularioSolicitud(@PathVariable("id") Long id, Model model) {
+        Pedido pedido = pedidoService.getPedido(id);
+        model.addAttribute("pedido", pedido);
+        return new ModelAndView("formularioSolicitud");
+    }
+
+    @PostMapping("/pedidos/confirmarSolicitud")
+    public ModelAndView confirmarSolicitud(@RequestParam("pedidoId") Long pedidoId) {
+        Pedido pedido = pedidoService.getPedido(pedidoId);
+        if (pedido != null) {
+            Solicitud solicitud = new Solicitud();
+            solicitud.setPedidos(List.of(pedido));
+            servicioSolicitud.guardar(solicitud);
+            pedido.setEstado(Estado.SOLICITADO);
+            pedidoService.actualizarPedido(pedido);
+        }
+        return new ModelAndView("redirect:/misPedidos");
+    }
 }
 
 
