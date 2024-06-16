@@ -104,30 +104,15 @@
                 </div>
                 <div class="card-footer bg-color">
                     <div class="d-flex justify-content-between">
-                        <!--
-                        <form th:action="@{'/pedidos/cancelar/' + ${pedido.id}}" method="get">
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-times" style="margin-right: 5px;"></i>Eliminar</button>
-                        </form>
-                        -->
                         <div>
-                            <a th:href="@{/pedidos/solicitar/{id}(id=${pedido.id})}"
+                            <a th:href="@{/ofertas/solicitar/{id}(id=${pedido.id})}"
                                class="btn btn-danger"
                                th:if="${pedido.estado != 'SOLICITADO'}">
                                 <i class="fas fa-truck" style="margin-right: 5px;"></i>Solicitar
                             </a>
 
-                            <a th:href="@{'/pedidos/detalles/' + ${pedido.id}}" class="btn btn-success">
+                            <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
                                 <i class="fas fa-info-circle" style="margin-right: 5px;"></i>Detalles</a>
-                            <!--
-                            <a th:href="@{'/pedidos/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
-                                <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
-                                -->
-                         <!-- <a th:href="@{'/pedidos/'+${pedido.id}+'/reprogramar-pedido'}" class="btn btn-secondary">Reprogramar</a> -->
-                         <!--   <a th:href="@{'/pedidos/' + ${pedido.id} + '/editar'}" class="btn btn-warning">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            -->
                         </div>
                     </div>
                 </div>

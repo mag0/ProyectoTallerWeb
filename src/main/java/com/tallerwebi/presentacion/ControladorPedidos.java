@@ -8,13 +8,11 @@ import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
@@ -24,7 +22,7 @@ import java.util.List;
 
 @RestController
 public class ControladorPedidos {
-    public static final String REDIRECT_PEDIDOS = "redirect:/pedidos";
+    public static final String REDIRECT_PEDIDOS = "redirect:/ofertas";
     private ServicioPedido pedidoService;
     private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private ServicioVehiculo vehiculoService;
@@ -47,17 +45,17 @@ public class ControladorPedidos {
     }
 
 
-    @RequestMapping("/pedidos")
-    public ModelAndView irAPedidos() {
+    @RequestMapping("/ofertas")
+    public ModelAndView mostrarPedidos() {
         List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
 
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedidos", pedidos);
-        return new ModelAndView("pedidos", modelMap);
+        return new ModelAndView("ofertas", modelMap);
 
     }
 
-    @GetMapping("/pedidos/{id}/asignar")
+    @GetMapping("/ofertas/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
         try{
             List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
@@ -78,7 +76,7 @@ public class ControladorPedidos {
         }
     }
 
-    @PostMapping("/pedidos/{pedidoId}/asignar/{vehiculoId}")
+    @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
     public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
                                       @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
         Pedido pedido = pedidoService.getPedido(pedidoId);
@@ -92,67 +90,7 @@ public class ControladorPedidos {
 
         return mav;
     }
-    @GetMapping("/pedidos/cancelar/{id}")
-    public ModelAndView confirmarCancelacion(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("confirmar_cancelacion");
-        modelAndView.addObject("pedidoId", id);
-        return modelAndView;
-    }
-
-    @PostMapping("/pedidos/cancelar/{id}")
-    public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        try {
-            boolean isDeleted = pedidoService.eliminarPedido(id);
-            ModelAndView modelAndView = new ModelAndView(REDIRECT_PEDIDOS);
-            if (isDeleted) {
-                redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
-            }
-            return modelAndView;
-        } catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "No se pudo eliminar el pedido.");
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        }
-
-    }
-
-
-    @GetMapping
-    public String listarPedidos(Model model) {
-        List<Pedido> pedidos = pedidoService.obtenerTodosLosPedidos();
-        model.addAttribute("pedidos", pedidos);
-        return "pedidos";
-    }
-
-    @GetMapping("/pedidos/{id}/reprogramar-pedido")
-    public ModelAndView mostrarFormularioReprogramacion(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("reprogramar-pedido");
-        try {
-            Pedido pedido = pedidoService.buscarPorId(id);
-            mav.addObject("pedido", pedido);
-        } catch (Exception e) {
-            mav.addObject("errorMessage", "El pedido" + id + "no existe");
-        }
-        return mav;
-    }
-
-    // Método para procesar el formulario de reprogramación
-    @PostMapping("/pedidos/{id}/reprogramar-pedido")
-    public ModelAndView reprogramarPedido(@PathVariable("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
-       try {
-           Pedido pedido = pedidoService.buscarPorId(id);
-           pedido.setEstado(Estado.REPROGRAMADO);
-           pedidoService.actualizarPedido(pedido);
-           pedidoService.reprogramarFecha(id, nuevaFecha);
-           return new ModelAndView(REDIRECT_PEDIDOS);
-       } catch (Exception e) {
-           ModelAndView mav = new ModelAndView();
-            mav.addObject("error", "El pedido" + id + "no se puede reprogramar");
-       }
-        return new ModelAndView(REDIRECT_PEDIDOS);
-    }
-    @GetMapping("/pedidos/detalles/{id}")
+    @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("detallesPedido");
         try {
@@ -197,10 +135,8 @@ public class ControladorPedidos {
             }
         });
     }
-
-
     // Mostrar página de edición de pedido
-    @GetMapping("/pedidos/{id}/editar")
+    @GetMapping("/ofertas/{id}/editar")
     public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
         try {
             Pedido pedido = pedidoService.buscarPorId(id);
@@ -211,7 +147,7 @@ public class ControladorPedidos {
         }
     }
 
-    @PostMapping("/pedidos/{id}/editar")
+    @PostMapping("/ofertas/{id}/editar")
     public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
         try {
             pedido.setId(id);
@@ -222,7 +158,7 @@ public class ControladorPedidos {
         }
     }
 
-    @PostMapping("/pedidos")
+    @PostMapping("/ofertas")
     public ModelAndView crearPedido( @ModelAttribute Pedido pedido) {
         try {
             pedidoService.guardarPedido(pedido);
@@ -232,14 +168,14 @@ public class ControladorPedidos {
         }
     }
 
-    @GetMapping("/pedidos/solicitar/{id}")
+    @GetMapping("/ofertas/solicitar/{id}")
     public ModelAndView mostrarFormularioSolicitud(@PathVariable("id") Long id, Model model) {
         Pedido pedido = pedidoService.getPedido(id);
         model.addAttribute("pedido", pedido);
         return new ModelAndView("formularioSolicitud");
     }
 
-    @PostMapping("/pedidos/confirmarSolicitud")
+    @PostMapping("/ofertas/confirmarSolicitud")
     public ModelAndView confirmarSolicitud(@RequestParam("pedidoId") Long pedidoId, Model model) {
         ModelAndView mav = new ModelAndView();
         Pedido pedido = pedidoService.getPedido(pedidoId);
@@ -251,7 +187,7 @@ public class ControladorPedidos {
                 servicioSolicitud.guardar(solicitud);
                 pedido.setEstado(Estado.SOLICITADO);
                 pedidoService.actualizarPedido(pedido);
-                mav.setViewName("redirect:/pedidos");
+                mav.setViewName("redirect:/ofertas");
             } else {
                 // El pedido ya ha sido solicitado, puedes manejar esta situación aquí
                 // Por ejemplo, mostrando un mensaje de error

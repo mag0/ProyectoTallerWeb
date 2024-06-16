@@ -21,7 +21,7 @@
                     <h3 class="mb-2">Vehiculos disponibles</h3>
 
                     <div class="row row-cols-1 row-cols-md-2 g-4">
-                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
+                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/ofertas/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
                             <div class="card h-100">
                                 <div class="card-header">
                                     <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>
