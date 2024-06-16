@@ -8,7 +8,7 @@ INSERT INTO Zona(lat,lon) VALUES (-34.6582977,-58.5701959), (-34.63523,-58.79215
 
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado,destino_id) VALUES
                                                                                 ("Paquete 1","Electronica","DS225",10,10,"2024-06-08",'DISPONIBLE',1),
-                                                                                ("Paquete 2","Alimentos","DS226",15,20,"2024-06-07",'SOLICITADO',1),
+                                                                                ("Paquete 2","Alimentos","DS226",15,20,"2024-06-07",'DISPONIBLE',1),
                                                                                 ("Paquete 3","Ropa","DS227",5,3,"2024-06-04",'DISPONIBLE',2),
                                                                                 ("Paquete 4","Accesorios","DS228",5,10,"2024-06-07",'DISPONIBLE',2),
                                                                                 ("Paquete 5","Herramientas","DS229",20,30,"2021-06-08",'DISPONIBLE',3),

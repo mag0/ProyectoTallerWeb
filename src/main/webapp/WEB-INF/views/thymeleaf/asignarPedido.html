@@ -16,12 +16,12 @@
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card shadow-sm" >
-                <div class="card-body">
+                <div class="card-body" style="background-color: #e0b24f">
                     <h1 class="card-title text-center text-primary mb-5">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
                     <h3 class="mb-2">Vehiculos disponibles</h3>
 
                     <div class="row row-cols-1 row-cols-md-2 g-4">
-                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/pedidos/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
+                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/ofertas/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
                             <div class="card h-100">
                                 <div class="card-header">
                                     <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>

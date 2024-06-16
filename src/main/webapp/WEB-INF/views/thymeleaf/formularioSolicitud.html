@@ -18,12 +18,12 @@
 <h1 class="mt-5 card-header text-light">Confirmar Solicitud</h1>
 <div class="card mt-3">
     <div class="card-body text-light bg-color-body">
-        <form th:action="@{/pedidos/confirmarSolicitud}" method="post" class="needs-validation" novalidate>
+        <form th:action="@{/ofertas/confirmarSolicitud}" method="post" class="needs-validation" novalidate>
             <input type="hidden" th:value="${pedido.id}" name="pedidoId"/>
             <p>¿Estás seguro de que deseas solicitar el pedido: <span th:text="${pedido.nombre}"></span>?</p>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
-                <a href="/spring/pedidos" class="btn btn-danger">No, regresar</a>
+                <a href="/spring/ofertas" class="btn btn-danger">No, regresar</a>
             </div>
         </form>
     </div>
