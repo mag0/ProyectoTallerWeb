@@ -77,7 +77,7 @@
         .mapbox-directions-instructions{
             height: 200px;
         }
-        #address {
+        #address, #distancia, #trafico, #distanciaConTrafico {
             margin-top: 20px;
             font-weight: bold;
         }
@@ -98,6 +98,9 @@
                 <strong><p th:text="'Codigo: ' + ${pedido.codigo}"></p></strong>
                 <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
                 <div id="address">Obteniendo dirección...</div>
+                <div id="distancia"></div>
+                <div id="trafico"></div>
+                <div id="distanciaConTrafico"></div>
 
                 <!-- Otros detalles del pedido -->
             </div>

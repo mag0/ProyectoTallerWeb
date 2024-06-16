@@ -1,5 +1,5 @@
-let pedidoLat = document.getElementById("pedidoLat").value;
-let pedidoLon = document.getElementById("pedidoLon").value;
+let pedidoLat = parseFloat(document.getElementById("pedidoLat").value);
+let pedidoLon = parseFloat(document.getElementById("pedidoLon").value);
 
 // Definir la ubicación del origen
 let origenLat = -34.6037; // Ejemplo: Latitud fija para el origen
@@ -30,11 +30,15 @@ map.on('load', async () => {
     createMarkerOrigen([origenLon, origenLat]);
 
     // Renderiza la ruta entre el origen fijo y el destino
-    renderingRoute([origenLon, origenLat], [pedidoLon, pedidoLat]);
+    await renderingRoute([origenLon, origenLat], [pedidoLon, pedidoLat]);
+
+    // Calcula y muestra la distancia en la consola
+    const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
+    document.getElementById('distancia').textContent = `Distancia: ${distancia.toFixed(2)} km`;
 });
 
 async function renderingRoute(partida, destino) {
-    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${partida[0]},${partida[1]};${destino[0]},${destino[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${partida[0]},${partida[1]};${destino[0]},${destino[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
 
     const responseMapBox = await fetch(url);
     const dataMapBox = await responseMapBox.json();
@@ -73,9 +77,34 @@ async function renderingRoute(partida, destino) {
                 'line-opacity': 0.75
             }
         });
+
+        // Muestra el tráfico en la consola
+        const duracionConTrafico = dataMapBox.routes[0].duration / 60; // en minutos
+        const distanciaConTrafico = dataMapBox.routes[0].distance / 1000; // en km
+
+        // Muestra la información en el DOM
+        document.getElementById('trafico').textContent = `Duracion con trafico: ${duracionConTrafico.toFixed(2)} minutos`;
+        document.getElementById('distanciaConTrafico').textContent = `Distancia con trafico: ${distanciaConTrafico.toFixed(2)} km`;
+
     } else {
         console.error('No se encontraron rutas.');
     }
+}
+
+
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radio de la Tierra en km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function toRad(value) {
+    return value * Math.PI / 180;
 }
 
 async function reverseGeocode(latitude, longitude) {
@@ -103,3 +132,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('address').textContent = `Destino: ${address}`;
     }
 });
+
