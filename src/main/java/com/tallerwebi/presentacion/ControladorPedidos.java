@@ -240,17 +240,32 @@ public class ControladorPedidos {
     }
 
     @PostMapping("/pedidos/confirmarSolicitud")
-    public ModelAndView confirmarSolicitud(@RequestParam("pedidoId") Long pedidoId) {
+    public ModelAndView confirmarSolicitud(@RequestParam("pedidoId") Long pedidoId, Model model) {
+        ModelAndView mav = new ModelAndView();
         Pedido pedido = pedidoService.getPedido(pedidoId);
-        if (pedido != null) {
-            Solicitud solicitud = new Solicitud();
-            solicitud.setPedidos(List.of(pedido));
-            servicioSolicitud.guardar(solicitud);
-            pedido.setEstado(Estado.SOLICITADO);
-            pedidoService.actualizarPedido(pedido);
+        if (pedido != null && pedido.getEstado().equals(Estado.DISPONIBLE)) {
+            // Verificar si el pedido ya ha sido solicitado
+            if (!pedido.getEstado().equals(Estado.SOLICITADO)) {
+                Solicitud solicitud = new Solicitud();
+                solicitud.setPedidos(List.of(pedido));
+                servicioSolicitud.guardar(solicitud);
+                pedido.setEstado(Estado.SOLICITADO);
+                pedidoService.actualizarPedido(pedido);
+                mav.setViewName("redirect:/pedidos");
+            } else {
+                // El pedido ya ha sido solicitado, puedes manejar esta situación aquí
+                // Por ejemplo, mostrando un mensaje de error
+                model.addAttribute("errorMessage", "El pedido ya ha sido solicitado anteriormente.");
+                mav.setViewName("error");
+            }
+        } else {
+            // Manejar el caso en que el pedido no esté disponible
+            model.addAttribute("errorMessage", "El pedido no está disponible para ser solicitado.");
+            mav.setViewName("error");
         }
-        return new ModelAndView("redirect:/misPedidos");
+        return mav;
     }
+
 }
 
 
