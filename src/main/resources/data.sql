@@ -4,7 +4,7 @@ VALUES
     ('test@unlam.edu.ar', 'admin', 'admin', 'admin', 'ADMIN', true),
     ('test@unlam.edu.ar', 'admin2', 'admin2', 'admin2', 'ADMIN', false);
 
-INSERT INTO Zona(lat,lon) VALUES (-34.6582977,-58.5701959), (-34.6681709,-58.5691465), (-34.6447646,-58.5942958);
+INSERT INTO Zona(lat,lon) VALUES (-34.6582977,-58.5701959), (-34.63523,-58.79215), (-32.94682,-60.63932);
 
 INSERT INTO Pedido(nombre,tipo,codigo,tamanio,peso,fecha,estado,destino_id) VALUES
                                                                                 ("Paquete 1","Electronica","DS225",10,10,"2024-06-08",'DISPONIBLE',1),

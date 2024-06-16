@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 20px;
+}
+
+.details-card {
+    flex: 1;
+    margin-right: 10px;
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+.map-container {
+    flex: 2;
+    height: 800px;
+    width: 800px;
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.bg-color {
+    background-color: #e0b24f;
+}
