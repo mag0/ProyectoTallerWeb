@@ -135,38 +135,7 @@ public class ControladorPedidos {
             }
         });
     }
-    // Mostrar página de edición de pedido
-    @GetMapping("/ofertas/{id}/editar")
-    public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        try {
-            Pedido pedido = pedidoService.buscarPorId(id);
-            model.addAttribute("pedido", pedido);
-            return new ModelAndView("editarPedido");
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
 
-    @PostMapping("/ofertas/{id}/editar")
-    public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
-        try {
-            pedido.setId(id);
-            pedidoService.actualizarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
-
-    @PostMapping("/ofertas")
-    public ModelAndView crearPedido( @ModelAttribute Pedido pedido) {
-        try {
-            pedidoService.guardarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
 
     @PostMapping("/ofertas/formularioSolicitud")
     public ModelAndView mostrarFormularioSolicitud(@RequestParam("selectedPedidos") List<Long> pedidoIds, Model model) {
