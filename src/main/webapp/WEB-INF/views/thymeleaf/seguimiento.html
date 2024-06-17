@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Display a map on a webpage</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" th:href="@{/css/seguimiento.css}">
     <script th:src="@{/js/geolocation.js}"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
@@ -16,99 +15,52 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" th:href="@{/css/seguimiento.css}">
 </head>
-<style>
-    body {
-        color: #ffffff; /* Color del texto */
-    }
-
-    .bg-dark {
-        background-color: #343a40 !important; /* Color de fondo oscuro */
-    }
-
-    .text-light {
-        color: #ffffff !important; /* Color del texto claro */
-    }
-
-    .bg-color {
-        background-color: #e0b24f;
-    }
-
-    .bg-color-body {
-        background-color: #333333;
-    }
-
-    .details-card {
-        overflow-y: auto;
-        max-height: 80vh;
-        scrollbar-width: thin; /* Firefox */
-        scrollbar-color: #e0b24f #343a40; /* Firefox */
-    }
-
-    /* Webkit-based browsers (Chrome, Safari) */
-    .details-card::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    .details-card::-webkit-scrollbar-thumb {
-        background-color: #e0b24f;
-        border-radius: 10px;
-        border: 2px solid #343a40;
-    }
-
-    .details-card::-webkit-scrollbar-track {
-        background-color: #343a40;
-        border-radius: 10px;
-    }
-
-    .map-container {
-        flex: 1;
-        height: 80vh;
-        margin-left: 20px;
-    }
-
-    #map {
-        width: 100%;
-        height: 100%;
-    }
-    .mapboxgl-canvas{
-        padding-top: 10px;
-    }
-</style>
 <body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 
-<div class="container d-flex justify-content-between">
-    <div class="details-card col-md-6">
-        <!-- Mostrar detalles completos del pedido -->
-        <div class="card bg-dark my-2" th:each="pedido : ${pedidos}">
-            <div class="card-header bg-color">
-                <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
-            </div>
-            <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
-                <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
-                <div class="ml-2 card-text">
-                    <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
-                    <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+<div th:if="${pedidos.isEmpty()}">
+    <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tienes pedidos para mostrar en el mapa</p>
+</div>
+<div th:if="${!pedidos.isEmpty()}">
+    <div class="container d-flex justify-content-between">
+        <div class="details-card col-md-6" style="max-height: 70vh">
+            <!-- Mostrar detalles completos del pedido -->
+            <div class="card bg-dark my-2" th:each="pedido : ${pedidos}">
+                <div class="card-header bg-color">
+                    <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
+                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
+                    <div class="ml-2 card-text">
+                        <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
+                        <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-color">
+                    <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
+                    <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
+                    <form class="ver-ruta-form">
+                        <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
+                        <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
+                        <button class="btn btn-primary ver-ruta-btn" type="button">Ver ruta</button>
+                    </form>
                 </div>
             </div>
-            <div class="card-footer d-flex align-items-center justify-content-between bg-color">
-                <form th:action="@{/marcarMapa}" method="GET">
-                    <input type="hidden" name="id" th:value="${pedido.id}"/>
-                    <button class="btn btn-primary" type="submit">Ver ruta</button>
-                </form>
-            </div>
+        </div>
+        <div class="map-container col-md-6" style="max-height: 70vh">
+            <div id="map"></div>
         </div>
     </div>
-    <div class="map-container col-md-6">
-        <input type="hidden" id="pedidoLat" th:value="${latitud}">
-        <input type="hidden" id="pedidoLon" th:value="${longitud}">
-        <div id="map"></div>
+    <div class="mt-4" style="text-align: center">
+        <button class="btn btn-danger" onclick="location.reload();">Ver todas las ubicaciones</button>
     </div>
 </div>
-
-<script th:src="@{/js/map.js}"></script>
+<div th:replace="parts/footer :: footer"></div>
+<script th:src="@{/js/mapSeguimiento.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>
+

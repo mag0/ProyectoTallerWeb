@@ -12,7 +12,10 @@ public class Solicitud {
     @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
-    public Solicitud(Long id, List<Pedido> pedidos) {
+    @ManyToOne
+    private Usuario usuario;
+
+    public Solicitud(Long id,  List<Pedido> pedidos) {
         this.id = id;
         this.pedidos = pedidos;
     }
@@ -23,6 +26,14 @@ public class Solicitud {
 
     // Getters y setters
 
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public List<Pedido> getPedidos() {
         return pedidos;

@@ -28,22 +28,17 @@ public class ControladorPedidos {
     private ServicioVehiculo vehiculoService;
     private ServicioViaje viajeService;
     private ServicioSolicitud servicioSolicitud;
+    private ServicioInicioDeSesion servicioInicioDeSesion;
+
     @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService, ServicioSolicitud servicioSolicitud) {
+    public ControladorPedidos(ServicioInicioDeSesion servicioInicioDeSesion, ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService, ServicioSolicitud servicioSolicitud) {
         this.pedidoService = pedidoService;
         this.servicioMostrarVehiculos = servicioMostrarVehiculos;
         this.viajeService = viajeService;
         this.vehiculoService = vehiculoService;
         this.servicioSolicitud = servicioSolicitud;
+        this.servicioInicioDeSesion = servicioInicioDeSesion;
     }
-
-    public ControladorPedidos(ServicioPedido pedidoServiceMock, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeServiceMock, ServicioVehiculo vehiculoServiceMock) {
-        this.pedidoService = pedidoService;
-        this.servicioMostrarVehiculos = servicioMostrarVehiculos;
-        this.viajeService = viajeService;
-        this.vehiculoService = vehiculoService;
-    }
-
 
     @RequestMapping("/ofertas")
     public ModelAndView mostrarPedidos() {
@@ -190,7 +185,7 @@ public class ControladorPedidos {
         // Crear la solicitud
         Solicitud solicitud = new Solicitud();
         // Configurar otros detalles de la solicitud si es necesario
-
+        solicitud.setUsuario(servicioInicioDeSesion.buscarUsuarioActivo());
         // Obtener los pedidos seleccionados y asociarlos a la solicitud
         List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
         for (Pedido pedido : pedidos) {

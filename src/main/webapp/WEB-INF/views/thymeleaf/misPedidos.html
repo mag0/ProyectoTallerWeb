@@ -22,7 +22,7 @@
     <h1 class="my-4">Mis Pedidos</h1>
     <!-- Verificar si hay solicitudes -->
     <div th:if="${solicitudes.isEmpty()}">
-        <p class="text-center">No tienes solicitudes de envío.</p>
+        <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tienes solicitudes de envío.</p>
     </div>
     <!-- Mostrar solicitudes si las hay -->
     <div th:if="${not solicitudes.isEmpty()}">
