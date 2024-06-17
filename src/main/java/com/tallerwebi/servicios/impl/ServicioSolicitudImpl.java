@@ -1,7 +1,8 @@
-package com.tallerwebi.servicios;
+package com.tallerwebi.servicios.impl;
 
 import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.repositorios.RepositorioSolicitudes;
+import com.tallerwebi.servicios.ServicioSolicitud;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
