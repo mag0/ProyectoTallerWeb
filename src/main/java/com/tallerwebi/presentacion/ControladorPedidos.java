@@ -79,16 +79,21 @@ public class ControladorPedidos {
     @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
     public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
                                       @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+
         Pedido pedido = pedidoService.getPedido(pedidoId);
-        pedido.setEstado(Estado.DESPACHADO);
-        Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
-        Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
-        Long viajeId = viajeService.guardar(viaje);
+        if (!pedido.getEstado().equals(Estado.DESPACHADO)) {
+            pedido.setEstado(Estado.DESPACHADO);
+            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+            Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
+            Long viajeId = viajeService.guardar(viaje);
+            ModelAndView mav = new ModelAndView("resultadoAsignacion");
+            mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+ viajeId +"");
+        } else {
+            return new ModelAndView("error_despachar");
+        }
 
-        ModelAndView mav = new ModelAndView("resultadoAsignacion");
-        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+"");
 
-        return mav;
+        return new ModelAndView("resultadoAsignacion");
     }
     @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {

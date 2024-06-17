@@ -51,6 +51,10 @@
                                     <p class="card-text" th:text="${pedido.peso} + ' kg'"></p>
                                     <p class="card-text"><small class="text-muted" th:text="${pedido.estado}">Estado del Pedido</small></p>
                                 </div>
+                                <div class="card-footer bg-dark">
+                                    <a th:href="@{'/ofertas/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
+                                        <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
+                                </div>
                             </div>
                         </div>
                     </div>
