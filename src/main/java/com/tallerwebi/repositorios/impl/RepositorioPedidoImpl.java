@@ -54,6 +54,30 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
     }
 
     @Override
+    public List<Pedido> getPedidosByIds(List<Long> pedidoIds) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Pedido> query = session.createQuery("FROM Pedido WHERE id IN (:ids)", Pedido.class);
+        query.setParameterList("ids", pedidoIds);
+        return query.list();
+    }
+
+    @Override
+    public void guardarTodos(List<Pedido> pedidos) {
+        for (Pedido pedido : pedidos) {
+            sessionFactory.getCurrentSession().merge(pedido);
+        }
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("FROM Pedido WHERE solicitud.id = :idSolicitud", Pedido.class)
+                .setParameter("idSolicitud", idSolicitud)
+                .getResultList();
+    }
+
+
+    @Override
     public List<Pedido> buscarTodos() {
         return sessionFactory.getCurrentSession().createQuery("from Pedido").list();
     }

@@ -3,56 +3,62 @@
 <head>
     <title>Mis Pedidos</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <style>
         .bg-color {
-            background-color: #e0b24f;
+            background-color: #f8d088;
         }
-        .bg-color-body{
-            background-color: #333333;
+        .bg-header{
+            background-color: #f59866;
+        }
+        .bg-dark{
+            background-color: #36322d;
         }
     </style>
 </head>
-<body class="bg-dark">
+<body class="bg-dark text-light">
 <div th:replace="parts/navbar :: navbar"></div>
-<div class="container mt-4">
-    <h1 class="text-center text-light">Mis Pedidos</h1>
-    <div th:each="solicitud : ${solicitudes}" class="mt-4">
-        <div class="card mb-3">
-            <div class="card-header bg-color text-light">
-                <h2>Solicitud ID: <span th:text="${solicitud.id}"></span></h2>
-                <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
-            </div>
-            <div class="card-body bg-color-body text-light">
-                <div th:each="pedido : ${solicitud.pedidos}" class="mb-3" th:with="pedido=${pedido}">
+<div class="container">
+    <h1 class="my-4">Mis Pedidos</h1>
+    <!-- Verificar si hay solicitudes -->
+    <div th:if="${solicitudes.isEmpty()}">
+        <p class="text-center">No tienes solicitudes de envío.</p>
+    </div>
+    <!-- Mostrar solicitudes si las hay -->
+    <div th:if="${not solicitudes.isEmpty()}">
+        <!-- Iterar sobre las solicitudes y mostrar sus pedidos -->
+        <div th:each="solicitud : ${solicitudes}">
+            <div class="card mb-4 bg-secondary">
+                <div class="card-header bg-header text-dark">
+                    <h2 class="mb-0">Solicitud ID: <span th:text="${solicitud.id}">ID de la Solicitud</span></h2>
+                </div>
+                <div class="card-body bg-color">
                     <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Pedido ID:</strong> <span th:text="${pedido.id}"></span></p>
-                            <p><strong>Nombre:</strong> <span th:text="${pedido.nombre}"></span></p>
-                            <p><strong>Codigo:</strong> <span th:text="${pedido.codigo}"></span></p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Tipo:</strong> <span th:text="${pedido.tipo}"></span></p>
-                            <p><strong>Fecha:</strong> <span th:text="${pedido.fecha}"></span></p>
-                            <p><strong>Estado:</strong> <span th:text="${pedido.estado}"></span></p>
+                        <!-- Iterar sobre los pedidos y mostrar la información -->
+                        <div th:each="pedido : ${solicitud.pedidos}" class="col-md-4 mb-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <!-- Detalles del pedido -->
+                                    <h5 class="card-title" th:text="${pedido.nombre}" style="font-size: 30px"></h5>
+                                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="100px" height="100px" class="img-fluid mb-4">
+                                    <h6 class="card-subtitle mb-3">Código del Pedido: </h6>
+                                    <p class="card-text" th:text="${pedido.codigo}">Código del Pedido</p>
+                                    <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
+                                    <p class="card-text" th:text="${pedido.fecha}" style="color: #dc3545; font-weight: bold"></p>
+                                    <h6 class="card-subtitle mb-3">Tamaño: </h6>
+                                    <p class="card-text" th:text="${pedido.tamanio} + ' cm3'"></p>
+                                    <h6 class="card-subtitle mb-3">Peso: </h6>
+                                    <p class="card-text" th:text="${pedido.peso} + ' kg'"></p>
+                                    <p class="card-text"><small class="text-muted" th:text="${pedido.estado}">Estado del Pedido</small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div th:each="pedido : ${solicitud.pedidos}" th:with="pedido=${pedido}" class="card-footer bg-color text-light">
-                <a th:href="@{'/misPedidos/detalles/' + ${solicitud.id}}" class="btn btn-info">
-                    <i class="fas fa-info-circle" style="margin-right: 5px;"></i>Ver Detalles
-                </a>
-                <a th:href="@{'/ofertas/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
-                    <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
-            </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hJ6Ajb0LlC6Y0+ttAxVYk5Aqm9a1hrIz2FR6gIaE7Z2HGCsbz6tZ/rhoKqzvI4fB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hJ6Ajb0LlC6Y0+ttAxVYk5Aqm9a1hrIz2FR6tZ/rhoKqzvI4fB" crossorigin="anonymous"></script>
 </body>
 </html>

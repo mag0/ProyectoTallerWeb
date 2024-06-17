@@ -21,4 +21,9 @@ public interface ServicioPedido {
     void actualizarPedido(Pedido pedido);
     Long guardarPedido(Pedido pedido);
 
+    List<Pedido> getPedidosByIds(List<Long> pedidoIds);
+
+    void guardarTodos(List<Pedido> pedidos);
+
+    List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud);
 }

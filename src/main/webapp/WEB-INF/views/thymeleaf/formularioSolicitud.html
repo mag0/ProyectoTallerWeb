@@ -19,13 +19,22 @@
 <div class="card mt-3">
     <div class="card-body text-light bg-color-body">
         <form th:action="@{/ofertas/confirmarSolicitud}" method="post" class="needs-validation" novalidate>
-            <input type="hidden" th:value="${pedido.id}" name="pedidoId"/>
-            <p>¿Estás seguro de que deseas solicitar el pedido: <span th:text="${pedido.nombre}"></span>?</p>
+            <!-- Campo oculto para enviar los IDs de los pedidos seleccionados -->
+            <input type="hidden" th:each="pedido : ${pedidos}" th:value="${pedido.id}" name="pedidoIds"/>
+            <!-- Mensaje de confirmación -->
+            <p>¿Estás seguro de que deseas solicitar los siguientes pedidos?</p>
+            <ul>
+                <!-- Mostrar los nombres de los pedidos seleccionados -->
+                <li th:each="pedido : ${pedidos}" th:text="${pedido.nombre}"></li>
+            </ul>
+            <!-- Botones de confirmación y cancelación -->
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
                 <a href="/spring/ofertas" class="btn btn-danger">No, regresar</a>
             </div>
         </form>
+
+
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

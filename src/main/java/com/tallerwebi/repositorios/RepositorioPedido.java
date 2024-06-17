@@ -12,4 +12,10 @@ public interface RepositorioPedido {
     List<Pedido> buscarSinViajes();
     boolean eliminarPedido(Long id);
     List<Pedido> obtenerTodosLosPedidos();
+
+    List<Pedido> getPedidosByIds(List<Long> pedidoIds);
+
+    void guardarTodos(List<Pedido> pedidos);
+
+    List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud);
 }

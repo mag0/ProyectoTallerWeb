@@ -1,282 +1,67 @@
-<!DOCTYPE HTML>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Pedidos</title>
+    <title>Ofertas</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/css/pedidos.css">
     <style>
-        /* Estilos para texto y otros elementos en modo oscuro */
-        body {
-            color: #ffffff; /* Color del texto */
-        }
-
-        .bg-dark {
-            background-color: #343a40 !important; /* Color de fondo oscuro */
-        }
-
-        .text-light {
-            color: #ffffff !important; /* Color del texto claro */
-        }
-
         .bg-color {
-            background-color: #e0b24f;
+            background-color: #f8d088;
         }
-        .bg-color-body{
-            background-color: #333333;
-        }
-
-
-        /* Estilos adicionales para otros elementos según sea necesario */
-        .estado-solicitado {
-            color: #ff694c;
-
-        }
-
-        .estado-enviado {
-            color: #6d6dfa;
-
-        }
-
         .estado-disponible {
             color: #4ea613;
 
         }
-        .estado-reprogramado {
-              color: #fb9cff;
+        .estado-solicitado {
+            color: #f86f6f;
 
-          }
-
-
+        }
     </style>
 </head>
-
-<body class="body bg-dark" style="position: relative; height: 100vh;">
+<body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
-
-<div class="container mt-5">
-    <h4 class="text-light">Filtrar</h4>
-    <div class="row">
-        <div class="col-md-4">
-            <label for="fechaFiltro" class="form-label text-light">Filtrar por fecha</label>
-            <input type="text" id="fechaFiltro" placeholder="dd/mm/aaaa" onchange="filtrarPedidos()" class="form-control text-bg-light bg-dark">
-        </div>
-        <div class="col-md-4">
-            <label for="codigoFiltro" class="form-label">Filtrar por código</label>
-            <input type="text" id="codigoFiltro" placeholder="Filtrar por código" onkeyup="filtrarPedidos()" class="form-control bg-dark">
-        </div>
-        <div class="col-md-4">
-            <label for="buscarPedido" class="form-label">Buscar pedido por nombre</label>
-            <input type="text" id="buscarPedido" placeholder="Nombre pedido" onkeyup="filtrarPedidos()" class="form-control bg-dark">
-        </div>
-    </div>
-
-    <section class="row mt-5">
-        <div class="col-md-6" th:each="pedido, pedidoIndex : ${pedidos}">
-            <div class="card mb-3 bg-dark mb-4">
-                <div class="card-header bg-color">
-                    <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
-                </div>
-                <div class="card-body d-flex align-items-center bg-color-body" th:id="'pedido_' + ${pedidoIndex.index}">
-                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
-                    <div class="ml-2 card-text">
-                        <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
-                        <p th:text="'Entrega: ' + ${pedido.fecha}" class="fecha-entrega"></p>
+<div class="container py-4">
+    <h1 class="mb-4 text-light">Ofertas</h1>
+    <form id="ofertasForm" th:action="@{/ofertas/formularioSolicitud}" method="post">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Iterar sobre los pedidos y mostrar la información -->
+            <div th:each="pedido : ${pedidos}" class="col">
+                <div class="card bg-light">
+                    <div class="card-body bg-color">
+                        <!-- Detalles del pedido -->
+                        <h5 class="card-title mb-4" th:text="${pedido.nombre}" style="font-size: 1.5rem;">Título del Pedido</h5>
+                        <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px" class="img-fluid mb-4">
+                        <h6 class="card-subtitle mb-3">Código del Pedido:</h6>
+                        <p class="card-text mb-3" th:text="${pedido.codigo}">Código del Pedido</p>
+                        <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
+                        <p class="card-text mb-3" th:text="${pedido.fecha}">Código del Pedido</p>
+                        <h6 class="card-subtitle mb-3">Estado del Pedido:</h6>
                         <p  th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
-                            Estado: <strong th:text="${pedido.estado}"></strong>
+                           <strong th:text="${pedido.estado}"></strong>
                         </p>
-                    </div>
-                </div>
-                <div class="card-footer bg-color">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <a th:href="@{/ofertas/solicitar/{id}(id=${pedido.id})}"
-                               class="btn btn-danger"
-                               th:if="${pedido.estado != 'SOLICITADO'}">
-                                <i class="fas fa-truck" style="margin-right: 5px;"></i>Solicitar
-                            </a>
 
-                            <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
-                                <i class="fas fa-info-circle" style="margin-right: 5px;"></i>Detalles</a>
+                        <!-- Checkbox para seleccionar el pedido -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:value="${pedido.id}" th:name="selectedPedidos" th:id="'pedido' + ${pedido.id}">
+                            <label class="form-check-label" th:for="'pedido' + ${pedido.id}">Seleccionar Pedido</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <button type="button" class="btn btn-primary mt-5" onclick="mostrarVentanaEmergente()">Sugerir</button>
-    <nav aria-label="Page navigation" class="mt-3">
-        <ul class="pagination justify-content-end">
-            <li class="page-item"><a class="page-link text-light bg-dark" href="#" onclick="cargarPaginaAnterior()">Anterior</a></li>
-            <li class="page-item"><a class="page-link text-light bg-dark" href="#" onclick="cargarPaginaSiguiente()">Siguiente</a></li>
-        </ul>
-    </nav>
+        <!-- Botón para enviar los pedidos seleccionados -->
+        <button type="submit" class="btn btn-primary mt-4">Solicitar Pedidos</button>
+    </form>
 </div>
-
-<!-- Ventana Emergente -->
-<div id="ventanaEmergente" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Vehículos disponibles para viajes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="seleccionVehiculosForm">
-                    <div class="form-check" th:each="vehiculo : ${vehiculos}">
-                        <input class="form-check-input" type="checkbox" name="vehiculo" th:id="'vehiculo' + ${vehiculo.id}" th:value="${vehiculo.id}">
-                        <label class="form-check-label" th:for="'vehiculo' + ${vehiculo.id}" th:text="${vehiculo.nombre}">
-                            Vehículo 1
-                        </label>
-                    </div>
-                    <button type="button" onclick="enviarSeleccion()" class="btn btn-primary mt-3">Enviar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<footer th:if="${pedidos==null}" class="alert alert-danger"
-        style="background-color: #FFC107;color:white; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-    <h2>FleetManager</h2>
-</footer>
-<div th:if="${pedidos!=null}">
-    <footer th:if="${pedidos.size()>2}" class="alert alert-danger"
-            style="background-color: #FFC107; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-        <h2>FleetManager</h2>
-    </footer>
-    <footer th:if="${pedidos.size()<3}"
-            style="background-color: #FFC107; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-        <h2>FleetManager</h2>
-    </footer>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-hJ6Ajb0LlC6Y0+ttAxVYk5Aqm9a1hrIz2FR6gIaE7Z2HGCsbz6tZ/rhoKqzvI4fB" crossorigin="anonymous"></script>
 <script>
-    function filtrarPedidos() {
-        var fechaFiltro = new Date(document.getElementById("fechaFiltro").value);
-        var codigoFiltro = document.getElementById("codigoFiltro").value.toLowerCase();
-        var nombreFiltro = document.getElementById("buscarPedido").value.toLowerCase();
-
-        var pedidos = document.getElementsByClassName("card");
-        for (var i = 0; i < pedidos.length; i++) {
-            var fechaPedido = new Date(pedidos[i].querySelector(".fecha-entrega").textContent);
-            var codigoPedido = pedidos[i].querySelector(".card-text").textContent.toLowerCase();
-            var nombrePedido = pedidos[i].querySelector(".card-title").textContent.toLowerCase();
-
-            var cumpleFiltros = true;
-
-            // Aplicar filtros
-            if (fechaFiltro && !sonFechasIguales(fechaPedido, fechaFiltro)) {
-                cumpleFiltros = false;
-            }
-            if (codigoFiltro && !codigoPedido.includes(codigoFiltro)) {
-                cumpleFiltros = false;
-            }
-            if (nombreFiltro && !nombrePedido.includes(nombreFiltro)) {
-                cumpleFiltros = false;
-            }
-
-            // Mostrar o ocultar el pedido según los filtros
-            if (cumpleFiltros) {
-                pedidos[i].style.display = "block";
-            } else {
-                pedidos[i].style.display = "none";
-            }
+    function toggleSelectAll(source) {
+        checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedPedidos"]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
         }
     }
-
-
-    function mostrarVentanaEmergente() {
-        document.getElementById("ventanaEmergente").style.display = "block";
-    }
-
-    function cerrarVentanaEmergente() {
-        document.getElementById("ventanaEmergente").style.display = "none";
-    }
-
-    function enviarSeleccion() {
-        var form = document.getElementById("seleccionVehiculosForm");
-        var checkboxes = form.querySelectorAll('input[name="vehiculo"]:checked');
-        var vehiculosSeleccionados = [];
-
-        checkboxes.forEach(function(checkbox) {
-            vehiculosSeleccionados.push(checkbox.value);
-        });
-
-        // Aquí puedes hacer lo que quieras con la información seleccionada,
-        // por ejemplo, enviarla a través de una solicitud HTTP o procesarla localmente.
-        console.log("Vehículos seleccionados:", vehiculosSeleccionados);
-
-        // Cerrar la ventana emergente después de enviar la selección
-        cerrarVentanaEmergente();
-    }
-
-    async function asignarPedido(id) {
-        const url = `/spring/pedidos/${id}/asignar`;
-        const requestBody = {
-            vehiculoId: id
-        };
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',  // Asegura que se envíe como JSON
-                    'Accept': 'application/json'  // Asegura que se espera una respuesta JSON
-                },
-                body: JSON.stringify(requestBody)  // Convertir el cuerpo de la solicitud a JSON
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Response:', data);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-    document.getElementById('eliminarPedidoForm').addEventListener('submit', function() {
-        // Recargar la página después de enviar el formulario de eliminación
-        location.reload();
-    });
-    let paginaActual = 1;
-
-    async function cargarPagina(pagina) {
-        try {
-            const elementosPorPagina = 4;
-            const startIndex = (pagina - 1) * elementosPorPagina;
-            const endIndex = startIndex + elementosPorPagina;
-
-            const pedidos = document.getElementsByClassName("card");
-            for (let i = 0; i < pedidos.length; i++) {
-                if (i >= startIndex && i < endIndex) {
-                    pedidos[i].style.display = "block";
-                } else {
-                    pedidos[i].style.display = "none";
-                }
-            }
-
-            paginaActual = pagina;
-        } catch (error) {
-            console.error('Error:', error);
-            mostrarMensaje('Error al cargar pedidos.', 'danger');
-        }
-    }
-
-
-
 </script>
 </body>
 </html>

@@ -36,7 +36,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RequestLoggingInterceptor()).addPathPatterns("/pedidos");
+        registry.addInterceptor(new RequestLoggingInterceptor()).addPathPatterns("/ofertas");
     }
 
     // https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html

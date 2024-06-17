@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,16 +26,14 @@ public class ControladorMisPedidos {
         this.pedidoService = pedidoService;
     }
 
-    @GetMapping
-    public ModelAndView mostrarMisPedidos(Model model) {
+    @GetMapping("")
+    public ModelAndView verMisPedidos(Model model) {
         List<Solicitud> solicitudes = servicioSolicitud.getAllSolicitudes();
-        if (solicitudes != null) {
-            model.addAttribute("solicitudes", solicitudes);
-        } else {
-            model.addAttribute("solicitudes", new ArrayList<>());
-        }
+        System.out.println("Solicitudes: " + solicitudes); // Verifica las solicitudes
+        model.addAttribute("solicitudes", solicitudes);
         return new ModelAndView("misPedidos");
     }
+
     @GetMapping("/detalles/{id}")  // Cambio la ruta a "/detalles/{id}"
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("detallesPedido");

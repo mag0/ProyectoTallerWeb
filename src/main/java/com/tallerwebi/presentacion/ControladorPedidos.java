@@ -168,39 +168,52 @@ public class ControladorPedidos {
         }
     }
 
-    @GetMapping("/ofertas/solicitar/{id}")
-    public ModelAndView mostrarFormularioSolicitud(@PathVariable("id") Long id, Model model) {
-        Pedido pedido = pedidoService.getPedido(id);
-        model.addAttribute("pedido", pedido);
-        return new ModelAndView("formularioSolicitud");
+    @PostMapping("/ofertas/formularioSolicitud")
+    public ModelAndView mostrarFormularioSolicitud(@RequestParam("selectedPedidos") List<Long> pedidoIds, Model model) {
+        // Obtener los pedidos seleccionados
+        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+
+        // Agregar los pedidos al modelo para pasarlos a la vista
+        model.addAttribute("pedidos", pedidos);
+
+        // Crear un objeto ModelAndView y agregar la vista y el modelo
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("formularioSolicitud");
+        modelAndView.addObject("pedidos", pedidos);
+
+        // Retornar el objeto ModelAndView
+        return modelAndView;
     }
 
     @PostMapping("/ofertas/confirmarSolicitud")
-    public ModelAndView confirmarSolicitud(@RequestParam("pedidoId") Long pedidoId, Model model) {
-        ModelAndView mav = new ModelAndView();
-        Pedido pedido = pedidoService.getPedido(pedidoId);
-        if (pedido != null && pedido.getEstado().equals(Estado.DISPONIBLE)) {
-            // Verificar si el pedido ya ha sido solicitado
+    public ModelAndView confirmarSolicitud(@RequestParam("pedidoIds") List<Long> pedidoIds) {
+        // Crear la solicitud
+        Solicitud solicitud = new Solicitud();
+        // Configurar otros detalles de la solicitud si es necesario
+
+        // Obtener los pedidos seleccionados y asociarlos a la solicitud
+        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+        for (Pedido pedido : pedidos) {
             if (!pedido.getEstado().equals(Estado.SOLICITADO)) {
-                Solicitud solicitud = new Solicitud();
-                solicitud.setPedidos(List.of(pedido));
-                servicioSolicitud.guardar(solicitud);
-                pedido.setEstado(Estado.SOLICITADO);
-                pedidoService.actualizarPedido(pedido);
-                mav.setViewName("redirect:/ofertas");
-            } else {
-                // El pedido ya ha sido solicitado, puedes manejar esta situación aquí
-                // Por ejemplo, mostrando un mensaje de error
-                model.addAttribute("errorMessage", "El pedido ya ha sido solicitado anteriormente.");
-                mav.setViewName("error");
+                    pedido.setSolicitud(solicitud);
+                    pedido.setEstado(Estado.SOLICITADO);
+            }else {
+                return new ModelAndView("error");
             }
-        } else {
-            // Manejar el caso en que el pedido no esté disponible
-            model.addAttribute("errorMessage", "El pedido no está disponible para ser solicitado.");
-            mav.setViewName("error");
+
         }
-        return mav;
+
+        // Guardar la solicitud y los pedidos asociados
+        servicioSolicitud.guardar(solicitud);
+        pedidoService.guardarTodos(pedidos);
+
+        return new ModelAndView(REDIRECT_PEDIDOS);
     }
+
+
+
+
+
 
 }
 

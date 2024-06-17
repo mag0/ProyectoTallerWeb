@@ -24,6 +24,10 @@ public class Pedido {
     @ManyToOne
     private Zona destino;
 
+    @ManyToOne
+    @JoinColumn(name = "solicitud_id")
+    private Solicitud solicitud;
+
     public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso, LocalDate fecha, Estado estado, Zona destino) {
         this.nombre = nombre;
         this.tipo = tipo;
@@ -37,6 +41,14 @@ public class Pedido {
 
     public Pedido() {}
 
+
+    public Solicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public void setSolicitud(Solicitud solicitud) {
+        this.solicitud = solicitud;
+    }
 
     public Estado getEstado() {
         return estado;

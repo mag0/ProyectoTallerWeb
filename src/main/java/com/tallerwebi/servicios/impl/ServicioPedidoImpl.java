@@ -108,4 +108,19 @@ public class ServicioPedidoImpl implements ServicioPedido {
       return pedidoRepository.guardar(pedido);
     }
 
+    @Override
+    public List<Pedido> getPedidosByIds(List<Long> pedidoIds) {
+        return pedidoRepository.getPedidosByIds(pedidoIds);
+    }
+
+    @Override
+    public void guardarTodos(List<Pedido> pedidos) {
+        pedidoRepository.guardarTodos(pedidos);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud) {
+        return pedidoRepository.obtenerPedidosPorSolicitud(idSolicitud);
+    }
+
 }

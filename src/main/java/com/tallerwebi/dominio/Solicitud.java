@@ -8,7 +8,8 @@ public class Solicitud {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
     public Solicitud(Long id, List<Pedido> pedidos) {

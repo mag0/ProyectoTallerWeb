@@ -23,6 +23,6 @@ public class RepositorioSolicitudesImpl implements RepositorioSolicitudes {
     @Transactional
     public List<Solicitud> getAllSolicitudes() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Solicitud", Solicitud.class).getResultList();
+        return session.createQuery("SELECT DISTINCT s FROM Solicitud s LEFT JOIN FETCH s.pedidos", Solicitud.class).getResultList();
     }
 }
