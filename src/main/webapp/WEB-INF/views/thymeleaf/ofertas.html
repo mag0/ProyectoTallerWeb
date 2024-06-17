@@ -3,7 +3,9 @@
 <head>
     <title>Ofertas</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
         .bg-color {
             background-color: #f8d088;
         }
@@ -14,6 +16,10 @@
         .estado-solicitado {
             color: #f86f6f;
 
+        }
+        .bg-color-secondary{
+            background-color: #f6c976;
+            font-family:nunito,serif;
         }
     </style>
 </head>
@@ -40,9 +46,13 @@
                         </p>
 
                         <!-- Checkbox para seleccionar el pedido -->
-                        <div class="form-check">
+                        <div class="card-footer d-flex justify-content-between bg-color-secondary border-0">
+                        <div class="form-check" style="padding-top: 6px">
                             <input class="form-check-input" type="checkbox" th:value="${pedido.id}" th:name="selectedPedidos" th:id="'pedido' + ${pedido.id}">
                             <label class="form-check-label" th:for="'pedido' + ${pedido.id}">Seleccionar Pedido</label>
+                        </div>
+                        <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
+                            <i class="fas fa-info-circle" ></i></a>
                         </div>
                     </div>
                 </div>

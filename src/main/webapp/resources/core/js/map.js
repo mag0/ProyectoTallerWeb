@@ -11,7 +11,7 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     zoom: 15,
-    center: [pedidoLon, pedidoLat] // Centra el mapa en la ubicación del pedido
+    center: [pedidoLon, pedidoLat] // Centra el mapa inicialmente en la ubicación del pedido (destino)
 });
 
 function createMarkerPedido(coords) {
@@ -35,6 +35,14 @@ map.on('load', async () => {
     // Calcula y muestra la distancia en la consola
     const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
     document.getElementById('distancia').textContent = `Distancia: ${distancia.toFixed(2)} km`;
+
+    // Centra el mapa en una vista general de la ruta entre el origen y el destino
+    map.fitBounds([
+        [origenLon, origenLat], // Coordenadas del origen
+        [pedidoLon, pedidoLat] // Coordenadas del destino
+    ], {
+        padding: {top: 50, bottom: 50, left: 50, right: 50} // Espaciado alrededor de los bordes del mapa
+    });
 });
 
 async function renderingRoute(partida, destino) {
@@ -53,7 +61,6 @@ async function renderingRoute(partida, destino) {
             map.removeLayer('ruta');
             map.removeSource('ruta');
         }
-        map.setCenter(partida);
 
         // Agrega la capa de la ruta al mapa
         map.addLayer({
@@ -91,11 +98,10 @@ async function renderingRoute(partida, destino) {
     }
 }
 
-
 function calcularDistancia(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radio de la Tierra en km
     const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
+    const dLon = toRad(lat2 - lon1);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
@@ -132,4 +138,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('address').textContent = `Destino: ${address}`;
     }
 });
-
