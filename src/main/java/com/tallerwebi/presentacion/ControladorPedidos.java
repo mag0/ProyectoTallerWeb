@@ -74,16 +74,21 @@ public class ControladorPedidos {
     @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
     public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
                                       @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+
         Pedido pedido = pedidoService.getPedido(pedidoId);
-        pedido.setEstado(Estado.DESPACHADO);
-        Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
-        Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
-        Long viajeId = viajeService.guardar(viaje);
+        if (!pedido.getEstado().equals(Estado.DESPACHADO)) {
+            pedido.setEstado(Estado.DESPACHADO);
+            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+            Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
+            Long viajeId = viajeService.guardar(viaje);
+            ModelAndView mav = new ModelAndView("resultadoAsignacion");
+            mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+ viajeId +"");
+        } else {
+            return new ModelAndView("error_despachar");
+        }
 
-        ModelAndView mav = new ModelAndView("resultadoAsignacion");
-        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+"");
 
-        return mav;
+        return new ModelAndView("resultadoAsignacion");
     }
     @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
@@ -130,38 +135,7 @@ public class ControladorPedidos {
             }
         });
     }
-    // Mostrar página de edición de pedido
-    @GetMapping("/ofertas/{id}/editar")
-    public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        try {
-            Pedido pedido = pedidoService.buscarPorId(id);
-            model.addAttribute("pedido", pedido);
-            return new ModelAndView("editarPedido");
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
 
-    @PostMapping("/ofertas/{id}/editar")
-    public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
-        try {
-            pedido.setId(id);
-            pedidoService.actualizarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
-
-    @PostMapping("/ofertas")
-    public ModelAndView crearPedido( @ModelAttribute Pedido pedido) {
-        try {
-            pedidoService.guardarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
 
     @PostMapping("/ofertas/formularioSolicitud")
     public ModelAndView mostrarFormularioSolicitud(@RequestParam("selectedPedidos") List<Long> pedidoIds, Model model) {
