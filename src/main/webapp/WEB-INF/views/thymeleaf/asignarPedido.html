@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asignar pedido</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/scroll.css}"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,13 +16,15 @@
 <div class="container">
     <div class="row">
         <div class="col-6 offset-3">
-            <div class="card shadow-sm" >
-                <div class="card-body" style="background-color: #e0b24f">
-                    <h1 class="card-title text-center text-primary mb-5">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
+            <div class="card shadow-sm bg-dark" style="border:none">
+                <h1 class="card-title text-center mb-5" style="color:white">Asignar <span th:text="${pedido.getNombre()}"></span> (<span th:text="${pedido.getPeso()}"></span>kg)</h1>
+                <div class="card-body details-card" style="background-color: #e0b24f">
                     <h3 class="mb-2">Vehiculos disponibles</h3>
 
-                    <div class="row row-cols-1 row-cols-md-2 g-4">
-                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}" th:action="@{'/ofertas/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}" th:object="${asignarPedido}" method="post" class="col" th:each="vehiculo : ${vehiculos}">
+                    <div class="row row-cols-1 row-cols-md-2 g-4 ">
+                        <form th:id="'form_'+${pedido.getId()}+'_'+${vehiculo.getId()}"
+                              th:action="@{'/ofertas/'+${pedido.getId()}+'/asignar/'+${vehiculo.getId()}}"
+                              th:object="${asignarPedido}" method="post" class="col " th:each="vehiculo : ${vehiculos}">
                             <div class="card h-100">
                                 <div class="card-header">
                                     <h5 class="card-title text-center" th:text="${vehiculo.getPatente()}+'('+${vehiculo.getTipo()}+')'"></h5>
@@ -45,20 +48,7 @@
         </div>
     </div>
 </div>
-<footer th:if="${vehiculos==null}" class="alert alert-danger mt-2"
-        style="background-color: #FFC107;color:white; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-    <h2>FleetManager</h2>
-</footer>
-<div th:if="${vehiculos!=null}">
-    <footer th:if="${vehiculos.size()>4}" class="alert alert-danger"
-            style="background-color: #FFC107; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-        <h2>FleetManager</h2>
-    </footer>
-    <footer th:if="${vehiculos.size()<5}"
-            style="background-color: #FFC107; position: absolute;bottom: 0; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
-        <h2>FleetManager</h2>
-    </footer>
-</div>
+<div th:replace="parts/footer :: footer"></div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>

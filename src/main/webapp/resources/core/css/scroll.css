@@ -1,0 +1,22 @@
+.details-card {
+    overflow-y: auto;
+    max-height: 60vh;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #e0b24f #343a40; /* Firefox */
+}
+
+/* Webkit-based browsers (Chrome, Safari) */
+.details-card::-webkit-scrollbar {
+    width: 12px;
+}
+
+.details-card::-webkit-scrollbar-thumb {
+    background-color: #e0b24f;
+    border-radius: 10px;
+    border: 2px solid #343a40;
+}
+
+.details-card::-webkit-scrollbar-track {
+    background-color: #343a40;
+    border-radius: 10px;
+}

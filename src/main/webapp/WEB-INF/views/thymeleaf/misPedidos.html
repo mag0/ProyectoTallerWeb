@@ -3,6 +3,7 @@
 <head>
     <title>Mis Pedidos</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/scroll.css}"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -27,46 +28,51 @@
         <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tienes solicitudes de envío.</p>
     </div>
     <!-- Mostrar solicitudes si las hay -->
-    <div th:if="${not solicitudes.isEmpty()}">
+    <div th:if="${not solicitudes.isEmpty()}" class="details-card">
         <!-- Iterar sobre las solicitudes y mostrar sus pedidos -->
-        <div th:each="solicitud : ${solicitudes}">
-            <div class="card mb-4 bg-secondary">
-                <div class="card-header bg-header text-dark">
-                    <h2 class="mb-0">Solicitud ID: <span th:text="${solicitud.id}">ID de la Solicitud</span></h2>
-                </div>
-                <div class="card-body bg-color">
-                    <div class="row">
-                        <!-- Iterar sobre los pedidos y mostrar la información -->
-                        <div th:each="pedido : ${solicitud.pedidos}" class="col-md-4 mb-4">
-                            <div class="card bg-dark text-light">
-                                <div class="card-body">
-                                    <!-- Detalles del pedido -->
-                                    <h5 class="card-title" th:text="${pedido.nombre}" style="font-size: 30px"></h5>
-                                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="100px" height="100px" class="img-fluid mb-4">
-                                    <h6 class="card-subtitle mb-3">Código del Pedido: </h6>
-                                    <p class="card-text" th:text="${pedido.codigo}">Código del Pedido</p>
-                                    <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
-                                    <p class="card-text" th:text="${pedido.fecha}" style="color: #dc3545; font-weight: bold"></p>
-                                    <h6 class="card-subtitle mb-3">Tamaño: </h6>
-                                    <p class="card-text" th:text="${pedido.tamanio} + ' cm3'"></p>
-                                    <h6 class="card-subtitle mb-3">Peso: </h6>
-                                    <p class="card-text" th:text="${pedido.peso} + ' kg'"></p>
-                                    <p class="card-text"><small class="text-muted" th:text="${pedido.estado}">Estado del Pedido</small></p>
-                                </div>
-                                <div class="card-footer bg-dark justify-content-between">
-                                    <a th:href="@{'/ofertas/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
-                                        <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
-                                    <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
-                                        <i class="fas fa-info-circle" ></i></a>
+
+        <div th:each="solicitud : ${solicitudes}" >
+            <form th:action="@{/ofertas/formularioSolicitud}" method="post">
+                <div class="card mb-2 bg-secondary">
+                    <div class="card-header bg-header text-dark">
+                        <h2 class="mb-0">Solicitud ID: <span th:text="${solicitud.id}">ID de la Solicitud</span></h2>
+                    </div>
+                    <div class="card-body bg-color">
+                        <div class="row">
+                            <!-- Iterar sobre los pedidos y mostrar la información -->
+                            <div th:each="pedido : ${solicitud.pedidos}" class="col-md-4 mb-2">
+                                <div class="card bg-dark text-light">
+                                    <div class="card-body">
+                                        <!-- Detalles del pedido -->
+                                        <h5 class="card-title" th:text="${pedido.nombre}" style="font-size: 30px"></h5>
+                                        <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="100px" height="100px" class="img-fluid mb-4">
+                                        <h6 class="card-subtitle mb-3">Código del Pedido: </h6>
+                                        <p class="card-text" th:text="${pedido.codigo}">Código del Pedido</p>
+                                        <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
+                                        <p class="card-text" th:text="${pedido.fecha}" style="color: #dc3545; font-weight: bold"></p>
+                                        <h6 class="card-subtitle mb-3">Tamaño: </h6>
+                                        <p class="card-text" th:text="${pedido.tamanio} + ' cm3'"></p>
+                                        <h6 class="card-subtitle mb-3">Peso: </h6>
+                                        <p class="card-text" th:text="${pedido.peso} + ' kg'"></p>
+                                        <p class="card-text"><small class="text-muted" th:text="${pedido.estado}">Estado del Pedido</small></p>
+                                    </div>
+                                    <div class="card-footer bg-dark justify-content-between">
+                                        <a th:href="@{'/ofertas/'+${pedido.id}+'/asignar'}" class="btn btn-primary">
+                                            <i class="fas fa-truck" style="margin-right: 5px;"></i>Despachar</a>
+                                        <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
+                                            <i class="fas fa-info-circle" ></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <button type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
+            </form>
+       </div>
     </div>
 </div>
+<div th:replace="parts/footer :: footer"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
