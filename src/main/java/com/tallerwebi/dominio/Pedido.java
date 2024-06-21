@@ -14,6 +14,9 @@ public class Pedido {
     private Integer tamanio;
     private Integer peso;
     private LocalDate fecha;
+    private Double distancia;
+    private Double distanciaConTrafico;
+    private Double tiempoConTrafico;
     @Enumerated(EnumType.STRING)
     private Estado estado;
     @Id
@@ -137,4 +140,27 @@ public class Pedido {
         return this.destino.getLon();
     }
 
+    public Double getDistanciaConTrafico() {
+        return distanciaConTrafico;
+    }
+
+    public void setDistanciaConTrafico(Double distanciaConTrafico) {
+        this.distanciaConTrafico = distanciaConTrafico;
+    }
+
+    public Double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Double distancia) {
+        this.distancia = distancia;
+    }
+
+    public Double getTiempoConTrafico() {
+        return tiempoConTrafico;
+    }
+
+    public void setTiempoConTrafico(Double tiempoConTrafico) {
+        this.tiempoConTrafico = tiempoConTrafico;
+    }
 }

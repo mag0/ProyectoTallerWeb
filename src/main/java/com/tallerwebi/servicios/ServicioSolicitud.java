@@ -12,4 +12,7 @@ public interface ServicioSolicitud {
 
     List<Solicitud> getAllSolicitudes();
 
+    Solicitud getSolicitudById(Long id);
+
+    void eliminar(Long id);
 }

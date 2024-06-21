@@ -3,6 +3,7 @@ package com.tallerwebi.repositorios.impl;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +50,20 @@ public class RepositorioVehiculoImpl implements RepositorioVehiculo {
     }
 
     @Override
+    public List<Vehiculo> buscarTodosLosDisponiblesPorUsuario(Long idUsuario) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Vehiculo.class);
+
+        // Agregar restricciones
+        criteria.add(Restrictions.eq("usuario.id", idUsuario)); // Usuario específico
+        criteria.add(Restrictions.eq("status", true)); // Vehículos con status true
+
+        return criteria.list();
+    }
+
+    @Override
     public void eliminar(Vehiculo vehiculo) {
         sessionFactory.getCurrentSession().delete(vehiculo);
     }
 
-    @Override
-    public void merge(Vehiculo vehiculo) {
-        sessionFactory.getCurrentSession().merge(vehiculo);
-    }
 }
 

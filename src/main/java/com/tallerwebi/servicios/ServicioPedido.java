@@ -2,6 +2,7 @@ package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.excepcion.NoHayVehiculosDisponibles;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface ServicioPedido {
     void guardarTodos(List<Pedido> pedidos);
 
     List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud);
+
+    void asignarPedidos(List<Pedido> pedidos);
 }

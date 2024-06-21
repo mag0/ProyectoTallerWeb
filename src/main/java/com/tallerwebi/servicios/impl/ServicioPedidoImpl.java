@@ -3,7 +3,10 @@ package com.tallerwebi.servicios.impl;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
+import com.tallerwebi.dominio.enums.Estado;
+import com.tallerwebi.dominio.excepcion.NoHayVehiculosDisponibles;
 import com.tallerwebi.repositorios.RepositorioPedido;
+import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.repositorios.RepositorioViaje;
 import com.tallerwebi.servicios.ServicioPedido;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -21,13 +25,130 @@ public class ServicioPedidoImpl implements ServicioPedido {
     private RepositorioPedido pedidoRepository;
     private RepositorioViaje viajeRepository;
     private RepositorioVehiculo vehiculoRepository;
+    private RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioPedidoImpl(RepositorioPedido pedidoRepository, RepositorioViaje viajeRepository, RepositorioVehiculo vehiculoRepository) {
+    public ServicioPedidoImpl(RepositorioPedido pedidoRepository, RepositorioViaje viajeRepository,
+                              RepositorioVehiculo vehiculoRepository, RepositorioUsuario repositorioUsuario) {
         this.pedidoRepository = pedidoRepository;
         this.viajeRepository = viajeRepository;
         this.vehiculoRepository = vehiculoRepository;
+        this.repositorioUsuario = repositorioUsuario;
     }
+
+    @Override
+    public void asignarPedidos(List<Pedido> pedidos){
+        List<Vehiculo> vehiculosDisponibles = vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(repositorioUsuario.buscarUsuarioActivo().getId());
+        Vehiculo vehiculoCargado = null;
+
+        System.out.println("Vehículos disponibles: " + vehiculosDisponibles);
+        for (int i = 0; i < pedidos.size(); i++) {
+            Pedido actualPedido = pedidos.get(i);
+            List<Pedido> pedidosAEnviar = new ArrayList<>();
+
+            System.out.println("Procesando pedido: " + actualPedido);
+
+            if (hayMuchaDemora(actualPedido)) {
+                System.out.println("El pedido tiene mucha demora.");
+                Vehiculo vehiculoMoto = hayMotoYEntraElPedido(vehiculosDisponibles, actualPedido);
+                Vehiculo vehiculoAuto = hayAutoYEntraElPedido(vehiculosDisponibles, actualPedido);
+                Vehiculo vehiculoCamion = hayCamionYEntraElPedido(vehiculosDisponibles, actualPedido);
+
+                System.out.println("Vehículo Moto: " + vehiculoMoto);
+                System.out.println("Vehículo Auto: " + vehiculoAuto);
+                System.out.println("Vehículo Camión: " + vehiculoCamion);
+
+                if (vehiculoMoto != null) {
+                    vehiculoCargado = vehiculoMoto;
+                } else if (vehiculoAuto != null) {
+                    vehiculoCargado = vehiculoAuto;
+                } else if (vehiculoCamion != null) {
+                    vehiculoCargado = vehiculoCamion;
+                } else {
+                    throw new NoHayVehiculosDisponibles();
+                }
+
+                System.out.println("Vehículo cargado: " + vehiculoCargado);
+                actualizarVehiculo(vehiculoCargado, actualPedido);
+            } else {
+                System.out.println("El pedido no tiene mucha demora.");
+                Vehiculo vehiculoDisponible = getVehiculoDisponible(vehiculosDisponibles, actualPedido);
+
+                System.out.println("Vehículo disponible: " + vehiculoDisponible);
+                if (vehiculoDisponible != null) {
+                    vehiculoCargado = vehiculoDisponible;
+                } else {
+                    throw new NoHayVehiculosDisponibles();
+                }
+
+                System.out.println("Vehículo cargado: " + vehiculoCargado);
+                actualizarVehiculo(vehiculoCargado, actualPedido);
+            }
+            pedidosAEnviar.add(actualPedido);
+            System.out.println("Pedidos a enviar: " + pedidosAEnviar);
+            Viaje viaje = new Viaje(actualPedido.getDestino().getId(), vehiculoCargado, pedidosAEnviar, actualPedido.getFecha());
+            System.out.println("Viaje: " + viaje);
+            viajeRepository.guardar(viaje);
+            System.out.println("Viaje guardado");
+        }
+        System.out.println("Fin");
+    }
+
+    public Vehiculo getVehiculoDisponible(List<Vehiculo> vehiculos, Pedido pedido){
+        for (Vehiculo vehiculo : vehiculos) {
+            if(vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()){
+                System.out.println("Vehículo encontrado para pedido: " + vehiculo);
+                return vehiculo;
+            }
+        }
+        return null;
+    }
+
+    private boolean hayMuchaDemora(Pedido pedido){
+        return pedido.getDistancia() < pedido.getDistanciaConTrafico();
+    }
+
+    private void actualizarVehiculo(Vehiculo vehiculo, Pedido pedido){
+        System.out.println("Actualizando vehículo: " + vehiculo + " con pedido: " + pedido);
+        vehiculo.setStatus(false);
+        vehiculoRepository.actualizar(vehiculo);
+        pedido.setEstado(Estado.DESPACHADO);
+        pedidoRepository.modificar(pedido);
+        vehiculo.setResistencia(vehiculo.getResistencia() - pedido.getPeso());
+        vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getTamanio());
+    }
+
+    private Vehiculo hayMotoYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getTipo().equals("Moto") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
+                System.out.println("Moto disponible: " + vehiculo);
+                return vehiculo;
+            }
+        }
+        return null;
+    }
+
+    private Vehiculo hayAutoYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getTipo().equals("Auto") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
+                System.out.println("Auto disponible: " + vehiculo);
+                return vehiculo;
+            }
+        }
+        return null;
+    }
+
+    private Vehiculo hayCamionYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getTipo().equals("Camion") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
+                System.out.println("Camión disponible: " + vehiculo);
+                return vehiculo;
+            }
+        }
+        return null;
+    }
+
+
 
     @Override
     public Long agregarPedido(Vehiculo vehiculo, Long pedidoId) throws Exception {

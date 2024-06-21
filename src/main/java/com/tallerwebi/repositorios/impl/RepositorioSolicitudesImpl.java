@@ -1,6 +1,7 @@
 package com.tallerwebi.repositorios.impl;
 
 import com.tallerwebi.dominio.Solicitud;
+import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.repositorios.RepositorioSolicitudes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,4 +26,15 @@ public class RepositorioSolicitudesImpl implements RepositorioSolicitudes {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("SELECT DISTINCT s FROM Solicitud s LEFT JOIN FETCH s.pedidos", Solicitud.class).getResultList();
     }
+
+    @Override
+    public Solicitud buscar(Long id) {
+        return sessionFactory.getCurrentSession().get(Solicitud.class, id);
+    }
+
+    @Override
+    public void eliminar(Solicitud solicitud) {
+        sessionFactory.getCurrentSession().delete(solicitud);
+    }
+
 }

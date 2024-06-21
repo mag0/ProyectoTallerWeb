@@ -9,4 +9,8 @@ public interface RepositorioSolicitudes {
     void guardar(Solicitud solicitud);
 
     List<Solicitud> getAllSolicitudes();
+
+    Solicitud buscar(Long id);
+
+    void eliminar(Solicitud solicitud);
 }
