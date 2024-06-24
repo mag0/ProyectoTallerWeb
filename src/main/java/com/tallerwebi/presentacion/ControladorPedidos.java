@@ -42,10 +42,12 @@ public class ControladorPedidos {
 
     @RequestMapping("/ofertas")
     public ModelAndView mostrarPedidos() {
+        // Obtener todos los pedidos que no tienen viaje asignado
         List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
-
+        // Crear un mapa de modelo y añadir los pedidos
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedidos", pedidos);
+        // Retornar la vista 'ofertas' con el modelo
         return new ModelAndView("ofertas", modelMap);
 
     }
@@ -53,9 +55,12 @@ public class ControladorPedidos {
     @GetMapping("/ofertas/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
         try{
+            // Obtener los vehículos disponibles del usuario
             List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
+            // Obtener el pedido por su ID
             Pedido pedido = pedidoService.getPedido(id);
 
+            // Crear un mapa de modelo y añadir el pedido, vehículos y solicitud de asignación
             ModelMap modelMap = new ModelMap();
             AsignarPedidoRequest asignarPedido = new AsignarPedidoRequest(pedido);
 
@@ -63,40 +68,53 @@ public class ControladorPedidos {
             modelMap.addAttribute("vehiculos", vehiculos);
             modelMap.addAttribute("asignarPedido", asignarPedido);
 
+            // Retornar la vista 'asignarPedido' con el modelo
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
+            // En caso de error, añadir el mensaje de error al modelo y retornar la vista 'asignarPedido'
             ModelMap modelMap = new ModelMap();
             modelMap.addAttribute("error", e.getMessage());
             return new ModelAndView("asignarPedido", modelMap);
         }
     }
-
+    // Asigna un pedido a un vehículo y crea un viaje
     @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
     public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
                                       @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
 
+        // Obtener el pedido por su ID
         Pedido pedido = pedidoService.getPedido(pedidoId);
         if (!pedido.getEstado().equals(Estado.DESPACHADO)) {
+            // Si el pedido no está despachado, cambiar su estado a DESPACHADO
             pedido.setEstado(Estado.DESPACHADO);
+            // Obtener el vehículo por su ID
             Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+            // Cargar el pedido en el vehículo y crear un viaje
             Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
+            // Guardar el viaje y obtener su ID
             Long viajeId = viajeService.guardar(viaje);
+            // Crear un ModelAndView para la vista 'resultadoAsignacion' y añadir un mensaje de éxito
             ModelAndView mav = new ModelAndView("resultadoAsignacion");
             mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+ viajeId +"");
         } else {
+            // Si el pedido ya está despachado, retornar la vista de error 'error_despachar'
             return new ModelAndView("error_despachar");
         }
 
 
         return new ModelAndView("resultadoAsignacion");
     }
+    // Carga los detalles de un pedido
     @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
+        // Crear un ModelAndView para la vista 'detallesPedido'
         ModelAndView mav = new ModelAndView("detallesPedido");
         try {
+            // Obtener el pedido por su ID
             Pedido pedido = pedidoService.getPedido(id);
             mav.addObject("pedido", pedido);
         } catch (Exception e) {
+            // En caso de error, añadir un mensaje de error al modelo
             mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
         }
         return mav;
@@ -158,15 +176,18 @@ public class ControladorPedidos {
     public ModelAndView confirmarSolicitud(@RequestParam("pedidoIds") List<Long> pedidoIds) {
         // Crear la solicitud
         Solicitud solicitud = new Solicitud();
-        // Configurar otros detalles de la solicitud si es necesario
+        // Asignar el usuario activo a la solicitud
         solicitud.setUsuario(servicioInicioDeSesion.buscarUsuarioActivo());
-        // Obtener los pedidos seleccionados y asociarlos a la solicitud
+        // Obtener los pedidos seleccionados por sus IDs
         List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+        // Iterar sobre los pedidos para asociarlos a la solicitud y cambiar su estado
         for (Pedido pedido : pedidos) {
             if (!pedido.getEstado().equals(Estado.SOLICITADO)) {
+                // Asociar la solicitud al pedido y cambiar su estado
                     pedido.setSolicitud(solicitud);
                     pedido.setEstado(Estado.SOLICITADO);
             }else {
+                // Si algún pedido ya está solicitado, devolver una vista de error
                 return new ModelAndView("error");
             }
 
@@ -175,7 +196,7 @@ public class ControladorPedidos {
         // Guardar la solicitud y los pedidos asociados
         servicioSolicitud.guardar(solicitud);
         pedidoService.guardarTodos(pedidos);
-
+        // Redirigir a la vista de pedidos
         return new ModelAndView(REDIRECT_PEDIDOS);
     }
 
