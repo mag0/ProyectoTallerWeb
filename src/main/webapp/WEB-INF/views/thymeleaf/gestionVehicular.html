@@ -64,10 +64,10 @@
                     <i class="fas fa-motorcycle tipo-vehiculo" style="font-size: 5em" th:if="${vehiculo.tipo} == 'Moto'" th:name="${vehiculo.tipo}"></i>
                     <div class="ml-2 card-text">
                         <p th:text="'Patente: '+ ${vehiculo.patente}"></p>
-                        <p th:text="'kilometraje maximo: '+ ${vehiculo.kilometrajeMaximo}+'Km'"></p>
-                        <p th:text="'Combustible: '+ ${vehiculo.combustible}+' L'"></p>
-                        <p th:text="'Resistencia: '+ ${vehiculo.resistencia} + 'Kg'"></p>
-                        <p th:text="'Capacidad: '+ ${vehiculo.capacidad}+ 'Kg'"></p>
+                        <p th:text="'Kilometraje: '+ ${vehiculo.kilometrajeMaximo}+' Km'"></p>
+                        <p th:text="'km por litro: '+ ${vehiculo.combustible}+' L'"></p>
+                        <p th:text="'Peso Soportado para carga: '+ ${vehiculo.resistencia} + ' Kg'"></p>
+                        <p th:text="'Volumen Soportado: '+ ${vehiculo.capacidad}+ ' mt3'"></p>
                         <p th:text="'Estado: '+ ${vehiculo.status ? 'Disponible' : 'Ocupado'}"></p>
                     </div>
                 </div>
