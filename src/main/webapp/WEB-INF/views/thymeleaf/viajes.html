@@ -53,10 +53,10 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between bg-color">
-                    <form th:action="@{/eliminarViaje}" method="POST">
+                    <!--<form th:action="@{/eliminarViaje}" method="POST">
                         <input type="hidden" name="id" th:value="${viaje.id}"/>
                         <button class="btn btn-danger" type="submit">Eliminar</button>
-                    </form>
+                    </form>-->
                     <form th:action="@{/reprogramarViaje}" method="POST">
                         <input type="hidden" name="idViaje" th:value="${viaje.id}"/>
                         <button class="btn btn-primary" type="submit">Reprogramar</button>

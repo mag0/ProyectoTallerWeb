@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/misPedidos")
@@ -84,8 +86,34 @@ public class ControladorMisPedidos {
         //servicioSolicitud.eliminar(id);
 
         List<Viaje> viajes = viajeService.buscarTodos();
+        Map<String, Viaje> viajesAgrupados = new HashMap<>();
 
-        model.addAttribute("viajes", viajes);
+        for (Viaje viaje : viajes) {
+            String clave = viaje.getVehiculo().getId() + "_" + viaje.getZonaId();
+
+            if (viajesAgrupados.containsKey(clave)) {
+                // Si ya existe una entrada para este vehículo y zona, agregar el pedido al viaje existente
+                Viaje viajeExistente = viajesAgrupados.get(clave);
+                viajeExistente.getPedidos().addAll(viaje.getPedidos());
+            } else {
+                // Si no existe, agregar este viaje como una nueva entrada en el mapa
+                viajesAgrupados.put(clave, viaje);
+            }
+        }
+
+        // Obtener la lista final de viajes agrupados
+        List<Viaje> viajesFinales = new ArrayList<>(viajesAgrupados.values());
+
+        /*System.out.println("Eliminando viajes");
+        viajeService.eliminarTodosLosViajes();
+        System.out.println("viajes eliminados");
+        for (Viaje viaje : viajesFinales) {
+            System.out.println("guardando viaje");
+            viajeService.guardar(viaje);
+        }
+        System.out.println("viajes guardados");*/
+
+        model.addAttribute("viajes", viajesFinales);
 
         return new ModelAndView("viajes", model);
     }

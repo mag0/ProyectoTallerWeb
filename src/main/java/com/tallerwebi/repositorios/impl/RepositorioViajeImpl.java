@@ -36,6 +36,15 @@ public class RepositorioViajeImpl implements RepositorioViaje {
         return sessionFactory.getCurrentSession().get(Viaje.class, id);
     }
 
+    @Transactional
+    @Override
+    public void eliminarTodosLosViajes() {
+        List<Viaje> viajes = sessionFactory.getCurrentSession().createQuery("FROM Viaje", Viaje.class).list();
+        for (Viaje viaje : viajes) {
+            sessionFactory.getCurrentSession().delete(viaje);
+        }
+    }
+
     @Override
     public void actualizarViaje(Viaje viaje) {
         sessionFactory.getCurrentSession().update(viaje);
