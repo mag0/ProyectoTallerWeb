@@ -30,15 +30,11 @@
             </div>
         </div>
 
-        >
-
     </div>
 </div>
 
-    <input type="hidden" id="vehiculosNames" th:value="${response.getVehiculosNames()}">
+    <input type="hidden" id="vehiculosNames" th:value="${viajesPorVehiculo.keySet()}">
     <input type="hidden" id="viajesPorVehiculo" th:value="${viajesPorVehiculo.values()}">
-
-
 
     <div th:replace="parts/footer :: footer"></div>
 
@@ -55,9 +51,6 @@
 
     let vehiculosNames = vehiculosData.replace(/\[|\]/g, '').split(',');
     let viajesPorVehiculo = viajesData.replace(/\[|\]/g, '').split(',').map(Number);
-
-
-
 
     var efficiencyChartCtx = document.getElementById('efficiencyChart').getContext('2d');
 
@@ -82,8 +75,6 @@
             }
         }
     });
-
-
 
 </script>
 

@@ -30,7 +30,7 @@ public class ControladorRendimiento {
     @RequestMapping ("/rendimiento")
     public ModelAndView irarendimiento(){
 
-        List<Vehiculo> vehiculos= vehiculoService.obtenerVehiculosDisponiblesPorUsuario();
+        List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculosDisponiblesPorUsuario();
         Map<String, Long> viajesPorVehiculo = viajeService.obtenerViajesPorVehiculo();
 
         VehiculoResponse response = new VehiculoResponse(vehiculos);
@@ -38,6 +38,7 @@ public class ControladorRendimiento {
         ModelMap model = new ModelMap();
         model.put("response", response);
         model.put("viajesPorVehiculo", viajesPorVehiculo);
+        model.put("vehiculos", vehiculos);
 
         return new ModelAndView("rendimiento", model);
 
