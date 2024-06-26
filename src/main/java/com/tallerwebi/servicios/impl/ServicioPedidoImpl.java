@@ -13,11 +13,11 @@ import com.tallerwebi.servicios.ServicioPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Transactional
@@ -40,10 +40,10 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public void asignarPedidos(List<Pedido> pedidos){
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(repositorioUsuario.buscarUsuarioActivo().getId());
         Vehiculo vehiculoCargado = null;
+        List<Pedido> pedidosOrdenados = ordenarPedidosPorZona(pedidos);
 
         System.out.println("Vehículos disponibles: " + vehiculosDisponibles);
-        for (int i = 0; i < pedidos.size(); i++) {
-            Pedido actualPedido = pedidos.get(i);
+        for (Pedido actualPedido : pedidosOrdenados) {
             List<Pedido> pedidosAEnviar = new ArrayList<>();
 
             System.out.println("Procesando pedido: " + actualPedido);
@@ -68,8 +68,6 @@ public class ServicioPedidoImpl implements ServicioPedido {
                     throw new NoHayVehiculosDisponibles();
                 }
 
-                System.out.println("Vehículo cargado: " + vehiculoCargado);
-                actualizarVehiculo(vehiculoCargado, actualPedido);
             } else {
                 System.out.println("El pedido no tiene mucha demora.");
                 Vehiculo vehiculoDisponible = getVehiculoDisponible(vehiculosDisponibles, actualPedido);
@@ -81,9 +79,9 @@ public class ServicioPedidoImpl implements ServicioPedido {
                     throw new NoHayVehiculosDisponibles();
                 }
 
-                System.out.println("Vehículo cargado: " + vehiculoCargado);
-                actualizarVehiculo(vehiculoCargado, actualPedido);
             }
+            System.out.println("Vehículo cargado: " + vehiculoCargado);
+            actualizarVehiculo(vehiculoCargado, actualPedido);
             pedidosAEnviar.add(actualPedido);
             System.out.println("Pedidos a enviar: " + pedidosAEnviar);
             Viaje viaje = new Viaje(actualPedido.getDestino().getId(), vehiculoCargado, pedidosAEnviar, actualPedido.getFecha());
@@ -92,6 +90,11 @@ public class ServicioPedidoImpl implements ServicioPedido {
             System.out.println("Viaje guardado");
         }
         System.out.println("Fin");
+    }
+
+    public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {
+        pedidos.sort(Comparator.comparing(p -> p.getDestino().getId()));
+        return pedidos;
     }
 
     public Vehiculo getVehiculoDisponible(List<Vehiculo> vehiculos, Pedido pedido){

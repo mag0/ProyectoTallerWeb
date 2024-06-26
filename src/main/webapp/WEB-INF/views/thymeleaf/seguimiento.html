@@ -21,7 +21,7 @@
 <div th:replace="parts/navbar :: navbar"></div>
 
 <div th:if="${pedidos.isEmpty()}">
-    <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tienes pedidos para mostrar en el mapa</p>
+    <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tenes pedidos para mostrar en el mapa</p>
 </div>
 <div th:if="${!pedidos.isEmpty()}">
     <div class="container d-flex justify-content-between">

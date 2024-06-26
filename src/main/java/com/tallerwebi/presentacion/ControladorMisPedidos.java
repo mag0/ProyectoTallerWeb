@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
+import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.dominio.excepcion.DatosIncompletos;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosDisponibles;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
@@ -41,6 +42,7 @@ public class ControladorMisPedidos {
         List<Solicitud> solicitudes = servicioSolicitud.getAllSolicitudes();
         System.out.println(solicitudes);
         model.addAttribute("solicitudes", solicitudes);
+        model.addAttribute("estado", Estado.DESPACHADO);
         return new ModelAndView("misPedidos");
     }
 
@@ -78,11 +80,11 @@ public class ControladorMisPedidos {
         }
 
         //servicioSolicitud.eliminar(id);
-
-        List<Viaje> viajes = viajeService.buscarTodos();
-
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("viajes", viajes);
+        List<Viaje> viajes = viajeService.buscarTodos();
+        if(!viajes.isEmpty()){
+            modelMap.addAttribute("viajes", viajes);
+        }
 
         return new ModelAndView("viajes", modelMap);
     }

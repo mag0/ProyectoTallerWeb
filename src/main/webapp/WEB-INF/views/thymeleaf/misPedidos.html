@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
+                <button th:if="${!solicitud.getPedidos().get(0).getEstado().equals(estado)}" type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
             </form>
         </div>
     </div>
