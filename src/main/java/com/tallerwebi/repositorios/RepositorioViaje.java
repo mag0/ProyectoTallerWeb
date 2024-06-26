@@ -12,4 +12,5 @@ public interface RepositorioViaje {
     Map<String, Long> contarViajesPorVehiculo();
     Viaje getViaje(Long id);
     void actualizarViaje(Viaje viaje);
+    void eliminarTodosLosViajes();
 }

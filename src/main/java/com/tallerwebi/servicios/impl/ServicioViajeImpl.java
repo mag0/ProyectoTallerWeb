@@ -44,6 +44,12 @@ public class ServicioViajeImpl implements ServicioViaje {
     }
 
     @Override
+    public void eliminarTodosLosViajes() {
+        viajeRepository.eliminarTodosLosViajes();
+    }
+
+
+    @Override
     public Viaje buscarPorId(Long id) {
             return viajeRepository.getViaje(id);
     }

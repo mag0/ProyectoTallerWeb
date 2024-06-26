@@ -16,11 +16,9 @@ import java.util.Map;
 
 @Controller
 public class ControladorRendimiento {
+
     private final ServicioMostrarVehiculos vehiculoService;
     private final ServicioViaje viajeService;
-
-
-
 
     public ControladorRendimiento(ServicioMostrarVehiculos vehiculoService, ServicioViaje viajeService) {
            this.vehiculoService = vehiculoService;
@@ -41,8 +39,6 @@ public class ControladorRendimiento {
         model.put("vehiculos", vehiculos);
 
         return new ModelAndView("rendimiento", model);
-
-
     }
 
 

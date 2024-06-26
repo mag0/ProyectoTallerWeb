@@ -12,4 +12,5 @@ public interface ServicioViaje {
     Map<String, Long> obtenerViajesPorVehiculo();
     Viaje buscarPorId(Long id);
     void reprogramarViaje(Long id);
+    void eliminarTodosLosViajes();
 }
