@@ -22,71 +22,59 @@
         }
         .bg-color-secondary{
             background-color: #f6c976;
-            font-family: 'Nunito', sans-serif;
-        }
-
-        /* Sticky footer styles */
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .content {
-            flex: 1 0 auto;
+            font-family:nunito,serif;
         }
     </style>
 </head>
 <body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
-<div class="container py-4 content">
+<div class="container py-4">
     <h1 class="mb-4 text-light">Ofertas</h1>
-    <!-- Iterar sobre los grupos de pedidos por ubicación -->
-    <div th:each="ubicacion : ${pedidosPorUbicacion}">
-        <div class="card mb-4">
-            <div class="card-header bg-color-secondary ">
-                <h3 class="text-dark">Ubicación: <span th:text="${ubicacion.key}"></span></h3>
-            </div>
-            <div class="card-body bg-dark">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <!-- Iterar sobre los pedidos en esta ubicación -->
-                    <div th:each="pedido : ${ubicacion.value}" class="col">
-                        <div class="card bg-light mb-3">
-                            <div class="card-body bg-color">
-                                <!-- Detalles del pedido -->
-                                <h5 class="card-title mb-4" th:text="${pedido.nombre}" style="font-size: 1.5rem;">Título del Pedido</h5>
-                                <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px" class="img-fluid mb-4">
-                                <h6 class="card-subtitle mb-3">Código del Pedido:</h6>
-                                <p class="card-text mb-3" th:text="${pedido.codigo}">Código del Pedido</p>
-                                <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
-                                <p class="card-text mb-3" th:text="${pedido.fecha}">Código del Pedido</p>
-                                <h6 class="card-subtitle mb-3">Estado del Pedido:</h6>
-                                <p th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
-                                    <strong th:text="${pedido.estado}"></strong>
-                                </p>
-                                <!-- Checkbox para seleccionar el pedido -->
-                                <div class="card-footer d-flex justify-content-between bg-color-secondary border-0">
-                                    <div class="form-check" style="padding-top: 6px">
-                                        <input class="form-check-input" type="checkbox" th:value="${pedido.id}" th:name="selectedPedidos" th:id="'pedido' + ${pedido.id}">
-                                        <label class="form-check-label" th:for="'pedido' + ${pedido.id}">Seleccionar Pedido</label>
-                                    </div>
-                                    <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                </div>
+    <form id="ofertasForm" th:action="@{/ofertas/formularioSolicitud}" method="post">
+        <!-- Botón para enviar los pedidos seleccionados -->
+        <button type="submit" class="btn btn-primary mb-4">Solicitar Pedidos</button>
+        <div class="row row-cols-1 row-cols-md-3 g-4 details-card">
+            <!-- Iterar sobre los pedidos y mostrar la información -->
+            <div th:each="pedido : ${pedidos}" class="col">
+                <div class="card bg-light">
+                    <div class="card-body bg-color">
+                        <!-- Detalles del pedido -->
+                        <h5 class="card-title mb-4" th:text="${pedido.nombre}" style="font-size: 1.5rem;">Título del Pedido</h5>
+                        <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px" class="img-fluid mb-4">
+                        <h6 class="card-subtitle mb-3">Código del Pedido:</h6>
+                        <p class="card-text mb-3" th:text="${pedido.codigo}">Código del Pedido</p>
+                        <h6 class="card-subtitle mb-3">Fecha de entrega: </h6>
+                        <p class="card-text mb-3" th:text="${pedido.fecha}">Código del Pedido</p>
+                        <h6 class="card-subtitle mb-3">Estado del Pedido:</h6>
+                        <p  th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
+                            <strong th:text="${pedido.estado}"></strong>
+                        </p>
+
+                        <!-- Checkbox para seleccionar el pedido -->
+                        <div class="card-footer d-flex justify-content-between bg-color-secondary border-0">
+                            <div class="form-check" style="padding-top: 6px">
+                                <input class="form-check-input" type="checkbox" th:value="${pedido.id}" th:name="selectedPedidos" th:id="'pedido' + ${pedido.id}">
+                                <label class="form-check-label" th:for="'pedido' + ${pedido.id}">Seleccionar Pedido</label>
                             </div>
+                            <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">
+                                <i class="fas fa-info-circle" ></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
-<!-- <div th:replace="parts/footer :: footer"></div> -->
+<div th:replace="parts/footer :: footer"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    function toggleSelectAll(source) {
+        checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedPedidos"]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
 </body>
 </html>
