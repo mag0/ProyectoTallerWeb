@@ -71,49 +71,23 @@ public class ControladorMisPedidos {
         // Encuentra la solicitud específica según el ID proporcionado en el formulario
 
         List<Pedido> pedidos = pedidoService.obtenerPedidosPorSolicitud(id);
+        List<Viaje> viajes;
 
         for(int i=0; i<pedidos.size(); i++){
             pedidos.get(i).setDistancia(distancia.get(i));
             pedidos.get(i).setTiempoConTrafico(tiempoConTrafico.get(i));
             pedidos.get(i).setDistanciaConTrafico(distanciaConTrafico.get(i));
         }
+
         try {
-            pedidoService.asignarPedidos(pedidos);
+            viajes = pedidoService.asignarPedidos(pedidos);
         } catch (NoHayVehiculosDisponibles ex) {
             return new ModelAndView("redirect:/misPedidos?error=true");
         }
 
         //servicioSolicitud.eliminar(id);
 
-        List<Viaje> viajes = viajeService.buscarTodos();
-        Map<String, Viaje> viajesAgrupados = new HashMap<>();
-
-        for (Viaje viaje : viajes) {
-            String clave = viaje.getVehiculo().getId() + "_" + viaje.getZonaId();
-
-            if (viajesAgrupados.containsKey(clave)) {
-                // Si ya existe una entrada para este vehículo y zona, agregar el pedido al viaje existente
-                Viaje viajeExistente = viajesAgrupados.get(clave);
-                viajeExistente.getPedidos().addAll(viaje.getPedidos());
-            } else {
-                // Si no existe, agregar este viaje como una nueva entrada en el mapa
-                viajesAgrupados.put(clave, viaje);
-            }
-        }
-
-        // Obtener la lista final de viajes agrupados
-        List<Viaje> viajesFinales = new ArrayList<>(viajesAgrupados.values());
-
-        /*System.out.println("Eliminando viajes");
-        viajeService.eliminarTodosLosViajes();
-        System.out.println("viajes eliminados");
-        for (Viaje viaje : viajesFinales) {
-            System.out.println("guardando viaje");
-            viajeService.guardar(viaje);
-        }
-        System.out.println("viajes guardados");*/
-
-        model.addAttribute("viajes", viajesFinales);
+        model.addAttribute("viajes", viajes);
 
         return new ModelAndView("viajes", model);
     }
