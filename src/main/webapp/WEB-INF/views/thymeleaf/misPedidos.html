@@ -18,6 +18,15 @@
         .bg-dark{
             background-color: #36322d;
         }
+        .estado-disponible {
+            color: #4ea613;
+        }
+        .estado-solicitado {
+            color: #f86f6f;
+        }
+        .estado-despachado {
+            color: #b0a7ff;
+        }
     </style>
 </head>
 <body class="bg-dark text-light">
@@ -49,7 +58,9 @@
                                     <div class="card bg-dark text-light">
                                         <div class="card-body">
                                             <h5 class="card-title" th:text="${pedido.nombre}" style="font-size: 30px"></h5>
-                                            <h6 class="card-title" th:text="${pedido.getEstado()}" style="font-size: 20px"></h6>
+                                            <p th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
+                                                <strong th:text="${pedido.estado}"></strong>
+                                            </p>
                                             <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px" class="img-fluid mb-4">
                                             <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
                                             <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
@@ -61,13 +72,43 @@
                                 </div>
                             </div>
                         </div>
+                        <button type="button" class="btn btn-info mt-2" data-bs-toggle="modal" th:data-bs-target="'#detallesModal' + ${solicitud.id}">Detalles de Pedidos</button>
                     </div>
                 </div>
                 <button th:if="${!solicitud.getPedidos().get(0).getEstado().equals(estado)}" type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
             </form>
+
+            <!-- Modal para mostrar los detalles de los pedidos -->
+            <div th:id="'detallesModal' + ${solicitud.id}" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content bg-dark text-light">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detalles de los pedidos de la Solicitud ID: <span th:text="${solicitud.id}"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div th:each="pedido : ${solicitud.pedidos}">
+                                <h5 th:text="${pedido.nombre}"></h5>
+                                <p th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
+                                    <strong th:text="${pedido.estado}"></strong>
+                                </p>
+                                <p><strong>Codigo:</strong> <span th:text="${pedido.id}"></span></p>
+                                <p><strong>Codigo:</strong> <span th:text="${pedido.codigo}"></span></p>
+                                <p><strong>Fecha de entrega:</strong> <span th:text="${pedido.fecha}"></span></p>
+                                <p><strong>Peso:</strong> <span th:text="${pedido.peso}"></span></p>
+                                <p><strong>Tamaño:</strong> <span th:text="${pedido.tamanio}"></span></p>
+                                <a th:href="@{'/ofertas/detalles/' + ${pedido.id}}" class="btn btn-success">Ubicación</a>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
 <div th:replace="parts/footer :: footer"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

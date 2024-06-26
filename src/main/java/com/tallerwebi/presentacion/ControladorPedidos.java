@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class ControladorPedidos {
@@ -44,13 +46,19 @@ public class ControladorPedidos {
     public ModelAndView mostrarPedidos() {
         // Obtener todos los pedidos que no tienen viaje asignado
         List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
-        // Crear un mapa de modelo y añadir los pedidos
-        ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute("pedidos", pedidos);
-        // Retornar la vista 'ofertas' con el modelo
-        return new ModelAndView("ofertas", modelMap);
 
+        // Agrupar los pedidos por latitud y longitud
+        Map<String, List<Pedido>> pedidosPorUbicacion = pedidos.stream()
+                .collect(Collectors.groupingBy(p -> p.getLatitude() + "," + p.getLongitude()));
+
+        // Crear un modelo y añadir los pedidos agrupados
+        ModelMap model = new ModelMap();
+        model.addAttribute("pedidosPorUbicacion", pedidosPorUbicacion);
+
+        // Retornar la vista 'ofertas' con el modelo
+        return new ModelAndView("ofertas", model);
     }
+
 
     @GetMapping("/ofertas/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
