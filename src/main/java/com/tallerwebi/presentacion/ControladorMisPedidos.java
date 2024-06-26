@@ -65,6 +65,7 @@ public class ControladorMisPedidos {
                                 @RequestParam("distanciaConTrafico") List<Double> distanciaConTrafico) {
 
         ModelMap model = new ModelMap();
+
         // Encuentra la solicitud específica según el ID proporcionado en el formulario
 
         List<Pedido> pedidos = pedidoService.obtenerPedidosPorSolicitud(id);
@@ -83,9 +84,8 @@ public class ControladorMisPedidos {
         //servicioSolicitud.eliminar(id);
 
         List<Viaje> viajes = viajeService.buscarTodos();
-        if(!viajes.isEmpty()){
-            model.addAttribute("viajes", viajes);
-        }
+
+        model.addAttribute("viajes", viajes);
 
         return new ModelAndView("viajes", model);
     }
