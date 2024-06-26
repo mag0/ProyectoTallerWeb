@@ -37,10 +37,11 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public void asignarPedidos(List<Pedido> pedidos){
+    public List<Viaje> asignarPedidos(List<Pedido> pedidos){
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(repositorioUsuario.buscarUsuarioActivo().getId());
         Vehiculo vehiculoCargado = null;
         List<Pedido> pedidosOrdenados = ordenarPedidosPorZona(pedidos);
+        List<Viaje> viajes = new ArrayList<>();
 
         System.out.println("Vehículos disponibles: " + vehiculosDisponibles);
         for (Pedido actualPedido : pedidosOrdenados) {
@@ -54,9 +55,9 @@ public class ServicioPedidoImpl implements ServicioPedido {
                 Vehiculo vehiculoAuto = hayAutoYEntraElPedido(vehiculosDisponibles, actualPedido);
                 Vehiculo vehiculoCamion = hayCamionYEntraElPedido(vehiculosDisponibles, actualPedido);
 
-                System.out.println("Vehículo Moto: " + vehiculoMoto);
-                System.out.println("Vehículo Auto: " + vehiculoAuto);
-                System.out.println("Vehículo Camión: " + vehiculoCamion);
+                System.out.println("Moto disponible: " + vehiculoMoto);
+                System.out.println("Auto disponible: " + vehiculoAuto);
+                System.out.println("Camion disponible: " + vehiculoCamion);
 
                 if (vehiculoMoto != null) {
                     vehiculoCargado = vehiculoMoto;
@@ -87,9 +88,11 @@ public class ServicioPedidoImpl implements ServicioPedido {
             Viaje viaje = new Viaje(actualPedido.getDestino().getId(), vehiculoCargado, pedidosAEnviar, actualPedido.getFecha());
             System.out.println("Viaje: " + viaje);
             viajeRepository.guardar(viaje);
+            viajes.add(viaje);
             System.out.println("Viaje guardado");
         }
         System.out.println("Fin");
+        return viajes;
     }
 
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {
@@ -99,7 +102,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     public Vehiculo getVehiculoDisponible(List<Vehiculo> vehiculos, Pedido pedido){
         for (Vehiculo vehiculo : vehiculos) {
-            if(vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()){
+            if(vehiculo.getResistencia() >= pedido.getPeso() && vehiculo.getCapacidad() >= pedido.getTamanio()){
                 System.out.println("Vehículo encontrado para pedido: " + vehiculo);
                 return vehiculo;
             }
@@ -123,8 +126,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     private Vehiculo hayMotoYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
         for (Vehiculo vehiculo : vehiculos) {
-            if (vehiculo.getTipo().equals("Moto") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
-                System.out.println("Moto disponible: " + vehiculo);
+            if (vehiculo.getTipo().equals("Moto") && vehiculo.getResistencia() >= pedido.getPeso() && vehiculo.getCapacidad() >= pedido.getTamanio()) {
                 return vehiculo;
             }
         }
@@ -133,8 +135,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     private Vehiculo hayAutoYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
         for (Vehiculo vehiculo : vehiculos) {
-            if (vehiculo.getTipo().equals("Auto") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
-                System.out.println("Auto disponible: " + vehiculo);
+            if (vehiculo.getTipo().equals("Auto") && vehiculo.getResistencia() >= pedido.getPeso() && vehiculo.getCapacidad() >= pedido.getTamanio()) {
                 return vehiculo;
             }
         }
@@ -143,8 +144,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     private Vehiculo hayCamionYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
         for (Vehiculo vehiculo : vehiculos) {
-            if (vehiculo.getTipo().equals("Camion") && vehiculo.getResistencia() > pedido.getPeso() && vehiculo.getCapacidad() > pedido.getTamanio()) {
-                System.out.println("Camión disponible: " + vehiculo);
+            if (vehiculo.getTipo().equals("Camion") && vehiculo.getResistencia() >= pedido.getPeso() && vehiculo.getCapacidad() >= pedido.getTamanio()) {
                 return vehiculo;
             }
         }

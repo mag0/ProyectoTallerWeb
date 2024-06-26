@@ -1,8 +1,12 @@
 package com.tallerwebi.servicios;
 
-import com.tallerwebi.dominio.Pedido;
-import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.repositorios.RepositorioPedido;
+import com.tallerwebi.repositorios.RepositorioUsuario;
+import com.tallerwebi.repositorios.RepositorioVehiculo;
+import com.tallerwebi.repositorios.RepositorioViaje;
+import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
 import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,19 +29,21 @@ import static org.mockito.Mockito.*;
 
 
 public class ServicioPedidoTest {
-    @Mock
-    private SessionFactory sessionFactory;
-    @Mock
-    private RepositorioPedido pedidoRepository;
 
-    @InjectMocks
-    private ServicioPedidoImpl pedidoService;
+    private RepositorioPedido pedidoRepository;
+    private RepositorioVehiculo vehiculoRepository;
+    private RepositorioUsuario usuarioRepository;
+    private RepositorioViaje viajeRepository;
+    private ServicioPedido pedidoService;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        pedidoRepository = mock(RepositorioPedido.class);
+        vehiculoRepository = mock(RepositorioVehiculo.class);
+        usuarioRepository = mock(RepositorioUsuario.class);
+        viajeRepository = mock(RepositorioViaje.class);
+        pedidoService = new ServicioPedidoImpl(pedidoRepository, viajeRepository, vehiculoRepository, usuarioRepository);
     }
-
 
     @Test
     public void seAgregaUnPedidoAUnVehiculo() throws Exception {
@@ -88,5 +96,97 @@ public class ServicioPedidoTest {
         verify(pedidoRepository).getPedidosByIds(ids);
     }
 
+    @Test
+    void seAsignaUnaSolicitudADiferentesViajesHabiendoTrafico() {
+        // Arrange
+        List<Pedido> pedidos = givenTengoUnaListaDePedidos();
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos();
+        Usuario usuario = new Usuario();
+
+        // Act
+        when(usuarioRepository.buscarUsuarioActivo()).thenReturn(usuario);
+        when(vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(usuario.getId())).thenReturn(vehiculos);
+
+        List<Viaje> viajes = whenCreoLosViajesNecesarios(pedidos);
+
+        // Assert
+
+        thenTengoLosViajesCreados(viajes, pedidos, vehiculos);
+    }
+
+    private List<Vehiculo> givenTengoUnaListaDeVehiculos() {
+        List<Vehiculo> vehiculos = new ArrayList<>();
+        Vehiculo vehiculo = new Vehiculo("ACM1PT","Ford","Fiesta","Auto", 1994, 123,123,20,true);
+        Vehiculo vehiculo2 = new Vehiculo("ACM1P","Ford","Fiesta","Moto", 1994, 123,123,20,true);
+        vehiculos.add(vehiculo);
+        vehiculos.add(vehiculo2);
+        return vehiculos;
+    }
+
+    private List<Pedido> givenTengoUnaListaDePedidos() {
+        List<Pedido> pedidos = new ArrayList<>();
+        Zona zona = new Zona(1L, 12, 35);
+        Zona zona2 = new Zona(2L, 17, 34);
+        Pedido pedido = new Pedido("Paquete 1","Electronica","DS225",10,10, LocalDate.now(), Estado.DISPONIBLE, zona);
+        Pedido pedido2 = new Pedido("Paquete 2","Electronica","DS224",10,10, LocalDate.now(), Estado.DISPONIBLE, zona);
+        Pedido pedido3 = new Pedido("Paquete 3","Electronica","DS226",10,10, LocalDate.now(), Estado.DISPONIBLE, zona2);
+        pedido.setDistancia(12.0);pedido.setDistanciaConTrafico(16.0);pedido.setTiempoConTrafico(45.0);
+        pedido2.setDistancia(12.0);pedido2.setDistanciaConTrafico(16.0);pedido2.setTiempoConTrafico(45.0);
+        pedido3.setDistancia(12.0);pedido3.setDistanciaConTrafico(16.0);pedido3.setTiempoConTrafico(45.0);
+        pedidos.add(pedido);
+        pedidos.add(pedido2);
+        pedidos.add(pedido3);
+        return pedidos;
+    }
+
+    private List<Viaje> whenCreoLosViajesNecesarios(List<Pedido> pedidos) {
+        return pedidoService.asignarPedidos(pedidos);
+    }
+
+    private void thenTengoLosViajesCreados(List<Viaje> viajes, List<Pedido> pedidos, List<Vehiculo> vehiculos) {
+        for (Viaje viaje : viajes) {
+            verify(viajeRepository, times(1)).guardar(viaje);
+        }
+        for (Pedido pedido : pedidos) {
+            verify(pedidoRepository, times(1)).modificar(pedido);
+        }
+        verify(vehiculoRepository, times(1)).actualizar(vehiculos.get(0));
+        verify(vehiculoRepository, times(2)).actualizar(vehiculos.get(1));
+        assertEquals(viajes.size(), 3);
+        assertEquals(viajes.get(0).getVehiculo().getTipo(), "Moto");
+    }
+
+    @Test
+    void seAsignaUnaSolicitudADiferentesViajesSinHaberTrafico() {
+        // Arrange
+        List<Pedido> pedidos = givenTengoUnaListaDePedidos();
+        for (Pedido pedido : pedidos) {
+            pedido.setDistancia(12.0);pedido.setDistanciaConTrafico(10.0);pedido.setTiempoConTrafico(45.0);
+        }
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos();
+        Usuario usuario = new Usuario();
+
+        // Act
+        when(usuarioRepository.buscarUsuarioActivo()).thenReturn(usuario);
+        when(vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(usuario.getId())).thenReturn(vehiculos);
+
+        List<Viaje> viajes = whenCreoLosViajesNecesarios(pedidos);
+
+        // Assert
+        thenTengoLosViajesCreadosSinHaberDemora(viajes, pedidos, vehiculos);
+    }
+
+    private void thenTengoLosViajesCreadosSinHaberDemora(List<Viaje> viajes, List<Pedido> pedidos, List<Vehiculo> vehiculos) {
+        for (Viaje viaje : viajes) {
+            verify(viajeRepository, times(1)).guardar(viaje);
+        }
+        for (Pedido pedido : pedidos) {
+            verify(pedidoRepository, times(1)).modificar(pedido);
+        }
+        verify(vehiculoRepository, times(2)).actualizar(vehiculos.get(0));
+        verify(vehiculoRepository, times(1)).actualizar(vehiculos.get(1));
+        assertEquals(viajes.size(), 3);
+        assertEquals(viajes.get(0).getVehiculo().getTipo(), "Auto");
+    }
 
 }

@@ -63,6 +63,7 @@ public class ControladorMisPedidos {
                                 @RequestParam("distancia") List<Double> distancia,
                                 @RequestParam("tiempoConTrafico") List<Double> tiempoConTrafico,
                                 @RequestParam("distanciaConTrafico") List<Double> distanciaConTrafico) {
+
         ModelMap model = new ModelMap();
         // Encuentra la solicitud específica según el ID proporcionado en el formulario
 
@@ -80,13 +81,13 @@ public class ControladorMisPedidos {
         }
 
         //servicioSolicitud.eliminar(id);
-        ModelMap modelMap = new ModelMap();
+
         List<Viaje> viajes = viajeService.buscarTodos();
         if(!viajes.isEmpty()){
-            modelMap.addAttribute("viajes", viajes);
+            model.addAttribute("viajes", viajes);
         }
 
-        return new ModelAndView("viajes", modelMap);
+        return new ModelAndView("viajes", model);
     }
 
 }
