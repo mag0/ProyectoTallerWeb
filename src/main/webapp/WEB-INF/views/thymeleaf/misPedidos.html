@@ -39,7 +39,7 @@
     </div>
     <!-- Verificar si se despacharon todos los pedidos -->
     <div th:if="${param.error}" class="alert alert-danger">
-        <p th:text="'No hay vehiculos con la capacidad suficiente'"></p>
+        <p th:text="'No se pueden asignar todos los pedidos por falta de vehiculos'"></p>
     </div>
     <!-- Mostrar solicitudes si las hay -->
     <div th:if="${not solicitudes.isEmpty()}" class="details-card">

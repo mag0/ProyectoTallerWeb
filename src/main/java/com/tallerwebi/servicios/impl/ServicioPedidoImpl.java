@@ -13,11 +13,9 @@ import com.tallerwebi.servicios.ServicioPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
+import java.util.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -38,6 +36,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
 
     @Override
     public List<Viaje> asignarPedidos(List<Pedido> pedidos){
+
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.buscarTodosLosDisponiblesPorUsuario(repositorioUsuario.buscarUsuarioActivo().getId());
         Vehiculo vehiculoCargado = null;
         List<Pedido> pedidosOrdenados = ordenarPedidosPorZona(pedidos);
@@ -87,12 +86,36 @@ public class ServicioPedidoImpl implements ServicioPedido {
             System.out.println("Pedidos a enviar: " + pedidosAEnviar);
             Viaje viaje = new Viaje(actualPedido.getDestino().getId(), vehiculoCargado, pedidosAEnviar, actualPedido.getFecha());
             System.out.println("Viaje: " + viaje);
-            viajeRepository.guardar(viaje);
             viajes.add(viaje);
             System.out.println("Viaje guardado");
         }
+
+
+        //Agrupo los viajes que tienen mismo vehiculo y mismo destino en un solo viaje
+        Map<String, Viaje> viajesAgrupados = new HashMap<>();
+
+        for (Viaje viaje : viajes) {
+            String clave = viaje.getVehiculo().getId() + "_" + viaje.getZonaId();
+
+            if (viajesAgrupados.containsKey(clave)) {
+                // Si ya existe una entrada para este vehículo y zona, agregar el pedido al viaje existente
+                Viaje viajeExistente = viajesAgrupados.get(clave);
+                viajeExistente.getPedidos().addAll(viaje.getPedidos());
+            } else {
+                // Si no existe, agregar este viaje como una nueva entrada en el mapa
+                viajesAgrupados.put(clave, viaje);
+            }
+        }
+
+        // Obtener la lista final de viajes agrupados
+        List<Viaje> viajesFinales = new ArrayList<>(viajesAgrupados.values());
+
+        for (Viaje viaje : viajesFinales) {
+            System.out.println("guardando viaje");
+            viajeRepository.guardar(viaje);
+        }
         System.out.println("Fin");
-        return viajes;
+        return viajesFinales;
     }
 
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {

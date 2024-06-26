@@ -152,7 +152,7 @@ public class ServicioPedidoTest {
         }
         verify(vehiculoRepository, times(1)).actualizar(vehiculos.get(0));
         verify(vehiculoRepository, times(2)).actualizar(vehiculos.get(1));
-        assertEquals(viajes.size(), 3);
+        assertEquals(viajes.size(), 2);
         assertEquals(viajes.get(0).getVehiculo().getTipo(), "Moto");
     }
 
@@ -185,7 +185,7 @@ public class ServicioPedidoTest {
         }
         verify(vehiculoRepository, times(2)).actualizar(vehiculos.get(0));
         verify(vehiculoRepository, times(1)).actualizar(vehiculos.get(1));
-        assertEquals(viajes.size(), 3);
+        assertEquals(viajes.size(), 2);
         assertEquals(viajes.get(0).getVehiculo().getTipo(), "Auto");
     }
 
