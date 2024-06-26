@@ -49,6 +49,10 @@ public class Pedido {
         return solicitud;
     }
 
+    public Long getIdSolicitud() {
+        return solicitud.getId();
+    }
+
     public void setSolicitud(Solicitud solicitud) {
         this.solicitud = solicitud;
     }

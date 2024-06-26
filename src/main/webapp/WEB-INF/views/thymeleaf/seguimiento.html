@@ -16,36 +16,52 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" th:href="@{/css/seguimiento.css}">
+    <style>
+        .bg-header{
+            background-color: #f59866;
+        }
+    </style>
 </head>
 <body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 
-<div th:if="${pedidos.isEmpty()}">
+<div th:if="${solicitudes.isEmpty()}">
     <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tenes pedidos para mostrar en el mapa</p>
 </div>
-<div th:if="${!pedidos.isEmpty()}">
+<div th:if="${!solicitudes.isEmpty()}">
     <div class="container d-flex justify-content-between">
         <div class="details-card col-md-6" style="max-height: 70vh">
-            <!-- Mostrar detalles completos del pedido -->
-            <div class="card bg-dark my-2" th:each="pedido : ${pedidos}">
-                <div class="card-header bg-color">
-                    <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
-                    <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
-                    <div class="ml-2 card-text">
-                        <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
-                        <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+            <!-- Agrupar pedidos por ID de solicitud -->
+            <div th:each="solicitud : ${solicitudes}">
+                <div class="card mb-3">
+                    <div class="card-header bg-header text-dark">
+                   <strong>Solicitud: <span th:text="${solicitud.id}"></span></strong>
                     </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between bg-color">
-                    <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
-                    <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
-                    <form class="ver-ruta-form">
-                        <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
-                        <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
-                        <button class="btn btn-primary ver-ruta-btn" type="button">Ver ruta</button>
-                    </form>
+                    <!-- Mostrar detalles completos del pedido -->
+                    <div class="card-body bg-dark text-light" th:each="pedido : ${solicitud.pedidos}">
+                        <div class="card my-2">
+                            <div class="card-header bg-color">
+                                <h4 class="card-title text-dark" th:text="${pedido.nombre}"></h4>
+                            </div>
+                            <div class="card-body d-flex align-items-center justify-content-around bg-color-body">
+                                <img src="https://imgs.search.brave.com/k-wXhcDyWNTGf5moCJQ7a408BqCDhUTXS5gxhfvxJvc/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nbWFydC5jb20v/ZmlsZXMvMTEvQmxh/bmstUGFja2FnZS1Q/TkctUGljLnBuZw" alt="Pedido" width="130px" height="130px">
+                                <div class="ml-2 card-text">
+                                    <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
+                                    <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between bg-color">
+                                <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
+                                <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
+                                <form class="ver-ruta-form">
+                                    <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
+                                    <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
+                                    <button class="btn btn-primary ver-ruta-btn" type="button">Ver ruta</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,4 +79,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>
-
