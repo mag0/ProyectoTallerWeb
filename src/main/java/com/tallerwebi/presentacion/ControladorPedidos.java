@@ -71,7 +71,7 @@ public class ControladorPedidos {
             // Retornar la vista 'asignarPedido' con el modelo
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
-            // En caso de error, añadir el mensaje de error al modelo y retornar la vista 'asignarPedido'
+            // En caso de error, añadir el mensaje de error al modelo y rsetornar la vista 'asignarPedido'
             ModelMap modelMap = new ModelMap();
             modelMap.addAttribute("error", e.getMessage());
             return new ModelAndView("asignarPedido", modelMap);

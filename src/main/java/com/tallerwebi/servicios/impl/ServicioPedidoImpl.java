@@ -119,6 +119,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
         pedidoRepository.modificar(pedido);
         vehiculo.setResistencia(vehiculo.getResistencia() - pedido.getPeso());
         vehiculo.setCapacidad(vehiculo.getCapacidad() - pedido.getTamanio());
+        vehiculo.setKilometrajeMaximo((int) (vehiculo.getKilometrajeMaximo() + pedido.getDistancia()));
     }
 
     private Vehiculo hayMotoYEntraElPedido(List<Vehiculo> vehiculos, Pedido pedido){
