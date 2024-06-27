@@ -32,7 +32,7 @@
     <h1 class="mb-4 text-light">Ofertas</h1>
     <form id="ofertasForm" th:action="@{/ofertas/formularioSolicitud}" method="post">
         <!-- Botón para enviar los pedidos seleccionados -->
-        <button type="submit" class="btn btn-primary mb-4">Solicitar Pedidos</button>
+        <button type="submit" class="btn btn-primary mb-4" style="margin_bottom: 10px;">Solicitar Pedidos</button>
         <div class="row row-cols-1 row-cols-md-3 g-4 details-card">
             <!-- Iterar sobre los pedidos y mostrar la información -->
             <div th:each="pedido : ${pedidos}" class="col">
