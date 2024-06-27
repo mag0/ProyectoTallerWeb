@@ -40,11 +40,13 @@ public class ServicioFiltrarVehiculoImpl implements ServicioFiltrarVehiculo {
 
         vehiculos.forEach(vehiculo -> {
             // Filtrar por tipo o marca
-            if ((!tipoABuscar.isEmpty() && vehiculo.getTipo().toLowerCase().contains(tipoABuscar)) ||
-                    (!marcaABuscar.isEmpty() && vehiculo.getMarca().toLowerCase().contains(marcaABuscar)) ||
-                    (!modeloABuscar.isEmpty() && vehiculo.getModelo().toLowerCase().contains(modeloABuscar))) {
-                vehiculosFiltrados.add(vehiculo);
-            }
+                boolean coincideTipo = tipoABuscar.isEmpty() || vehiculo.getTipo().toLowerCase().contains(tipoABuscar.toLowerCase());
+                boolean coincideMarca = marcaABuscar.isEmpty() || vehiculo.getMarca().toLowerCase().contains(marcaABuscar.toLowerCase());
+                boolean coincideModelo = modeloABuscar.isEmpty() || vehiculo.getModelo().toLowerCase().contains(modeloABuscar.toLowerCase());
+
+                if (coincideTipo && coincideMarca && coincideModelo) {
+                    vehiculosFiltrados.add(vehiculo);
+                }
         });
         if (vehiculosFiltrados.isEmpty()) {
             throw new NoHayVehiculosEnLaFlota();
