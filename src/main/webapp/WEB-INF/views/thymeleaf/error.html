@@ -46,9 +46,8 @@
 <div class="container error-container text-light">
     <div class="text-center">
         <h1 class="error-title">Error</h1>
-        <p class="error-message">Este pedido ya ha sido solicitado por otro usuario.</p>
+        <p class="error-message">Este pedido ya ha sido solicitado/despachado por otro usuario.</p>
         <p class="error-message">Por favor, inténtalo con otro pedido.</p>
-        <p class="error-message text-danger"><strong>Recuerda que el pedido solo puede ser solicitado una vez.</strong></p>
         <hr>
         <p class="redirect-message">Serás redirigido a la página de ofertas nuevamente en unos segundos.</p>
     </div>
@@ -58,7 +57,7 @@
 <script type="text/javascript">
     setTimeout(function() {
         window.location.href = "/spring/ofertas";
-    }, 9000); // Redirigir después de 9 segundos (9000 milisegundos)
+    }, 3000); // Redirigir después de 3 segundos (3000 milisegundos)
 </script>
 </body>
 </html>
