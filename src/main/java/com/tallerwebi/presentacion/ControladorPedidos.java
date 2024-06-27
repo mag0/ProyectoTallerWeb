@@ -182,7 +182,7 @@ public class ControladorPedidos {
         List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
         // Iterar sobre los pedidos para asociarlos a la solicitud y cambiar su estado
         for (Pedido pedido : pedidos) {
-            if (!pedido.getEstado().equals(Estado.SOLICITADO)) {
+            if (!pedido.getEstado().equals(Estado.SOLICITADO) && !pedido.getEstado().equals(Estado.DESPACHADO)) {
                 // Asociar la solicitud al pedido y cambiar su estado
                     pedido.setSolicitud(solicitud);
                     pedido.setEstado(Estado.SOLICITADO);
@@ -199,6 +199,7 @@ public class ControladorPedidos {
         // Redirigir a la vista de pedidos
         return new ModelAndView(REDIRECT_PEDIDOS);
     }
+
 }
 
 

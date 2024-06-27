@@ -28,11 +28,11 @@
 </head>
 <body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
-<div class="container py-4">
+<div class="container py-2">
     <h1 class="mb-4 text-light">Ofertas</h1>
     <form id="ofertasForm" th:action="@{/ofertas/formularioSolicitud}" method="post">
         <!-- Botón para enviar los pedidos seleccionados -->
-        <button type="submit" class="btn btn-primary mb-4">Solicitar Pedidos</button>
+        <button type="submit" class="btn btn-primary mb-4" style="margin_bottom: 10px;">Solicitar Pedidos</button>
         <div class="row row-cols-1 row-cols-md-3 g-4 details-card">
             <!-- Iterar sobre los pedidos y mostrar la información -->
             <div th:each="pedido : ${pedidos}" class="col">
@@ -49,7 +49,8 @@
                         <p  th:class="${'estado-' + pedido.estado.toString().toLowerCase()}">
                             <strong th:text="${pedido.estado}"></strong>
                         </p>
-
+                        <input type="hidden" id="pedidoLat" th:value="${pedido.getLatitude()}">
+                        <input type="hidden" id="pedidoLon" th:value="${pedido.getLongitude()}">
                         <!-- Checkbox para seleccionar el pedido -->
                         <div class="card-footer d-flex justify-content-between bg-color-secondary border-0">
                             <div class="form-check" style="padding-top: 6px">
@@ -68,13 +69,5 @@
 <div th:replace="parts/footer :: footer"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script>
-    function toggleSelectAll(source) {
-        checkboxes = document.querySelectorAll('input[type="checkbox"][name="selectedPedidos"]');
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = source.checked;
-        }
-    }
-</script>
 </body>
 </html>

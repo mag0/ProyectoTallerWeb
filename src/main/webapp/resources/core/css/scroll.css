@@ -1,6 +1,6 @@
 .details-card {
     overflow-y: auto;
-    max-height: 60vh;
+    max-height: 52vh;
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #e0b24f #343a40; /* Firefox */
 }
