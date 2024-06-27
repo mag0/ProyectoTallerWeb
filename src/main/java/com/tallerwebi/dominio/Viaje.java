@@ -2,6 +2,8 @@ package com.tallerwebi.dominio;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -14,15 +16,16 @@ public class Viaje {
     private Long zonaId;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
+    private String fecha;
 
-    public Viaje(Long zonaId, Vehiculo vehiculo,List<Pedido> pedidos) {
+    public Viaje(Long zonaId, Vehiculo vehiculo,List<Pedido> pedidos, String fecha) {
         this.vehiculo = vehiculo;
         this.zonaId = zonaId;
         this.pedidos = pedidos;
+        this.fecha = fecha;
     }
 
     public Viaje() {}
-
 
     public Long getId() {
         return id;
@@ -32,11 +35,11 @@ public class Viaje {
         this.id = id;
     }
 
-    public List<Pedido> getPaqueteIds() {
+    public List<Pedido> getPedidos() {
         return this.pedidos;
     }
 
-    public void setPaqueteIds(List<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
 
@@ -55,4 +58,13 @@ public class Viaje {
     public void setZonaId(Long zonaId) {
         this.zonaId = zonaId;
     }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
 }

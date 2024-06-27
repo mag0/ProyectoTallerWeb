@@ -14,6 +14,9 @@ public class Pedido {
     private Integer tamanio;
     private Integer peso;
     private LocalDate fecha;
+    private Double distancia;
+    private Double distanciaConTrafico;
+    private Double tiempoConTrafico;
     @Enumerated(EnumType.STRING)
     private Estado estado;
     @Id
@@ -23,6 +26,10 @@ public class Pedido {
     private Viaje viaje;
     @ManyToOne
     private Zona destino;
+
+    @ManyToOne
+    @JoinColumn(name = "solicitud_id")
+    private Solicitud solicitud;
 
     public Pedido(String nombre, String tipo, String codigo, Integer tamanio, Integer peso, LocalDate fecha, Estado estado, Zona destino) {
         this.nombre = nombre;
@@ -37,6 +44,18 @@ public class Pedido {
 
     public Pedido() {}
 
+
+    public Solicitud getSolicitud() {
+        return solicitud;
+    }
+
+    public Long getIdSolicitud() {
+        return solicitud.getId();
+    }
+
+    public void setSolicitud(Solicitud solicitud) {
+        this.solicitud = solicitud;
+    }
 
     public Estado getEstado() {
         return estado;
@@ -109,9 +128,8 @@ public class Pedido {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public String getDestino() {
-        return "in progress";
+    public Zona getDestino() {
+        return destino;
     }
 
     public void setDestino(Zona destino) {
@@ -126,5 +144,27 @@ public class Pedido {
         return this.destino.getLon();
     }
 
+    public Double getDistanciaConTrafico() {
+        return distanciaConTrafico;
+    }
 
+    public void setDistanciaConTrafico(Double distanciaConTrafico) {
+        this.distanciaConTrafico = distanciaConTrafico;
+    }
+
+    public Double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Double distancia) {
+        this.distancia = distancia;
+    }
+
+    public Double getTiempoConTrafico() {
+        return tiempoConTrafico;
+    }
+
+    public void setTiempoConTrafico(Double tiempoConTrafico) {
+        this.tiempoConTrafico = tiempoConTrafico;
+    }
 }

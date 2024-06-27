@@ -19,7 +19,10 @@
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css"
             type="text/css"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
         .bg-color {
             background-color: #e0b24f;
         }
@@ -45,6 +48,7 @@
         .mapboxgl-canvas{
             width: 800px;
             height: 800px;
+            padding-top: 20px;
         }
         .mapboxgl-map{
             width: 1000px;
@@ -74,6 +78,13 @@
         .mapbox-directions-instructions{
             height: 200px;
         }
+        #address, #distancia, #trafico, #distanciaConTrafico {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .fa-arrow-left{
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body class="bg-dark">
@@ -87,11 +98,19 @@
                 <h4 class="card-title" th:text="${pedido.nombre}"></h4>
                 <strong><p th:text="'Codigo: ' + ${pedido.codigo}"></p></strong>
                 <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
-                <p th:text="'Destino: ' + ${pedido.destino}"></p>
+                <div id="address">Obteniendo dirección...</div>
+                <div id="distancia"></div>
+                <div id="trafico"></div>
+                <div id="distanciaConTrafico"></div>
 
                 <!-- Otros detalles del pedido -->
+                <div class="card-footer border-0 bg-color">
+                    <div class="d-flex justify-content-between">
+                    <a href="/spring/misPedidos" class="btn btn-primary btn-md " style="margin: 5px; font-family:nunito,serif"> Mis pedidos</a>
+                    <a href="/spring/ofertas" class="btn btn-secondary btn-md  " style="margin: 5px;font-family: nunito,serif">Ver ofertas</a>
+                    </div>
             </div>
-            <a href="/spring/pedidos" class="btn btn-danger btn-lg " style="margin: 5px;">Regresar</a>
+        </div>
         </div>
     </div>
     <div class="map-container">

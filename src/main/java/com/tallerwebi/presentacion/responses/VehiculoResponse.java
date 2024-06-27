@@ -8,10 +8,7 @@ import java.util.stream.Collectors;
 
 public class VehiculoResponse {
 
-        private List<Vehiculo> vehiculos;
-
-
-
+    private List<Vehiculo> vehiculos;
 
     public List<Vehiculo> getVehiculos() {
         return vehiculos;

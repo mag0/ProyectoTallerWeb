@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .error-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .redirect-message {
+            font-size: 16px;
+            color: #6c757d;
+        }
+        .text-danger {
+            color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+<div class="container error-container text-light">
+    <div class="text-center">
+        <h1 class="error-title">Error</h1>
+        <p class="error-message">Este pedido ya ha sido despachado.</p>
+        <p class="error-message">Por favor, inténtalo con otro pedido.</p>
+        <p class="error-message text-danger"><strong>Recuerda que el pedido solo puede ser despachado una vez.</strong></p>
+        <hr>
+        <p class="redirect-message">Serás redirigido a la página de mis pedidos nuevamente en unos segundos.</p>
+    </div>
+</div>
+
+<!-- Redirección automática después de 8 segundos -->
+<script type="text/javascript">
+    setTimeout(function() {
+        window.location.href = "/spring/misPedidos";
+    }, 9000); // Redirigir después de 9 segundos (9000 milisegundos)
+</script>
+</body>
+</html>

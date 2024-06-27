@@ -1,62 +1,88 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Pedido;
-import com.tallerwebi.dominio.Vehiculo;
-import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
-import com.tallerwebi.servicios.ServicioMostrarVehiculos;
-import com.tallerwebi.servicios.ServicioPedido;
-import com.tallerwebi.servicios.ServicioVehiculo;
-import com.tallerwebi.servicios.ServicioViaje;
+import com.tallerwebi.dominio.Solicitud;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.enums.Estado;
+import com.tallerwebi.servicios.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import java.util.Arrays;
+import java.util.List;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 public class ControladorPedidosTest {
-    private ControladorPedidos pedidosController;
-    private Pedido pedidoMock;
-    private Vehiculo vehiculoMock;
-    private HttpServletRequest requestMock;
-    private HttpSession sessionMock;
-    private ServicioPedido pedidoServiceMock;
-    private ServicioVehiculo vehiculoServiceMock;
-    private ServicioViaje viajeServiceMock;
-    private ServicioMostrarVehiculos servicioMostrarVehiculos;
-    private AsignarPedidoRequest asignarPedidoRequest;
+    private MockMvc mockMvc;
+
+    @Mock
+    private ServicioPedido pedidoService;
+
+    @Mock
+    private ServicioSolicitud servicioSolicitud;
+
+    @Mock
+    private ServicioInicioDeSesion servicioInicioDeSesion;
+
+    @InjectMocks
+    private ControladorPedidos solicitudController;
 
     @BeforeEach
-    public void init(){
-        asignarPedidoRequest = new AsignarPedidoRequest();
-        pedidoMock = mock(Pedido.class);
-        vehiculoMock = mock(Vehiculo.class);
-       // when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
-        requestMock = mock(HttpServletRequest.class);
-        sessionMock = mock(HttpSession.class);
-
-        pedidoServiceMock = mock(ServicioPedido.class);
-        vehiculoServiceMock = mock(ServicioVehiculo.class);
-        servicioMostrarVehiculos = mock(ServicioMostrarVehiculos.class);
-        viajeServiceMock = mock(ServicioViaje.class);
-        pedidosController = new ControladorPedidos(pedidoServiceMock,servicioMostrarVehiculos,viajeServiceMock, vehiculoServiceMock);
-
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(solicitudController).build();
     }
 
     @Test
-    public void agregarUnPedidoAUnVehiculoQueGeneraUnViaje() throws Exception {
-        // preparacion
-        Long vehiculoId = 1L;
-        Long pedidoId = 1L;
+    public void testConfirmarSolicitud() throws Exception {
+        // Preparar datos de prueba
+        List<Long> pedidoIds = Arrays.asList(1L, 2L);
+        Pedido pedido1 = new Pedido();
+        pedido1.setEstado(Estado.DISPONIBLE);
+        Pedido pedido2 = new Pedido();
+        pedido2.setEstado(Estado.DISPONIBLE);
+        Usuario usuario = new Usuario();
+        // Configurar los mocks
+        when(servicioInicioDeSesion.buscarUsuarioActivo()).thenReturn(usuario);
+        when(pedidoService.getPedidosByIds(pedidoIds)).thenReturn(Arrays.asList(pedido1, pedido2));
 
-        when(vehiculoServiceMock.buscarVehiculo(vehiculoId)).thenReturn(vehiculoMock);
-        when(requestMock.getSession()).thenReturn(sessionMock);
-        when(pedidoServiceMock.agregarPedido(vehiculoMock, pedidoId)).thenReturn(1L);
+        // Ejecutar la solicitud y verificar el resultado
+        mockMvc.perform(post("/ofertas/confirmarSolicitud")
+                        .param("pedidoIds", "1", "2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/ofertas"));
 
-        // ejecucion
-        //ResponseEntity<Map<String, Object>> modelAndView = pedidosController.asignarPedido(pedidoId,asignarPedidoRequest);
-
-
+        // Verificar que se llamaron a los métodos esperados
+        verify(servicioSolicitud, times(1)).guardar(any(Solicitud.class));
+        verify(pedidoService, times(1)).guardarTodos(anyList());
     }
 
+    @Test
+    public void testConfirmarSolicitudConError() throws Exception {
+        // Preparar datos de prueba
+        List<Long> pedidoIds = Arrays.asList(1L, 2L);
+        Pedido pedido1 = new Pedido();
+        pedido1.setEstado(Estado.SOLICITADO);
+        Pedido pedido2 = new Pedido();
+        pedido2.setEstado(Estado.DISPONIBLE);
+        // Configurar los mocks
+        when(pedidoService.getPedidosByIds(pedidoIds)).thenReturn(Arrays.asList(pedido1, pedido2));
+
+        // Ejecutar la solicitud y verificar el resultado
+        mockMvc.perform(post("/ofertas/confirmarSolicitud")
+                        .param("pedidoIds", "1", "2"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("error"));
+        // Verificar que no se llamaron a los métodos de guardar
+        verify(servicioSolicitud, never()).guardar(any(Solicitud.class));
+        verify(pedidoService, never()).guardarTodos(anyList());
+    }
 }

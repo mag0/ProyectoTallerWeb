@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,69 +9,162 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 
-<body>
+<body class="bg-dark">
 
 <div th:replace="parts/navbar :: navbar"></div>
 
-<section style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+<section style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
 
-    <form th:action="@{/agregarVehiculo}" method="POST" th:object="${vehiculo}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
-        <div class="mb-3">
-            <label for="patente" class="form-label">Patente</label>
-            <input th:field="*{patente}" type="text" class="form-control" id="patente" name="patente">
-        </div>
-        <div class="mb-3">
-            <label for="marca" class="form-label">Marca</label>
-            <input th:field="*{marca}" type="text" class="form-control" id="marca" name="marca">
-        </div>
-        <div class="mb-3">
-            <label for="modelo" class="form-label">Modelo</label>
-            <input th:field="*{modelo}" type="text" class="form-control" id="modelo" name="modelo">
-        </div>
+    <form th:action="@{/agregarVehiculo}" method="POST" th:object="${vehiculo}" style="color: white; margin: 2rem 0; background-color: #333333; padding: 2em; width: 30%">
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de vehiculo</label>
             <select name="tipo" id="tipo" class="form-select" aria-label="Default select example" th:field="*{tipo}">
+                <option value="">Seleccione un tipo</option>
                 <option value="Moto">Moto</option>
                 <option value="Auto">Auto</option>
                 <option value="Camion">Camion</option>
             </select>
         </div>
         <div class="mb-3">
-            <label for="kilometrajeMaximo" class="form-label">Kilometraje maximo (Km)</label>
-            <input th:field="*{kilometrajeMaximo}" type="number" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo"
-                   aria-describedby="emailHelp">
+            <label for="marca" class="form-label">Marca</label>
+            <select name="marca" id="marca" class="form-select" aria-label="Default select example" th:field="*{marca}" disabled>
+                <option value="">Seleccione una marca</option>
+            </select>
         </div>
         <div class="mb-3">
-            <label for="combustible" class="form-label">Combustible (L)</label>
-            <input th:field="*{combustible}" type="number" class="form-control" id="combustible" name="combustible"
-                   aria-describedby="emailHelp">
+            <label for="modelo" class="form-label">Modelo</label>
+            <select name="modelo" id="modelo" class="form-select" aria-label="Default select example" th:field="*{modelo}" disabled>
+                <option value="">Seleccione un modelo</option>
+            </select>
         </div>
         <div class="mb-3">
-            <label for="resistencia" class="form-label">Resistencia</label>
-            <input th:field="*{resistencia}" type="number" class="form-control" id="resistencia" name="resistencia"
-                   aria-describedby="emailHelp">
+            <label for="patente" class="form-label">Patente</label>
+            <input th:field="*{patente}" type="text" class="form-control" id="patente" name="patente">
         </div>
         <div class="mb-3">
-            <label for="capacidad" class="form-label">Capacidad (Kg)</label>
-            <input th:field="*{capacidad}" type="number" class="form-control" id="capacidad" name="capacidad"
-                   aria-describedby="emailHelp">
+            <label for="kilometrajeMaximo" class="form-label">Kilometraje(Km)</label>
+            <input th:field="*{kilometrajeMaximo}" type="number" class="form-control" id="kilometrajeMaximo" name="kilometrajeMaximo">
+        </div>
+        <div class="mb-3">
+            <label for="combustible" class="form-label">Cantidad de km por litro de combustible (L)</label>
+            <input th:field="*{combustible}" type="number" class="form-control" id="combustible" name="combustible">
+        </div>
+        <div class="mb-3">
+            <label for="resistencia" class="form-label">Peso Soportado para carga (KG)</label>
+            <input th:field="*{resistencia}" type="number" class="form-control" id="resistencia" name="resistencia">
+        </div>
+        <div class="mb-3">
+            <label for="capacidad" class="form-label">Volumen Soportado para carga (mt3)</label>
+            <input th:field="*{capacidad}" type="number" class="form-control" id="capacidad" name="capacidad">
         </div>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
         <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Agregar Vehiculo</button>
     </form>
     <div class="botones-perfil" style="margin: 2rem 0">
         <a th:href="@{/gestionVehicular}">
-            <button class="btn btn-danger" type="submit">Volver</button>
+            <button class="btn btn-danger" type="button">Volver</button>
         </a>
     </div>
 
 </section>
-<footer th:fragment="footer"
-        style="background-color: #FFC107;color:white; width: 100%; height: 5em; display: flex;justify-content: center;align-items: center">
+
+<footer th:fragment="footer" style="background-color: #FFC107; color:white; width: 100%; height: 5em; display: flex; justify-content: center; align-items: center">
     <h2>FleetManager</h2>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-</body>
 
+<script>
+    const data = {
+        Moto: {
+            Honda: ["CBR 500R", "CB 650R", "CBR 1000RR", "Africa Twin", "Rebel 500", "Shadow Phantom", "Gold Wing"],
+            Yamaha: ["MT-07", "YZF-R3", "FZ-09", "XSR900", "Tracer 900", "MT-09", "YZF-R1"],
+            Kawasaki: ["Ninja 400", "Z650", "Vulcan S", "Versys 650", "Z900", "Ninja ZX-6R", "Z H2"],
+            Suzuki: ["GSX-R600", "SV650", "V-Strom 650", "Hayabusa", "Boulevard M109R", "GSX-S750", "DR-Z400SM"],
+            Ducati: ["Monster 821", "Panigale V2", "Scrambler 800", "Multistrada 950", "Diavel 1260", "Streetfighter V4", "Supersport 950"],
+            BMW: ["S1000RR", "R1250GS", "F850GS", "G310R", "R nineT", "K1600B", "F900R"],
+            KTM: ["390 Duke", "1290 Super Duke R", "690 Enduro R", "790 Adventure", "RC 390", "250 Duke", "890 Duke R"],
+            Triumph: ["Street Triple", "Bonneville T120", "Tiger 800", "Daytona Moto2", "Rocket 3", "Speed Triple", "Scrambler 1200"]
+        },
+        Auto: {
+            Toyota: ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Yaris", "Avalon", "Land Cruiser"],
+            Ford: ["Focus", "Mustang", "Fusion", "Escape", "Explorer", "Fiesta", "Edge", "Expedition"],
+            Honda: ["Civic", "Accord", "Fit", "CR-V", "Pilot", "Insight", "HR-V", "Odyssey"],
+            Chevrolet: ["Spark", "Malibu", "Impala", "Equinox", "Tahoe", "Suburban", "Trax", "Silverado"],
+            BMW: ["3 Series", "5 Series", "7 Series", "X3", "X5", "2 Series", "4 Series", "6 Series", "X1", "X7"],
+            Mercedes: ["A-Class", "C-Class", "E-Class", "S-Class", "GLA", "GLC", "GLE", "GLS"],
+            Audi: ["A3", "A4", "A6", "A8", "Q3", "Q5", "Q7", "Q8"],
+            Volkswagen: ["Golf", "Passat", "Jetta", "Tiguan", "Atlas", "Beetle", "Touareg", "Arteon"],
+            Nissan: ["Altima", "Sentra", "Maxima", "Rogue", "Murano", "Pathfinder", "Versa", "GT-R"],
+            Hyundai: ["Elantra", "Sonata", "Tucson", "Santa Fe", "Accent", "Palisade", "Veloster", "Kona"],
+            Kia: ["Rio", "Forte", "Optima", "Sorento", "Sportage", "Telluride", "Soul", "Stinger"],
+            Subaru: ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent", "BRZ", "WRX"],
+            Tesla: ["Model S", "Model 3", "Model X", "Model Y", "Roadster", "Cybertruck"],
+            Peugeot: ["208", "308", "2008", "3008", "5008", "Partner", "Boxer", "Rifter"],
+            Renault: ["Clio", "Megane", "Duster", "Sandero", "Koleos", "Fluence", "Kwid", "Captur"],
+            Fiat: ["Uno", "Punto", "Argo", "Cronos", "Mobi", "Toro", "Fiorino", "Palio"],
+            Citroën: ["C3", "C4", "C5", "Aircross", "Berlingo", "C-Elysée", "Jumpy", "SpaceTourer"]
+        },
+        Camion: {
+            Volvo: ["FH", "FM", "VNL", "VNR", "FMX", "FL", "FE", "VNX"],
+            Scania: ["R450", "S650", "P410", "G500", "R580", "S730", "L360", "P250"],
+            Mercedes: ["Actros", "Arocs", "Atego", "Econic", "Zetros", "Unimog", "Antos", "Axor"],
+            MAN: ["TGX", "TGS", "TGM", "TGL", "TGE", "CLA", "F2000", "TGX EfficientLine"],
+            DAF: ["XF", "CF", "LF", "CF Electric", "LF Electric", "XF Super Space Cab", "CF Construction"],
+            Iveco: ["Stralis", "Trakker", "Eurocargo", "Daily", "S-Way", "X-Way", "T-Way"],
+            Kenworth: ["T680", "T880", "W990", "W900", "T370", "T270", "C500"],
+            Peterbilt: ["579", "389", "567", "520", "337", "220", "389X"],
+            Freightliner: ["Cascadia", "Coronado", "M2 106", "108SD", "114SD", "122SD", "EconicSD"],
+            WesternStar: ["4700", "4800", "4900", "5700XE", "6900", "49X", "47X"]
+    }
+    };
+
+
+    document.getElementById('tipo').addEventListener('change', function() {
+        const tipo = this.value;
+        const marcaSelect = document.getElementById('marca');
+        const modeloSelect = document.getElementById('modelo');
+
+        marcaSelect.innerHTML = '<option value="">Seleccione una marca</option>';
+        modeloSelect.innerHTML = '<option value="">Seleccione un modelo</option>';
+        modeloSelect.disabled = true;
+
+        if (tipo) {
+            marcaSelect.disabled = false;
+            const marcas = Object.keys(data[tipo]);
+            marcas.forEach(function(marca) {
+                const option = document.createElement('option');
+                option.value = marca;
+                option.text = marca;
+                marcaSelect.appendChild(option);
+            });
+        } else {
+            marcaSelect.disabled = true;
+        }
+    });
+
+    document.getElementById('marca').addEventListener('change', function() {
+        const tipo = document.getElementById('tipo').value;
+        const marca = this.value;
+        const modeloSelect = document.getElementById('modelo');
+
+        modeloSelect.innerHTML = '<option value="">Seleccione un modelo</option>';
+
+        if (marca) {
+            modeloSelect.disabled = false;
+            const modelos = data[tipo][marca];
+            modelos.forEach(function(modelo) {
+                const option = document.createElement('option');
+                option.value = modelo;
+                option.text = modelo;
+                modeloSelect.appendChild(option);
+            });
+        } else {
+            modeloSelect.disabled = true;
+        }
+    });
+</script>
+
+</body>
 </html>

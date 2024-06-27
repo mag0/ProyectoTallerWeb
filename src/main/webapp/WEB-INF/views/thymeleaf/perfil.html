@@ -9,8 +9,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
-<body>
+<style>
+    body {
+        color: #ffffff; /* Color del texto */
+    }
 
+    .bg-dark {
+        background-color: #343a40 !important; /* Color de fondo oscuro */
+    }
+
+    .text-light {
+        color: #ffffff !important; /* Color del texto claro */
+    }
+
+    .bg-color {
+        background-color: #e0b24f;
+    }
+    .bg-color-body{
+        background-color: #333333;
+    }
+</style>
+<body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 <section style="display: flex;justify-content: center;align-items: center;">
     <form th:action="@{/modificarPerfil}" method="POST" th:object="${usuario}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">

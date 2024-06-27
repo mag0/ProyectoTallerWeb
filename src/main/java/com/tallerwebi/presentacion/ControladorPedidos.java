@@ -1,22 +1,18 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
-import com.tallerwebi.servicios.ServicioMostrarVehiculos;
-import com.tallerwebi.servicios.ServicioPedido;
-import com.tallerwebi.servicios.ServicioVehiculo;
-import com.tallerwebi.servicios.ServicioViaje;
+import com.tallerwebi.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
@@ -26,37 +22,45 @@ import java.util.List;
 
 @RestController
 public class ControladorPedidos {
-    public static final String REDIRECT_PEDIDOS = "redirect:/pedidos";
+    public static final String REDIRECT_PEDIDOS = "redirect:/ofertas";
     private ServicioPedido pedidoService;
     private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private ServicioVehiculo vehiculoService;
     private ServicioViaje viajeService;
+    private ServicioSolicitud servicioSolicitud;
+    private ServicioInicioDeSesion servicioInicioDeSesion;
 
     @Autowired
-    public ControladorPedidos(ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService) {
+    public ControladorPedidos(ServicioInicioDeSesion servicioInicioDeSesion, ServicioPedido pedidoService, ServicioMostrarVehiculos servicioMostrarVehiculos, ServicioViaje viajeService, ServicioVehiculo vehiculoService, ServicioSolicitud servicioSolicitud) {
         this.pedidoService = pedidoService;
         this.servicioMostrarVehiculos = servicioMostrarVehiculos;
         this.viajeService = viajeService;
         this.vehiculoService = vehiculoService;
+        this.servicioSolicitud = servicioSolicitud;
+        this.servicioInicioDeSesion = servicioInicioDeSesion;
     }
 
-
-    @RequestMapping("/pedidos")
-    public ModelAndView irAPedidos() {
+    @RequestMapping("/ofertas")
+    public ModelAndView mostrarPedidos() {
+        // Obtener todos los pedidos que no tienen viaje asignado
         List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
-
+        // Crear un mapa de modelo y añadir los pedidos
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("pedidos", pedidos);
-        return new ModelAndView("pedidos", modelMap);
+        // Retornar la vista 'ofertas' con el modelo
+        return new ModelAndView("ofertas", modelMap);
 
     }
 
-    @GetMapping("/pedidos/{id}/asignar")
+    @GetMapping("/ofertas/{id}/asignar")
     public ModelAndView asignarPedido(@PathVariable("id") Long id) {
         try{
+            // Obtener los vehículos disponibles del usuario
             List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
+            // Obtener el pedido por su ID
             Pedido pedido = pedidoService.getPedido(id);
 
+            // Crear un mapa de modelo y añadir el pedido, vehículos y solicitud de asignación
             ModelMap modelMap = new ModelMap();
             AsignarPedidoRequest asignarPedido = new AsignarPedidoRequest(pedido);
 
@@ -64,94 +68,53 @@ public class ControladorPedidos {
             modelMap.addAttribute("vehiculos", vehiculos);
             modelMap.addAttribute("asignarPedido", asignarPedido);
 
-            pedido.setEstado(Estado.DESPACHADO);
+            // Retornar la vista 'asignarPedido' con el modelo
             return new ModelAndView("asignarPedido", modelMap);
         }catch(Exception e) {
+            // En caso de error, añadir el mensaje de error al modelo y retornar la vista 'asignarPedido'
             ModelMap modelMap = new ModelMap();
             modelMap.addAttribute("error", e.getMessage());
             return new ModelAndView("asignarPedido", modelMap);
         }
     }
+    // Asigna un pedido a un vehículo y crea un viaje
+    @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
+    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
+                                      @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
 
-    @PostMapping("/pedidos/{pedidoId}/asignar/{vehiculoId}")
-    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId, @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
+        // Obtener el pedido por su ID
         Pedido pedido = pedidoService.getPedido(pedidoId);
-        Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
-        Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
-        Long viajeId = viajeService.guardar(viaje);
-
-        ModelAndView mav = new ModelAndView("resultadoAsignacion");
-        mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+viajeId+"");
-
-        return mav;
-    }
-    @GetMapping("/pedidos/cancelar/{id}")
-    public ModelAndView confirmarCancelacion(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("confirmar_cancelacion");
-        modelAndView.addObject("pedidoId", id);
-        return modelAndView;
-    }
-
-    @PostMapping("/pedidos/cancelar/{id}")
-    public ModelAndView cancelarPedido(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        try {
-            boolean isDeleted = pedidoService.eliminarPedido(id);
-            ModelAndView modelAndView = new ModelAndView(REDIRECT_PEDIDOS);
-            if (isDeleted) {
-                redirectAttributes.addFlashAttribute("mensaje", "Pedido eliminado con éxito.");
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Error al eliminar el pedido.");
-            }
-            return modelAndView;
-        } catch (Exception e){
-            redirectAttributes.addFlashAttribute("error", "No se pudo eliminar el pedido.");
-            return new ModelAndView(REDIRECT_PEDIDOS);
+        if (!pedido.getEstado().equals(Estado.DESPACHADO)) {
+            // Si el pedido no está despachado, cambiar su estado a DESPACHADO
+            pedido.setEstado(Estado.DESPACHADO);
+            // Obtener el vehículo por su ID
+            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
+            // Cargar el pedido en el vehículo y crear un viaje
+            Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
+            // Guardar el viaje y obtener su ID
+            Long viajeId = viajeService.guardar(viaje);
+            // Crear un ModelAndView para la vista 'resultadoAsignacion' y añadir un mensaje de éxito
+            ModelAndView mav = new ModelAndView("resultadoAsignacion");
+            mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+ viajeId +"");
+        } else {
+            // Si el pedido ya está despachado, retornar la vista de error 'error_despachar'
+            return new ModelAndView("error_despachar");
         }
 
-    }
 
-
-    @GetMapping
-    public String listarPedidos(Model model) {
-        List<Pedido> pedidos = pedidoService.obtenerTodosLosPedidos();
-        model.addAttribute("pedidos", pedidos);
-        return "pedidos";
+        return new ModelAndView("resultadoAsignacion");
     }
-
-    @GetMapping("/pedidos/{id}/reprogramar-pedido")
-    public ModelAndView mostrarFormularioReprogramacion(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("reprogramar-pedido");
-        try {
-            Pedido pedido = pedidoService.buscarPorId(id);
-            mav.addObject("pedido", pedido);
-        } catch (Exception e) {
-            mav.addObject("errorMessage", "El pedido" + id + "no existe");
-        }
-        return mav;
-    }
-
-    // Método para procesar el formulario de reprogramación
-    @PostMapping("/pedidos/{id}/reprogramar-pedido")
-    public ModelAndView reprogramarPedido(@PathVariable("id") Long id, @RequestParam("nuevaFecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate nuevaFecha) {
-       try {
-           Pedido pedido = pedidoService.buscarPorId(id);
-           pedido.setEstado(Estado.REPROGRAMADO);
-           pedidoService.actualizarPedido(pedido);
-           pedidoService.reprogramarFecha(id, nuevaFecha);
-           return new ModelAndView(REDIRECT_PEDIDOS);
-       } catch (Exception e) {
-           ModelAndView mav = new ModelAndView();
-            mav.addObject("error", "El pedido" + id + "no se puede reprogramar");
-       }
-        return new ModelAndView(REDIRECT_PEDIDOS);
-    }
-    @GetMapping("/pedidos/detalles/{id}")
+    // Carga los detalles de un pedido
+    @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
+        // Crear un ModelAndView para la vista 'detallesPedido'
         ModelAndView mav = new ModelAndView("detallesPedido");
         try {
+            // Obtener el pedido por su ID
             Pedido pedido = pedidoService.getPedido(id);
             mav.addObject("pedido", pedido);
         } catch (Exception e) {
+            // En caso de error, añadir un mensaje de error al modelo
             mav.addObject("errorMessage", "Error al cargar detalles del pedido.");
         }
         return mav;
@@ -192,43 +155,52 @@ public class ControladorPedidos {
     }
 
 
-    // Mostrar página de edición de pedido
-    @GetMapping("/pedidos/{id}/editar")
-    public ModelAndView mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        try {
-            Pedido pedido = pedidoService.buscarPorId(id);
-            model.addAttribute("pedido", pedido);
-            return new ModelAndView("editarPedido");
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
+    @PostMapping("/ofertas/formularioSolicitud")
+    public ModelAndView mostrarFormularioSolicitud(@RequestParam("selectedPedidos") List<Long> pedidoIds, Model model) {
+        // Obtener los pedidos seleccionados
+        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+
+        // Agregar los pedidos al modelo para pasarlos a la vista
+        model.addAttribute("pedidos", pedidos);
+
+        // Crear un objeto ModelAndView y agregar la vista y el modelo
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("formularioSolicitud");
+        modelAndView.addObject("pedidos", pedidos);
+
+        // Retornar el objeto ModelAndView
+        return modelAndView;
     }
 
-    @PostMapping("/pedidos/{id}/editar")
-    public ModelAndView editarPedido(@PathVariable Long id, @ModelAttribute Pedido pedido) {
-        try {
-            pedido.setId(id);
-            pedidoService.actualizarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
-        }
-    }
+    @PostMapping("/ofertas/confirmarSolicitud")
+    public ModelAndView confirmarSolicitud(@RequestParam("pedidoIds") List<Long> pedidoIds) {
+        // Crear la solicitud
+        Solicitud solicitud = new Solicitud();
+        // Asignar el usuario activo a la solicitud
+        solicitud.setUsuario(servicioInicioDeSesion.buscarUsuarioActivo());
+        // Obtener los pedidos seleccionados por sus IDs
+        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+        // Iterar sobre los pedidos para asociarlos a la solicitud y cambiar su estado
+        for (Pedido pedido : pedidos) {
+            if (!pedido.getEstado().equals(Estado.SOLICITADO)) {
+                // Asociar la solicitud al pedido y cambiar su estado
+                    pedido.setSolicitud(solicitud);
+                    pedido.setEstado(Estado.SOLICITADO);
+            }else {
+                // Si algún pedido ya está solicitado, devolver una vista de error
+                return new ModelAndView("error");
+            }
 
-    @PostMapping("/pedidos")
-    public ModelAndView crearPedido( @ModelAttribute Pedido pedido) {
-        try {
-            pedidoService.guardarPedido(pedido);
-            return new ModelAndView(REDIRECT_PEDIDOS);
-        } catch (Exception e) {
-            return new ModelAndView("error");
         }
-    }
 
+        // Guardar la solicitud y los pedidos asociados
+        servicioSolicitud.guardar(solicitud);
+        pedidoService.guardarTodos(pedidos);
+        // Redirigir a la vista de pedidos
+        return new ModelAndView(REDIRECT_PEDIDOS);
+    }
 }
-/*
- TODO: mostrar status del pedido, por ejemplo: pendiente, reprogramado o finalizado (HECHO 50%)
- TODO: importacion y exportacion de archivos csv o excel con los pedidos
- TODO: mostrar el historial de pedidos
- TODO: mostrar cantidad de pedidos pendientes, reprogramados o finalizados
- */
+
+
+
+

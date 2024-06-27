@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 @Transactional
 public class ServicioVehiculoImpl implements ServicioVehiculo {
+
     private final RepositorioVehiculo vehiculoRepository;
 
     @Autowired
@@ -49,9 +50,8 @@ public class ServicioVehiculoImpl implements ServicioVehiculo {
         vehiculoRepository.actualizar(vehiculo);
 
         viaje.setVehiculo(vehiculo);
-
-        viaje.setPaqueteIds(pedidosList);
-        viaje.setZonaId(1L);
+        viaje.setPedidos(pedidosList);
+        viaje.setFecha(pedidosList.get(0).getFecha());
 
         return viaje;
     }

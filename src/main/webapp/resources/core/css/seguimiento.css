@@ -1,0 +1,103 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 20px;
+}
+
+.details-card {
+    flex: 1;
+    margin-right: 10px;
+    overflow-y: auto;
+    max-height: 450px;
+}
+
+.map-container {
+    flex: 2;
+    height: 800px;
+    width: 800px;
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.bg-color {
+    background-color: #e0b24f;
+}
+
+body {
+    color: #ffffff; /* Color del texto */
+}
+
+.bg-dark {
+    background-color: #343a40 !important; /* Color de fondo oscuro */
+}
+
+.text-light {
+    color: #ffffff !important; /* Color del texto claro */
+}
+
+.bg-color {
+    background-color: #e0b24f;
+}
+
+.bg-color-body {
+    background-color: #333333;
+}
+
+.details-card {
+    overflow-y: auto;
+    max-height: 80vh;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #e0b24f #343a40; /* Firefox */
+}
+
+/* Webkit-based browsers (Chrome, Safari) */
+.details-card::-webkit-scrollbar {
+    width: 12px;
+}
+
+.details-card::-webkit-scrollbar-thumb {
+    background-color: #e0b24f;
+    border-radius: 10px;
+    border: 2px solid #343a40;
+}
+
+.details-card::-webkit-scrollbar-track {
+    background-color: #343a40;
+    border-radius: 10px;
+}
+
+.map-container {
+    flex: 1;
+    height: 80vh;
+    margin-left: 20px;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+.mapboxgl-canvas{
+    padding-top: 10px;
+}
+.marker {
+    background-color: #e74c3c;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}

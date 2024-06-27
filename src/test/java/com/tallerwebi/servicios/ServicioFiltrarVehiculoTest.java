@@ -2,6 +2,7 @@ package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.excepcion.NoExisteFiltrado;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosEnLaFlota;
 import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.repositorios.RepositorioVehiculo;
@@ -30,7 +31,9 @@ public class ServicioFiltrarVehiculoTest {
 
     @Test
     public void seDevuelveUnaListaDeVehiculosQueContienenElDatoRecibido() {
-        String datoRecibido = "toyota";
+        String tipo = "auto";
+        String marca = "";
+        String modelo = "";
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setActivo(true);
@@ -39,7 +42,7 @@ public class ServicioFiltrarVehiculoTest {
         when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
         when(repositorioVehiculo.buscarTodosPorUsuario(usuario.getId())).thenReturn(vehiculos);
 
-        List<Vehiculo> vehiculosFiltrados = whenSeRecibeUnaListaDeVehiculoFiltrados(datoRecibido);
+        List<Vehiculo> vehiculosFiltrados = whenSeRecibeUnaListaDeVehiculoFiltrados(tipo,marca,modelo);
 
         thenSeEnviaUnaListaDeVehiculosFiltrados(vehiculosFiltrados);
     }
@@ -59,8 +62,8 @@ public class ServicioFiltrarVehiculoTest {
         return vehiculos;
     }
 
-    private List<Vehiculo> whenSeRecibeUnaListaDeVehiculoFiltrados(String datoRecibido) {
-        return servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoRecibido);
+    private List<Vehiculo> whenSeRecibeUnaListaDeVehiculoFiltrados(String tipo, String marca, String modelo) {
+        return servicioFiltrarVehiculo.obtenerVehiculosFiltrados(tipo, marca, modelo);
     }
 
     private void thenSeEnviaUnaListaDeVehiculosFiltrados(List<Vehiculo> vehiculosFiltrados) {
@@ -69,16 +72,35 @@ public class ServicioFiltrarVehiculoTest {
 
     @Test
     public void siNoExistenVehiculosConElDatoEnviadoSeDevuelveMensaje() {
+        String tipo = "auto";
+        String marca = "messi";
+        String modelo = "";
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setActivo(true);
         List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos(usuario);
-        String datoRecibido = "fiat";
 
         when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
         when(repositorioVehiculo.buscarTodosPorUsuario(usuario.getId())).thenReturn(vehiculos);
 
         assertThrows(NoHayVehiculosEnLaFlota.class,
-                () -> servicioFiltrarVehiculo.obtenerVehiculosFiltrados(datoRecibido));
+                () -> servicioFiltrarVehiculo.obtenerVehiculosFiltrados(tipo,marca,modelo));
+    }
+
+    @Test
+    public void siNoExistenFiltrosSeDevuelveMensaje() {
+        String tipo = "";
+        String marca = "";
+        String modelo = "";
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setActivo(true);
+        List<Vehiculo> vehiculos = givenTengoUnaListaDeVehiculos(usuario);
+
+        when(repositorioUsuario.buscarUsuarioActivo()).thenReturn(usuario);
+        when(repositorioVehiculo.buscarTodosPorUsuario(usuario.getId())).thenReturn(vehiculos);
+
+        assertThrows(NoExisteFiltrado.class,
+                () -> servicioFiltrarVehiculo.obtenerVehiculosFiltrados(tipo,marca,modelo));
     }
 }

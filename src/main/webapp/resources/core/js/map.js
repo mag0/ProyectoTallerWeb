@@ -1,125 +1,140 @@
-let pedidoLat = document.getElementById("pedidoLat").value;
-let pedidoLon = document.getElementById("pedidoLon").value;
-let pedidoStatus = document.getElementById("pedidoStatus").value;
+let pedidoLat = parseFloat(document.getElementById("pedidoLat").value);
+let pedidoLon = parseFloat(document.getElementById("pedidoLon").value);
 
-if(pedidoStatus !== 'RECIBIDO'){
-    mapboxgl.accessToken = 'pk.eyJ1IjoibHVjb3NhIiwiYSI6ImNseDZmcXphMDFxN2UycW9lcDQwNmFidTUifQ.H4VUeIgiGUXMaQXOB849MA';
+// Definir la ubicación del origen
+let origenLat = -34.6037; // Ejemplo: Latitud fija para el origen
+let origenLon = -58.3816; // Ejemplo: Longitud fija para el origen
 
-    const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        zoom: 15,
-    });
+mapboxgl.accessToken = 'pk.eyJ1IjoibHVjb3NhIiwiYSI6ImNseDZmcXphMDFxN2UycW9lcDQwNmFidTUifQ.H4VUeIgiGUXMaQXOB849MA';
 
-    function createMarkerPedido(coords){
-        new mapboxgl.Marker({ color: 'red' }).setLngLat(coords).addTo(map);
-    }
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    zoom: 15,
+    center: [pedidoLon, pedidoLat] // Centra el mapa inicialmente en la ubicación del pedido (destino)
+});
 
-    map.on('load', async () => {
-        // Crea y agrega la marca de partida
-        // Llama a la función para obtener la ubicación del usuario
-        initWithLocation([pedidoLon, pedidoLat]);
-    });
+function createMarkerPedido(coords) {
+    new mapboxgl.Marker({ color: 'red' }).setLngLat(coords).addTo(map);
 }
 
+function createMarkerOrigen(coords) {
+    new mapboxgl.Marker({ color: 'green' }).setLngLat(coords).addTo(map);
+}
 
+map.on('load', async () => {
+    // Crear y agregar la marca del destino
+    createMarkerPedido([pedidoLon, pedidoLat]);
 
-async function renderingRoute(partida, destino, startMarker) {
-    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${partida[0]},${partida[1]};${destino[0]},${destino[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
+    // Crear y agregar la marca del origen
+    createMarkerOrigen([origenLon, origenLat]);
 
-    const responseMapBox = await fetch(url)
-    const dataMapBox = await responseMapBox.json()
+    // Renderiza la ruta entre el origen fijo y el destino
+    await renderingRoute([origenLon, origenLat], [pedidoLon, pedidoLat]);
 
-            console.log({dataMapBox})
-            if (dataMapBox.routes && dataMapBox.routes.length > 0) {
-                const ruta = dataMapBox.routes[0].geometry;
-                const detailedSteps = dataMapBox.routes[0].legs[0].steps;
-                const coordenadas = ruta.coordinates;
+    // Calcula y muestra la distancia en la consola
+    const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
+    document.getElementById('distancia').textContent = `Distancia: ${distancia.toFixed(2)} km`;
 
-                // Verifica si la capa de ruta ya existe y elimínala si es necesario
-                if (map.getLayer('ruta')) {
-                    map.removeLayer('ruta');
-                    map.removeSource('ruta');
+    // Centra el mapa en una vista general de la ruta entre el origen y el destino
+    map.fitBounds([
+        [origenLon, origenLat], // Coordenadas del origen
+        [pedidoLon, pedidoLat] // Coordenadas del destino
+    ], {
+        padding: {top: 50, bottom: 50, left: 50, right: 50} // Espaciado alrededor de los bordes del mapa
+    });
+});
+
+async function renderingRoute(partida, destino) {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${partida[0]},${partida[1]};${destino[0]},${destino[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+    const responseMapBox = await fetch(url);
+    const dataMapBox = await responseMapBox.json();
+
+    if (dataMapBox.routes && dataMapBox.routes.length > 0) {
+        const ruta = dataMapBox.routes[0].geometry;
+        const detailedSteps = dataMapBox.routes[0].legs[0].steps;
+        const coordenadas = ruta.coordinates;
+
+        // Verifica si la capa de ruta ya existe y elimínala si es necesario
+        if (map.getLayer('ruta')) {
+            map.removeLayer('ruta');
+            map.removeSource('ruta');
+        }
+
+        // Agrega la capa de la ruta al mapa
+        map.addLayer({
+            id: 'ruta',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: ruta
                 }
-                map.setCenter(partida);
-
-                // Agrega la capa de la ruta al mapa
-                map.addLayer({
-                    id: 'ruta',
-                    type: 'line',
-                    source: {
-                        type: 'geojson',
-                        data: {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: ruta
-                        }
-                    },
-                    layout: {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    paint: {
-                        'line-color': '#3887be',
-                        'line-width': 5,
-                        'line-opacity': 0.75
-                    }
-                });
-
-                // Anima el marcador a lo largo de la ruta
-                animateMarkerAlongRoute(detailedSteps, startMarker,map);
-            } else {
-                console.error('No se encontraron rutas.');
+            },
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            paint: {
+                'line-color': '#3887be',
+                'line-width': 5,
+                'line-opacity': 0.75
             }
+        });
 
-}
+        // Muestra el tráfico en la consola
+        const duracionConTrafico = dataMapBox.routes[0].duration / 60; // en minutos
+        const distanciaConTrafico = dataMapBox.routes[0].distance / 1000; // en km
 
-function animateMarkerAlongRouteold(coordinates, marker, detailedSteps,duration=30000) {
-    let index = 0;
-    const totalFrames = coordinates.length;
-    const timePerFrame = duration / totalFrames; // Duración en milisegundos por frame
+        // Muestra la información en el DOM
+        document.getElementById('trafico').textContent = `Duracion con trafico: ${duracionConTrafico.toFixed(2)} minutos`;
+        document.getElementById('distanciaConTrafico').textContent = `Distancia con trafico: ${distanciaConTrafico.toFixed(2)} km`;
 
-    function animate() {
-        if (index < totalFrames) {
-            marker.setLngLat(coordinates[index]);
-            map.setCenter(coordinates[index]);
-            index++;
-            setTimeout(animate, timePerFrame);
-        }
+    } else {
+        console.error('No se encontraron rutas.');
     }
-
-    // Inicia la animación
-    animate();
 }
 
-function animateMarkerAlongRoute(route, marker, map) {
-    let stepIndex = 0;
+function calcularDistancia(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radio de la Tierra en km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lat2 - lon1);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
 
-    function animateStep(timestamp, start) {
-        if (!start) start = timestamp;
-        const step = route[stepIndex];
-        const stepDuration = step.duration * 1000; // Convert duration to milliseconds
-        const progress = Math.min((timestamp - start) / stepDuration, 1); // Progress between 0 and 1
-        const coordinates = step.geometry.coordinates;
-        const [startLng, startLat] = coordinates[0];
-        const [endLng, endLat] = coordinates[1];
+function toRad(value) {
+    return value * Math.PI / 180;
+}
 
-        // Interpolación lineal entre el punto de inicio y el punto final
-        const currentLng = startLng + (endLng - startLng) * progress;
-        const currentLat = startLat + (endLat - startLat) * progress;
-
-        marker.setLngLat([currentLng, currentLat]);
-        map.setCenter([currentLng, currentLat]);
-
-        if (progress < 1) {
-            requestAnimationFrame((timestamp) => animateStep(timestamp, start));
+async function reverseGeocode(latitude, longitude) {
+    const apiKey = mapboxgl.accessToken;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${apiKey}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.features && data.features.length > 0) {
+            return data.features[0].place_name;
         } else {
-            stepIndex++;
-            if (stepIndex < route.length) {
-                requestAnimationFrame(animateStep);
-            }
+            console.error('Error in geocoding:', data.message);
         }
+    } catch (error) {
+        console.error('Request failed', error);
     }
-
-    requestAnimationFrame(animateStep);
+    return null;
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const latitude = pedidoLat;
+    const longitude = pedidoLon;
+    const address = await reverseGeocode(latitude, longitude);
+    if (address) {
+        document.getElementById('address').textContent = `Destino: ${address}`;
+    }
+});

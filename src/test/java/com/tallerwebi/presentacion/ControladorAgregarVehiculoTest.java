@@ -30,8 +30,7 @@ public class ControladorAgregarVehiculoTest {
     }
 
     private ModelAndView whenEnvioDatosDelVehiculoAlServicio(Vehiculo vehiculo) {
-        ModelAndView mav = controladorAgregarVehiculo.agregarVehiculo(vehiculo);
-        return mav;
+        return controladorAgregarVehiculo.agregarVehiculo(vehiculo);
     }
 
     private void thenSeVaALaVistaDeGestionVehicular(ModelAndView mav) {

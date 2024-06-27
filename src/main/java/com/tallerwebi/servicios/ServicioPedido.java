@@ -2,6 +2,8 @@ package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Vehiculo;
+import com.tallerwebi.dominio.Viaje;
+import com.tallerwebi.dominio.excepcion.NoHayVehiculosDisponibles;
 
 import java.util.List;
 
@@ -20,4 +22,12 @@ public interface ServicioPedido {
     void reprogramarFecha(Long id, LocalDate nuevaFecha);
     void actualizarPedido(Pedido pedido);
     Long guardarPedido(Pedido pedido);
+
+    List<Pedido> getPedidosByIds(List<Long> pedidoIds);
+
+    void guardarTodos(List<Pedido> pedidos);
+
+    List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud);
+
+    List<Viaje> asignarPedidos(List<Pedido> pedidos);
 }
