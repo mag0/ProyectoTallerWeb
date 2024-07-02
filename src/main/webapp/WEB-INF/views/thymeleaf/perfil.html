@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <title>FleetManager</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -11,7 +14,11 @@
 </head>
 <style>
     body {
+        padding: 0;
+        margin: 0 auto;
+        height: 100vh;
         color: #ffffff; /* Color del texto */
+        font-family: "Nunito", sans-serif;
     }
 
     .bg-dark {
@@ -28,34 +35,45 @@
     .bg-color-body{
         background-color: #333333;
     }
+    .container{
+        width: 100vw;
+    }
 </style>
 <body class="bg-dark">
-<div th:replace="parts/navbar :: navbar"></div>
-<section style="display: flex;justify-content: center;align-items: center;">
-    <form th:action="@{/modificarPerfil}" method="POST" th:object="${usuario}" style="color: white;margin: 2rem 0;background-color: rgb(187, 185, 185);padding: 2em;width: 30%">
-        <div class="mb-3">
-            <label for="usuario" class="form-label">usuario</label>
-            <input th:field="*{nombreUsuario}" type="text" class="form-control" id="usuario" name="usuario">
+<header>
+    <div th:replace="parts/navbar :: navbar"></div>
+</header>
+<section style="display: flex; justify-content: center; align-items: center;">
+    <div class="container d-flex justify-content-center align-content-center flex-column">
+        <div class="title text-center">
+            <h1 class="text-light mt-5">Perfil</h1>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input th:field="*{password}" type="text" class="form-control" id="password" name="password">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input th:field="*{email}" type="text" class="form-control" id="email" name="email">
-        </div>
-        <button style="margin-top: 1em;" type="submit" class="btn btn-primary">Modificar</button>
-    </form>
-</section>
-<div class="container" >
-    <div class="row my-4 ">
-        <div class="col-4 offset-5">
-            <a class="btn btn-warning btn-lg" th:href="@{/gestionVehicular}">Volver</a>
+        <div class="card p-5 mt-4 d-table mx-auto" style="background-color: #f8d088; width: 500px; height: 400px;">
+            <form th:action="@{/modificarPerfil}" method="POST" th:object="${usuario}">
+                <div class="mb-3">
+                    <label for="usuario" class="form-label text-dark" style="font-weight: bold">Usuario</label>
+                    <input th:field="*{nombreUsuario}" type="text" class="form-control" id="usuario" name="usuario">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label text-dark" style="font-weight: bold">Contraseña</label>
+                    <input th:field="*{password}" type="text" class="form-control" id="password" name="password">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label text-dark" style="font-weight: bold">Email</label>
+                    <input th:field="*{email}" type="text" class="form-control" id="email" name="email">
+                </div>
+                <div class="card-footer border-0 d-flex justify-content-center mt-xxl-5">
+                    <button type="submit" class="btn btn-primary" style="font-weight: bold">Modificar</button>
+                    <a class="btn btn-danger" th:href="@{/gestionVehicular}" style="font-weight: bold">Volver</a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
-<div th:replace="parts/footer :: footer"></div>
+</section>
+
+<footer>
+    <div th:replace="parts/footer :: footer"></div>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
