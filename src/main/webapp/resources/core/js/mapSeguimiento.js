@@ -13,6 +13,37 @@ const map = new mapboxgl.Map({
     center: [origenLon, origenLat] // Centra el mapa inicialmente en el origen
 });
 
+let rutaCoordenadas = [];
+let currentStep = 0;
+
+document.getElementById('avanzar').addEventListener('click', () => {
+    if (rutaCoordenadas.length > 0 && currentStep < rutaCoordenadas.length - 1) {
+        currentStep++;
+        const [pedidoLon, pedidoLat] = rutaCoordenadas[currentStep];
+
+        // Eliminar el marcador anterior del pedido
+        const markers = document.querySelectorAll('.mapboxgl-marker');
+        markers.forEach(marker => marker.remove());
+
+        // Crear marcadores para origen y nuevo destino
+        createMarker([origenLon, origenLat], 'green', 'A'); // Marcador del origen con letra A
+        createMarker([pedidoLon, pedidoLat], 'red', 'B'); // Marcador del destino con letra B
+
+        // Calcular la distancia actualizada
+        const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
+        document.getElementById('distancia').textContent = `Distancia: ${distancia.toFixed(2)} km`;
+
+        // Centrar el mapa en la nueva ubicación
+        map.flyTo({
+            center: [pedidoLon, pedidoLat],
+            essential: true
+        });
+    } else {
+        console.log('No hay más pasos en la ruta o la ruta no está cargada.');
+    }
+});
+
+
 // Crear marcadores
 function createMarker(coords, color, number) {
     // Verificar si el número o etiqueta es válido
@@ -112,6 +143,10 @@ async function renderingRoute(partida, destino) {
     if (dataMapBox.routes && dataMapBox.routes.length > 0) {
         const ruta = dataMapBox.routes[0].geometry;
 
+        // Guardar las coordenadas de la ruta
+        rutaCoordenadas = ruta.coordinates;
+        currentStep = 0;
+
         // Verificar si la capa de ruta ya existe y eliminarla si es necesario
         if (map.getLayer('ruta')) {
             map.removeLayer('ruta');
@@ -152,6 +187,7 @@ async function renderingRoute(partida, destino) {
         console.error('No se encontraron rutas.');
     }
 }
+
 
 // Calcular distancia entre dos coordenadas
 function calcularDistancia(lat1, lon1, lat2, lon2) {
