@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <title>Detalles y Seguimiento</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
     <script th:src="@{/js/geolocation.js}"></script>
 
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
@@ -87,7 +91,7 @@
         }
     </style>
 </head>
-<body class="bg-dark">
+<body class="bg-dark" style="font-family: Nunito, sans-serif;">
 <div th:replace="parts/navbar :: navbar"></div>
 <div class="container">
     <div class="details-card">
