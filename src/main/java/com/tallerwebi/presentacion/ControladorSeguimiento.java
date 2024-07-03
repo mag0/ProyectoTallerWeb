@@ -2,13 +2,13 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Pedido;
 import com.tallerwebi.dominio.Solicitud;
+import com.tallerwebi.dominio.enums.Estado;
 import com.tallerwebi.servicios.ServicioInicioDeSesion;
 import com.tallerwebi.servicios.ServicioPedido;
 import com.tallerwebi.servicios.ServicioSolicitud;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -42,5 +42,28 @@ public class ControladorSeguimiento {
     public ModelAndView buscar() {
         ModelMap model = new ModelMap();
         return new ModelAndView("seguimiento", model);
+    }
+
+    @PostMapping("/finDeSeguimiento")
+    public ModelAndView finDeSeguimiento(@RequestParam("pedidoId") Long pedidoId, @RequestParam("solicitudId") Long solicitudId) {
+        ModelMap model = new ModelMap();
+        Pedido pedido = pedidoService.getPedido(pedidoId);
+
+        pedidoService.entregarPedidoDeUnaSolicitud(pedido);
+
+        model.put("pedido", pedido);
+
+        return new ModelAndView("redirect:/vistaFinDeSeguimiento/"+solicitudId, model);
+    }
+
+    @GetMapping("/vistaFinDeSeguimiento/{solicitudId}")
+    public ModelAndView vistaFinDeSeguimiento(@PathVariable("solicitudId") Long solicitudId) {
+        ModelMap model = new ModelMap();
+        Solicitud solicitud = servicioSolicitud.getAllSolicitudes().stream()
+                .filter(s -> s.getId().equals(solicitudId)).findFirst().get();
+
+        model.put("solicitud",solicitud);
+
+        return new ModelAndView("finalizarSeguimiento", model);
     }
 }

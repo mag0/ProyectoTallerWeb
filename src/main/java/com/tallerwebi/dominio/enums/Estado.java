@@ -7,5 +7,6 @@ public enum Estado {
     DESPACHADO,
     ENVIADO,
     RECIBIDO,
-    REPROGRAMADO
+    REPROGRAMADO,
+    FINALIZADO
 }

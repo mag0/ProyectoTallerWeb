@@ -15,19 +15,16 @@ const map = new mapboxgl.Map({
 
 let rutaCoordenadas = [];
 let currentStep = 0;
+const globalMarkers = {};
 
 document.getElementById('avanzar').addEventListener('click', () => {
     if (rutaCoordenadas.length > 0 && currentStep < rutaCoordenadas.length - 1) {
         currentStep++;
         const [pedidoLon, pedidoLat] = rutaCoordenadas[currentStep];
-
-        // Eliminar el marcador anterior del pedido
-        const markers = document.querySelectorAll('.mapboxgl-marker');
-        markers.forEach(marker => marker.remove());
+        console.log({rutaCoordenadas, pedidoLon, pedidoLat})
 
         // Crear marcadores para origen y nuevo destino
-        createMarker([origenLon, origenLat], 'green', 'A'); // Marcador del origen con letra A
-        createMarker([pedidoLon, pedidoLat], 'red', 'B'); // Marcador del destino con letra B
+        updateMarker( 'coord_A',[origenLon, origenLat]); // Marcador del origen con letra A
 
         // Calcular la distancia actualizada
         const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
@@ -44,11 +41,12 @@ document.getElementById('avanzar').addEventListener('click', () => {
 });
 
 
+
 // Crear marcadores
-function createMarker(coords, color, number) {
+function createMarker(coords, color, point) {
     // Verificar si el número o etiqueta es válido
-    if (!number) {
-        number = ''; // Asignar un valor por defecto si es undefined
+    if (!point) {
+        point = ''; // Asignar un valor por defecto si es undefined
     }
 
     // Crear un elemento div que contendrá el marcador
@@ -61,12 +59,24 @@ function createMarker(coords, color, number) {
     el.style.display = 'flex';
     el.style.justifyContent = 'center';
     el.style.alignItems = 'center';
-    el.innerHTML = `<span style="color: white; font-size: 16px;">${number}</span>`; // Número en el marcador
+    el.id = `coord_${point}`;
+    el.innerHTML = `<span style="color: white; font-size: 16px;">${point}</span>`; // Número en el marcador
 
-    // Crear el marcador
-    new mapboxgl.Marker(el)
+    // Crear el marcador y añadirlo al mapa
+    return new mapboxgl.Marker(el)
         .setLngLat(coords)
         .addTo(map);
+
+    // Guardar el marcador en el objeto markers
+   // markers[el.id] = marker;
+}
+
+// Función para actualizar la posición de un marcador por ID
+function updateMarker(id, newCoords) {
+    console.log(globalMarkers.dinamic.getLngLat());
+    globalMarkers.dinamic.setLngLat(newCoords).update();
+
+    map.setCenter(newCoords);
 }
 
 
@@ -93,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const form = e.target.closest('.ver-ruta-form');
             const pedidoLat = parseFloat(form.querySelector('input[name="pedidoLat"]').value);
             const pedidoLon = parseFloat(form.querySelector('input[name="pedidoLon"]').value);
+
             if (isValidCoordinate(pedidoLat, pedidoLon)) {
                 await showRoute(pedidoLat, pedidoLon);
             } else {
@@ -113,8 +124,11 @@ async function showRoute(pedidoLat, pedidoLon) {
     markers.forEach(marker => marker.remove());
 
     // Crear marcadores para origen y destino
-    createMarker(origen, 'green', 'A'); // Marcador del origen con letra A
-    createMarker(destino, 'red', 'B'); // Marcador del destino con letra B
+    const dinamicMarker = createMarker(origen, 'green', 'A'); // Marcador del origen con letra A
+    const staticMarker = createMarker(destino, 'red', 'B'); // Marcador del destino con letra B
+
+    globalMarkers.dinamic = dinamicMarker
+    globalMarkers.static = staticMarker
 
     // Generar la ruta
     await renderingRoute(origen, destino);

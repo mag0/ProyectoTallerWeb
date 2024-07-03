@@ -91,6 +91,7 @@ public class ServicioPedidoImpl implements ServicioPedido {
         }
 
 
+
         //Agrupo los viajes que tienen mismo vehiculo y mismo destino en un solo viaje
         Map<String, Viaje> viajesAgrupados = new HashMap<>();
 
@@ -116,6 +117,12 @@ public class ServicioPedidoImpl implements ServicioPedido {
         }
         System.out.println("Fin");
         return viajesFinales;
+    }
+
+    @Override
+    public void entregarPedidoDeUnaSolicitud(Pedido pedido) {
+        pedido.setEstado(Estado.FINALIZADO);
+        pedidoRepository.modificar(pedido);
     }
 
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {

@@ -25,17 +25,17 @@
 <body class="bg-dark">
 <div th:replace="parts/navbar :: navbar"></div>
 
-<div th:if="${solicitudes.isEmpty()}">
+<div th:if="${!solicitud.getUsuario().getActivo()}">
     <p class="alert alert-danger" style="text-align: center; margin:0 2rem">No tenes pedidos para mostrar en el mapa</p>
 </div>
-<div th:if="${!solicitudes.isEmpty()}">
+<div >
     <div class="container d-flex justify-content-between">
         <div class="details-card col-md-6" style="max-height: 70vh">
             <!-- Agrupar pedidos por ID de solicitud -->
-            <div th:each="solicitud : ${solicitudes}">
+            <div>
                 <div class="card mb-3">
                     <div class="card-header bg-header text-dark">
-                   <strong>Solicitud: <span th:text="${solicitud.id}"></span></strong>
+                        <strong>Solicitud: <span th:text="${solicitud.id}"></span></strong>
                     </div>
                     <!-- Mostrar detalles completos del pedido -->
                     <div class="card-body bg-dark text-light" th:each="pedido : ${solicitud.pedidos}">
@@ -48,39 +48,19 @@
                                 <div class="ml-2 card-text">
                                     <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                                     <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
+                                    <p th:text="'Estado de pedido: ' + ${pedido.estado}"></p>
 
                                 </div>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between bg-color">
-                                <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
-                                <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
-                                <form class="ver-ruta-form">
-                                    <input type="hidden" name="pedidoLat" th:value="${pedido.latitude}">
-                                    <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
-                                    <button class="btn btn-primary ver-ruta-btn" type="button">Ver ruta</button>
-                                </form>
-                                <button id="avanzar">Avanzar</button>
-                                <form th:action="'finDeSeguimiento'" method="post" >
-                                    <input type="hidden"  th:value="${pedido.id}" name="pedidoId"/>
-                                    <input type="hidden"  th:value="${solicitud.id}" name="solicitudId"/>
-                                    <button type="submit" class="btn btn-danger">Finalizar</button>
-                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="map-container col-md-6" style="max-height: 70vh">
-            <div id="map"></div>
-        </div>
     </div>
-    <div class="mt-4" style="text-align: center">
-        <button class="btn btn-danger" onclick="location.reload();">Ver todas las ubicaciones</button>
-    </div>
+
 </div>
 <div th:replace="parts/footer :: footer"></div>
-<script th:src="@{/js/mapSeguimiento.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>

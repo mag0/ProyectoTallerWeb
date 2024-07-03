@@ -30,4 +30,5 @@ public interface ServicioPedido {
     List<Pedido> obtenerPedidosPorSolicitud(Long idSolicitud);
 
     List<Viaje> asignarPedidos(List<Pedido> pedidos);
+    void entregarPedidoDeUnaSolicitud(Pedido pedido);
 }
