@@ -56,8 +56,11 @@ public class RepositorioPedidoImpl implements RepositorioPedido {
     @Override
     public List<Pedido> getPedidosByIds(List<Long> pedidoIds) {
         Session session = sessionFactory.getCurrentSession();
+        // Crea una consulta HQL para seleccionar pedidos por sus IDs
         Query<Pedido> query = session.createQuery("FROM Pedido WHERE id IN (:ids)", Pedido.class);
+        // Establece los parámetros de la consulta
         query.setParameterList("ids", pedidoIds);
+        // Ejecuta la consulta y retorna la lista de resultados
         return query.list();
     }
 

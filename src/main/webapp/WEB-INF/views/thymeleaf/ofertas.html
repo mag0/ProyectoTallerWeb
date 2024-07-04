@@ -76,8 +76,8 @@
                     <div class="card card-fixed-height h-100">
                         <div class="card-header bg-color">
                             <!-- Encabezado del grupo -->
-                            <h5 class="card-title">Coordenadas: (en progreso para direccion)</h5>
-                            <p class="card-text" th:text="${group.key}"></p>
+                            <h5 class="card-title">Destino:</h5>
+                            <p class="card-text" th:text="${group.key}" hidden="hidden"></p>
                         </div>
                         <div class="card-body card-body-scroll bg-dark-secondary text-light">
                             <!-- Iterar sobre los pedidos dentro del grupo -->
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-color-secondary border-0 text-center">
-                            <p class="mb-0">Grupo de pedidos con las mismas coordenadas.</p>
+                            <p class="mb-0">Grupo de pedidos con las mismo destino.</p>
                         </div>
                     </div>
                 </div>

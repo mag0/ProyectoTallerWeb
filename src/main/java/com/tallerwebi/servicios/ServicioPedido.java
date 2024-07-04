@@ -1,9 +1,11 @@
 package com.tallerwebi.servicios;
 
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.dominio.excepcion.NoHayVehiculosDisponibles;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -31,4 +33,6 @@ public interface ServicioPedido {
 
     List<Viaje> asignarPedidos(List<Pedido> pedidos);
     void entregarPedidoDeUnaSolicitud(Pedido pedido);
+
+    ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds);
 }

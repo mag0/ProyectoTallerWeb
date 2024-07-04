@@ -1,11 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Solicitud;
-import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Pedido;
-import com.tallerwebi.dominio.Viaje;
-import com.tallerwebi.dominio.enums.Estado;
-import com.tallerwebi.presentacion.requests.AsignarPedidoRequest;
 import com.tallerwebi.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -24,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class ControladorPedidos {
-    public static final String REDIRECT_PEDIDOS = "redirect:/ofertas";
+    public static final String REDIRECT_OFERTAS = "redirect:/ofertas";
     private ServicioPedido pedidoService;
     private ServicioMostrarVehiculos servicioMostrarVehiculos;
     private ServicioVehiculo vehiculoService;
@@ -47,7 +43,7 @@ public class ControladorPedidos {
         // Obtener todos los pedidos que no tienen viaje asignado
         List<Pedido> pedidos = pedidoService.getAllPedidosSinViaje();
 
-        // Agrupar los pedidos por estado y coordenadas
+        // Agrupar los pedidos y coordenadas
         Map<String, List<Pedido>> pedidosAgrupados = pedidos.stream()
                 .collect(Collectors.groupingBy(p -> p.getLatitude() + "-" + p.getLongitude()));
 
@@ -59,59 +55,6 @@ public class ControladorPedidos {
         return new ModelAndView("ofertas", modelMap);
     }
 
-
-    @GetMapping("/ofertas/{id}/asignar")
-    public ModelAndView asignarPedido(@PathVariable("id") Long id) {
-        try{
-            // Obtener los vehículos disponibles del usuario
-            List<Vehiculo> vehiculos = servicioMostrarVehiculos.obtenerVehiculosDisponiblesPorUsuario();
-            // Obtener el pedido por su ID
-            Pedido pedido = pedidoService.getPedido(id);
-
-            // Crear un mapa de modelo y añadir el pedido, vehículos y solicitud de asignación
-            ModelMap modelMap = new ModelMap();
-            AsignarPedidoRequest asignarPedido = new AsignarPedidoRequest(pedido);
-
-            modelMap.addAttribute("pedido", pedido);
-            modelMap.addAttribute("vehiculos", vehiculos);
-            modelMap.addAttribute("asignarPedido", asignarPedido);
-
-            // Retornar la vista 'asignarPedido' con el modelo
-            return new ModelAndView("asignarPedido", modelMap);
-        }catch(Exception e) {
-            // En caso de error, añadir el mensaje de error al modelo y retornar la vista 'asignarPedido'
-            ModelMap modelMap = new ModelMap();
-            modelMap.addAttribute("error", e.getMessage());
-            return new ModelAndView("asignarPedido", modelMap);
-        }
-    }
-    // Asigna un pedido a un vehículo y crea un viaje
-    @PostMapping("/ofertas/{pedidoId}/asignar/{vehiculoId}")
-    public ModelAndView asignarPedido(@PathVariable("pedidoId") Long pedidoId,@PathVariable("vehiculoId") Long vehiculoId,
-                                      @ModelAttribute("asignarPedido") AsignarPedidoRequest asignarPedido) throws Exception {
-
-        // Obtener el pedido por su ID
-        Pedido pedido = pedidoService.getPedido(pedidoId);
-        if (!pedido.getEstado().equals(Estado.DESPACHADO)) {
-            // Si el pedido no está despachado, cambiar su estado a DESPACHADO
-            pedido.setEstado(Estado.DESPACHADO);
-            // Obtener el vehículo por su ID
-            Vehiculo vehiculo = vehiculoService.buscarVehiculo(vehiculoId);
-            // Cargar el pedido en el vehículo y crear un viaje
-            Viaje viaje = vehiculoService.cargarUnPaquete(vehiculo, pedido);
-            // Guardar el viaje y obtener su ID
-            Long viajeId = viajeService.guardar(viaje);
-            // Crear un ModelAndView para la vista 'resultadoAsignacion' y añadir un mensaje de éxito
-            ModelAndView mav = new ModelAndView("resultadoAsignacion");
-            mav.addObject("successMessage", "El "+pedido.getNombre()+" se ha asignado correctamente al Viaje Nº "+ viajeId +"");
-        } else {
-            // Si el pedido ya está despachado, retornar la vista de error 'error_despachar'
-            return new ModelAndView("error_despachar");
-        }
-
-
-        return new ModelAndView("resultadoAsignacion");
-    }
     // Carga los detalles de un pedido
     @GetMapping("/ofertas/detalles/{id}")
     public ModelAndView cargarDetallesPedido(@PathVariable("id") Long id) {
@@ -186,28 +129,18 @@ public class ControladorPedidos {
         Solicitud solicitud = new Solicitud();
         // Asignar el usuario activo a la solicitud
         solicitud.setUsuario(servicioInicioDeSesion.buscarUsuarioActivo());
-        // Obtener los pedidos seleccionados por sus IDs
-        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
-        // Iterar sobre los pedidos para asociarlos a la solicitud y cambiar su estado
-        for (Pedido pedido : pedidos) {
-            if (!pedido.getEstado().equals(Estado.SOLICITADO) && !pedido.getEstado().equals(Estado.DESPACHADO)) {
-                // Asociar la solicitud al pedido y cambiar su estado
-                    pedido.setSolicitud(solicitud);
-                    pedido.setEstado(Estado.SOLICITADO);
-            }else {
-                // Si algún pedido ya está solicitado, devolver una vista de error
-                return new ModelAndView("error");
-            }
 
+        // Llamar al servicio para procesar la confirmación de la solicitud
+        ModelAndView modelAndView = pedidoService.confirmarSolicitud(solicitud, pedidoIds);
+
+        if (modelAndView == null) {
+            // Operación exitosa, redirigir a una vista de éxito
+            return new ModelAndView(REDIRECT_OFERTAS);
+        } else {
+            // Error durante el procesamiento de pedidos, mostrar vista de error
+            return new ModelAndView("error");
         }
-
-        // Guardar la solicitud y los pedidos asociados
-        servicioSolicitud.guardar(solicitud);
-        pedidoService.guardarTodos(pedidos);
-        // Redirigir a la vista de pedidos
-        return new ModelAndView(REDIRECT_PEDIDOS);
     }
-
 }
 
 

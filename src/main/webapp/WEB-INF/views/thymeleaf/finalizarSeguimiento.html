@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Display a map on a webpage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <title>Seguimiento</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <script th:src="@{/js/geolocation.js}"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
@@ -22,7 +25,7 @@
         }
     </style>
 </head>
-<body class="bg-dark">
+<body class="bg-dark" style="font-family: Nunito, sans-serif;">
 <div th:replace="parts/navbar :: navbar"></div>
 
 <div th:if="${!solicitud.getUsuario().getActivo()}">
@@ -48,7 +51,7 @@
                                 <div class="ml-2 card-text">
                                     <p th:text="'Codigo: ' + ${pedido.codigo}"></p>
                                     <p th:text="'Tipo de pedido: ' + ${pedido.tipo}"></p>
-                                    <p th:text="'Estado de pedido: ' + ${pedido.estado}"></p>
+                                   <strong> <p th:text="'Estado de pedido: ' + ${pedido.estado}"></p> </strong>
 
                                 </div>
                             </div>

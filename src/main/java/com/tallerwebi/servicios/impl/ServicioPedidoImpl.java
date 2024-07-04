@@ -1,6 +1,7 @@
 package com.tallerwebi.servicios.impl;
 
 import com.tallerwebi.dominio.Pedido;
+import com.tallerwebi.dominio.Solicitud;
 import com.tallerwebi.dominio.Vehiculo;
 import com.tallerwebi.dominio.Viaje;
 import com.tallerwebi.dominio.enums.Estado;
@@ -13,6 +14,7 @@ import com.tallerwebi.servicios.ServicioPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 import java.time.LocalDate;
@@ -24,14 +26,16 @@ public class ServicioPedidoImpl implements ServicioPedido {
     private RepositorioViaje viajeRepository;
     private RepositorioVehiculo vehiculoRepository;
     private RepositorioUsuario repositorioUsuario;
+    private  ServicioSolicitudImpl servicioSolicitud;
 
     @Autowired
     public ServicioPedidoImpl(RepositorioPedido pedidoRepository, RepositorioViaje viajeRepository,
-                              RepositorioVehiculo vehiculoRepository, RepositorioUsuario repositorioUsuario) {
+                              RepositorioVehiculo vehiculoRepository, RepositorioUsuario repositorioUsuario, ServicioSolicitudImpl servicioSolicitud) {
         this.pedidoRepository = pedidoRepository;
         this.viajeRepository = viajeRepository;
         this.vehiculoRepository = vehiculoRepository;
         this.repositorioUsuario = repositorioUsuario;
+        this.servicioSolicitud = servicioSolicitud;
     }
 
     @Override
@@ -123,6 +127,28 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public void entregarPedidoDeUnaSolicitud(Pedido pedido) {
         pedido.setEstado(Estado.FINALIZADO);
         pedidoRepository.modificar(pedido);
+    }
+
+    @Override
+    public ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds) {
+        List<Pedido> pedidos = pedidoRepository.getPedidosByIds(pedidoIds);
+
+        for (Pedido pedido : pedidos) {
+            if (!pedido.getEstado().equals(Estado.SOLICITADO) && !pedido.getEstado().equals(Estado.DESPACHADO)) {
+                pedido.setSolicitud(solicitud);
+                pedido.setEstado(Estado.SOLICITADO);
+            } else {
+                // Si algún pedido ya está solicitado, devolver una vista de error
+                return new ModelAndView("error");
+            }
+        }
+
+        // Guardar la solicitud y los pedidos asociados
+
+        servicioSolicitud.guardar(solicitud);
+        guardarTodos(pedidos);
+
+        return null; // Indicar que la operación fue exitosa
     }
 
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {

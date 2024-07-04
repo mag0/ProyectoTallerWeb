@@ -8,6 +8,7 @@ import com.tallerwebi.repositorios.RepositorioVehiculo;
 import com.tallerwebi.repositorios.RepositorioViaje;
 import com.tallerwebi.servicios.impl.ServicioMostrarVehiculosImpl;
 import com.tallerwebi.servicios.impl.ServicioPedidoImpl;
+import com.tallerwebi.servicios.impl.ServicioSolicitudImpl;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,8 @@ public class ServicioPedidoTest {
         vehiculoRepository = mock(RepositorioVehiculo.class);
         usuarioRepository = mock(RepositorioUsuario.class);
         viajeRepository = mock(RepositorioViaje.class);
-        pedidoService = new ServicioPedidoImpl(pedidoRepository, viajeRepository, vehiculoRepository, usuarioRepository);
+        ServicioSolicitud servicioSolicitud = mock(ServicioSolicitud.class);
+        pedidoService = new ServicioPedidoImpl(pedidoRepository, viajeRepository, vehiculoRepository, usuarioRepository, (ServicioSolicitudImpl) servicioSolicitud);
     }
 
     @Test
