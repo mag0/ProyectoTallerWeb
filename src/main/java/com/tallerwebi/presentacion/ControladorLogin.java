@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.excepcion.UsuarioInexistente;
+import com.tallerwebi.dominio.excepcion.UsuarioNoEncontradoException;
 import com.tallerwebi.presentacion.requests.DatosLogin;
 import com.tallerwebi.servicios.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
@@ -36,15 +38,16 @@ public class ControladorLogin {
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
 
-        Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
-        if (usuarioBuscado != null) {
+        try {
+            Usuario usuarioBuscado = servicioLogin.autenticarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
             return new ModelAndView("redirect:/home");
-        } else {
+        } catch (UsuarioNoEncontradoException e) {
             model.put("error", "Usuario o clave incorrecta");
+            return new ModelAndView("login", model);
         }
-        return new ModelAndView("login", model);
     }
+
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
     public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {

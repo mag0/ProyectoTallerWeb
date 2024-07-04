@@ -1,5 +1,6 @@
 package com.tallerwebi.servicios.impl;
 
+import com.tallerwebi.dominio.excepcion.UsuarioNoEncontradoException;
 import com.tallerwebi.repositorios.RepositorioUsuario;
 import com.tallerwebi.servicios.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
@@ -32,6 +33,14 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         repositorioUsuario.guardar(usuario);
+    }
+
+    public Usuario autenticarUsuario(String email, String password) throws UsuarioNoEncontradoException {
+        Usuario usuario = consultarUsuario(email, password);
+        if (usuario == null) {
+            throw new UsuarioNoEncontradoException("Usuario o clave incorrecta");
+        }
+        return usuario;
     }
 
 }
