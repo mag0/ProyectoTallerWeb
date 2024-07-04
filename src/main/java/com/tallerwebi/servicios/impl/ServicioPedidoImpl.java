@@ -151,6 +151,22 @@ public class ServicioPedidoImpl implements ServicioPedido {
         return null; // Indicar que la operación fue exitosa
     }
 
+    @Override
+    public List<Viaje> procesarYAsignarPedidos(Long id, List<Double> distancia, List<Double> tiempoConTrafico, List<Double> distanciaConTrafico) throws NoHayVehiculosDisponibles {
+        List<Pedido> pedidos = obtenerPedidosPorSolicitud(id);
+
+        // Actualizar los detalles del pedido
+        for (int i = 0; i < pedidos.size(); i++) {
+            pedidos.get(i).setDistancia(distancia.get(i));
+            pedidos.get(i).setTiempoConTrafico(tiempoConTrafico.get(i));
+            pedidos.get(i).setDistanciaConTrafico(distanciaConTrafico.get(i));
+        }
+
+        // Asignar los pedidos
+        return asignarPedidos(pedidos);
+    }
+
+
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {
         pedidos.sort(Comparator.comparing(p -> p.getDestino().getId()));
         return pedidos;

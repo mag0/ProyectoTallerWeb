@@ -60,36 +60,21 @@ public class ControladorMisPedidos {
         return mav;
     }
 
-    @RequestMapping(path="/asignarPedido", method = RequestMethod.POST)
+    @RequestMapping(path = "/asignarPedido", method = RequestMethod.POST)
     public ModelAndView asignarPedido(@RequestParam("id") Long id,
-                                @RequestParam("distancia") List<Double> distancia,
-                                @RequestParam("tiempoConTrafico") List<Double> tiempoConTrafico,
-                                @RequestParam("distanciaConTrafico") List<Double> distanciaConTrafico) {
-
+                                      @RequestParam("distancia") List<Double> distancia,
+                                      @RequestParam("tiempoConTrafico") List<Double> tiempoConTrafico,
+                                      @RequestParam("distanciaConTrafico") List<Double> distanciaConTrafico) {
         ModelMap model = new ModelMap();
 
-        // Encuentra la solicitud específica según el ID proporcionado en el formulario
-
-        List<Pedido> pedidos = pedidoService.obtenerPedidosPorSolicitud(id);
-        List<Viaje> viajes;
-
-        for(int i=0; i<pedidos.size(); i++){
-            pedidos.get(i).setDistancia(distancia.get(i));
-            pedidos.get(i).setTiempoConTrafico(tiempoConTrafico.get(i));
-            pedidos.get(i).setDistanciaConTrafico(distanciaConTrafico.get(i));
-        }
-
         try {
-            viajes = pedidoService.asignarPedidos(pedidos);
+            List<Viaje> viajes = pedidoService.procesarYAsignarPedidos(id, distancia, tiempoConTrafico, distanciaConTrafico);
+            model.addAttribute("viajes", viajes);
+            return new ModelAndView("viajes", model);
         } catch (NoHayVehiculosDisponibles ex) {
             return new ModelAndView("redirect:/misPedidos?error=true");
         }
-
-        //servicioSolicitud.eliminar(id);
-
-        model.addAttribute("viajes", viajes);
-
-        return new ModelAndView("viajes", model);
     }
+
 
 }

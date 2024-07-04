@@ -35,4 +35,6 @@ public interface ServicioPedido {
     void entregarPedidoDeUnaSolicitud(Pedido pedido);
 
     ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds);
+
+    List<Viaje> procesarYAsignarPedidos(Long id, List<Double> distancia, List<Double> tiempoConTrafico, List<Double> distanciaConTrafico);
 }
