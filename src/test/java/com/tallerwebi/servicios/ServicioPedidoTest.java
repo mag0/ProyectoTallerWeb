@@ -84,7 +84,7 @@ public class ServicioPedidoTest {
     }
 
     @Test
-    void testGetPedidosByIds() {
+    void testGetPedidosByIds() throws Exception {
         // Arrange
         List<Long> ids = Arrays.asList(1L, 2L, 3L);
         List<Pedido> expectedPedidos = Arrays.asList(new Pedido(), new Pedido(), new Pedido());

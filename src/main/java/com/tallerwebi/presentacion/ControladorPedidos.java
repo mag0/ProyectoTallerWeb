@@ -108,20 +108,28 @@ public class ControladorPedidos {
 
     @PostMapping("/ofertas/formularioSolicitud")
     public ModelAndView mostrarFormularioSolicitud(@RequestParam("selectedPedidos") List<Long> pedidoIds, Model model) {
-        // Obtener los pedidos seleccionados
-        List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
+        try {
+            // Obtener los pedidos seleccionados
+            List<Pedido> pedidos = pedidoService.getPedidosByIds(pedidoIds);
 
-        // Agregar los pedidos al modelo para pasarlos a la vista
-        model.addAttribute("pedidos", pedidos);
+            // Agregar los pedidos al modelo para pasarlos a la vista
+            model.addAttribute("pedidos", pedidos);
 
-        // Crear un objeto ModelAndView y agregar la vista y el modelo
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("formularioSolicitud");
-        modelAndView.addObject("pedidos", pedidos);
+            // Crear un objeto ModelAndView y agregar la vista y el modelo
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("formularioSolicitud");
+            modelAndView.addObject("pedidos", pedidos);
 
-        // Retornar el objeto ModelAndView
-        return modelAndView;
+            // Retornar el objeto ModelAndView
+            return modelAndView;
+        } catch (Exception e) {
+            // Manejar la excepción y redirigir a una vista de error
+            ModelAndView errorModelAndView = new ModelAndView("error");
+            errorModelAndView.addObject("errorMessage", "Se produjo un error al mostrar el formulario de solicitud: " + e.getMessage());
+            return errorModelAndView;
+        }
     }
+
 
     @PostMapping("/ofertas/confirmarSolicitud")
     public ModelAndView confirmarSolicitud(@RequestParam("pedidoIds") List<Long> pedidoIds) {
@@ -130,17 +138,23 @@ public class ControladorPedidos {
         // Asignar el usuario activo a la solicitud
         solicitud.setUsuario(servicioInicioDeSesion.buscarUsuarioActivo());
 
-        // Llamar al servicio para procesar la confirmación de la solicitud
-        ModelAndView modelAndView = pedidoService.confirmarSolicitud(solicitud, pedidoIds);
+        try {
+            // Llamar al servicio para procesar la confirmación de la solicitud
+            ModelAndView modelAndView = pedidoService.confirmarSolicitud(solicitud, pedidoIds);
 
-        if (modelAndView == null) {
-            // Operación exitosa, redirigir a una vista de éxito
-            return new ModelAndView(REDIRECT_OFERTAS);
-        } else {
-            // Error durante el procesamiento de pedidos, mostrar vista de error
-            return new ModelAndView("error");
+            if (modelAndView == null) {
+                // Operación exitosa, redirigir a una vista de éxito
+                return new ModelAndView(REDIRECT_OFERTAS);
+            } else {
+                // Error durante el procesamiento de pedidos, mostrar vista de error
+                return new ModelAndView("error");
+            }
+        } catch (Exception e) {
+            // Manejar la excepción y redirigir a una vista de error
+            return new ModelAndView("error", "errorMessage", "Se produjo un error al confirmar la solicitud: " + e.getMessage());
         }
     }
+
 }
 
 

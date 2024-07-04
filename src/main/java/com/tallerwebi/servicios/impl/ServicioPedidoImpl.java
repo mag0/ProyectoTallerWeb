@@ -130,25 +130,27 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds) {
-        List<Pedido> pedidos = pedidoRepository.getPedidosByIds(pedidoIds);
+    public ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds) throws Exception {
+        // Obtener los pedidos seleccionados por sus IDs
+        List<Pedido> pedidos = getPedidosByIds(pedidoIds);
 
         for (Pedido pedido : pedidos) {
             if (!pedido.getEstado().equals(Estado.SOLICITADO) && !pedido.getEstado().equals(Estado.DESPACHADO)) {
+                // Asociar la solicitud al pedido y cambiar su estado
                 pedido.setSolicitud(solicitud);
                 pedido.setEstado(Estado.SOLICITADO);
             } else {
                 // Si algún pedido ya está solicitado, devolver una vista de error
-                return new ModelAndView("error");
+                throw new Exception("El pedido ya ha sido solicitado o despachado");
             }
         }
 
         // Guardar la solicitud y los pedidos asociados
-
         servicioSolicitud.guardar(solicitud);
         guardarTodos(pedidos);
 
-        return null; // Indicar que la operación fue exitosa
+        // Retornar null si la operación es exitosa
+        return null;
     }
 
     @Override
@@ -310,8 +312,12 @@ public class ServicioPedidoImpl implements ServicioPedido {
     }
 
     @Override
-    public List<Pedido> getPedidosByIds(List<Long> pedidoIds) {
-        return pedidoRepository.getPedidosByIds(pedidoIds);
+    public List<Pedido> getPedidosByIds(List<Long> pedidoIds) throws Exception {
+        try {
+            return pedidoRepository.getPedidosByIds(pedidoIds);
+        } catch (Exception e) {
+            throw new Exception("Error al obtener los pedidos por IDs", e);
+        }
     }
 
     @Override

@@ -25,7 +25,7 @@ public interface ServicioPedido {
     void actualizarPedido(Pedido pedido);
     Long guardarPedido(Pedido pedido);
 
-    List<Pedido> getPedidosByIds(List<Long> pedidoIds);
+    List<Pedido> getPedidosByIds(List<Long> pedidoIds) throws Exception;
 
     void guardarTodos(List<Pedido> pedidos);
 
@@ -34,7 +34,7 @@ public interface ServicioPedido {
     List<Viaje> asignarPedidos(List<Pedido> pedidos);
     void entregarPedidoDeUnaSolicitud(Pedido pedido);
 
-    ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds);
+    ModelAndView confirmarSolicitud(Solicitud solicitud, List<Long> pedidoIds) throws Exception;
 
     List<Viaje> procesarYAsignarPedidos(Long id, List<Double> distancia, List<Double> tiempoConTrafico, List<Double> distanciaConTrafico);
 }
