@@ -53,17 +53,6 @@ public class ControladorSeguimiento {
 
         model.put("pedido", pedido);
 
-        return new ModelAndView("redirect:/vistaFinDeSeguimiento/"+solicitudId, model);
-    }
-
-    @GetMapping("/vistaFinDeSeguimiento/{solicitudId}")
-    public ModelAndView vistaFinDeSeguimiento(@PathVariable("solicitudId") Long solicitudId) {
-        ModelMap model = new ModelMap();
-        Solicitud solicitud = servicioSolicitud.getAllSolicitudes().stream()
-                .filter(s -> s.getId().equals(solicitudId)).findFirst().get();
-
-        model.put("solicitud",solicitud);
-
-        return new ModelAndView("finalizarSeguimiento", model);
+        return new ModelAndView("redirect:/seguimiento/", model);
     }
 }
