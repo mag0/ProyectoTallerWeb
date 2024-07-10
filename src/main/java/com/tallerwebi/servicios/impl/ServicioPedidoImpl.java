@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -157,6 +158,11 @@ public class ServicioPedidoImpl implements ServicioPedido {
     public List<Viaje> procesarYAsignarPedidos(Long id, List<Double> distancia, List<Double> tiempoConTrafico, List<Double> distanciaConTrafico) throws NoHayVehiculosDisponibles {
         List<Pedido> pedidos = obtenerPedidosPorSolicitud(id);
 
+        // Filtrar los pedidos finalizados
+        pedidos = pedidos.stream()
+                .filter(pedido -> pedido.getEstado() != Estado.FINALIZADO)
+                .collect(Collectors.toList());
+
         // Actualizar los detalles del pedido
         for (int i = 0; i < pedidos.size(); i++) {
             pedidos.get(i).setDistancia(distancia.get(i));
@@ -167,6 +173,8 @@ public class ServicioPedidoImpl implements ServicioPedido {
         // Asignar los pedidos
         return asignarPedidos(pedidos);
     }
+
+
 
 
     public List<Pedido> ordenarPedidosPorZona(List<Pedido> pedidos) {

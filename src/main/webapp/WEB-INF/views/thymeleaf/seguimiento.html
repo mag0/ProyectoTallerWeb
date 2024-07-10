@@ -63,7 +63,7 @@
                                     <input type="hidden" name="pedidoLon" th:value="${pedido.longitude}">
                                     <button class="btn btn-primary ver-ruta-btn" type="button">Ver ruta</button>
                                 </form>
-                                <button id="avanzar">Avanzar</button>
+                              <!--  <button id="avanzar">Avanzar</button> -->
                                 <form th:action="'finDeSeguimiento'" method="post" >
                                     <input type="hidden"  th:value="${pedido.id}" name="pedidoId"/>
                                     <input type="hidden"  th:value="${solicitud.id}" name="solicitudId"/>
