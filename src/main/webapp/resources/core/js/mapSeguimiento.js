@@ -17,31 +17,6 @@ let rutaCoordenadas = [];
 let currentStep = 0;
 const globalMarkers = {};
 
-document.getElementById('avanzar').addEventListener('click', () => {
-    if (rutaCoordenadas.length > 0 && currentStep < rutaCoordenadas.length - 1) {
-        currentStep++;
-        const [pedidoLon, pedidoLat] = rutaCoordenadas[currentStep];
-        console.log({rutaCoordenadas, pedidoLon, pedidoLat})
-
-        // Crear marcadores para origen y nuevo destino
-        updateMarker( 'coord_A',[origenLon, origenLat]); // Marcador del origen con letra A
-
-        // Calcular la distancia actualizada
-        const distancia = calcularDistancia(origenLat, origenLon, pedidoLat, pedidoLon);
-        document.getElementById('distancia').textContent = `Distancia: ${distancia.toFixed(2)} km`;
-
-        // Centrar el mapa en la nueva ubicación
-        map.flyTo({
-            center: [pedidoLon, pedidoLat],
-            essential: true
-        });
-    } else {
-        console.log('No hay más pasos en la ruta o la ruta no está cargada.');
-    }
-});
-
-
-
 // Crear marcadores
 function createMarker(coords, color, point) {
     // Verificar si el número o etiqueta es válido
