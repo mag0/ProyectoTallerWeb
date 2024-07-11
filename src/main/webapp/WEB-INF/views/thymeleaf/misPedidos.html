@@ -81,7 +81,7 @@
                         <button type="button" class="btn btn-info mt-2" data-bs-toggle="modal" th:data-bs-target="'#detallesModal' + ${solicitud.id}">Detalles de Pedidos</button>
                     </div>
                 </div>
-                <button th:if="${!solicitud.getPedidos().get(0).getEstado().equals(estado)}" type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
+                <button th:if="${solicitud.getPedidos().get(0).getEstado() != estado && solicitud.getPedidos().get(0).getEstado() != estado.FINALIZADO}" type="submit" class="btn btn-primary mt-2 mb-4">Asignar pedidos</button>
             </form>
 
             <!-- Modal para mostrar los detalles de los pedidos -->

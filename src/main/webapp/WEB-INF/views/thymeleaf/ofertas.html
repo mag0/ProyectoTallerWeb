@@ -97,7 +97,7 @@
                                     <input type="hidden" id="pedidoLat" th:value="${pedido.latitude}">
                                     <input type="hidden" id="pedidoLon" th:value="${pedido.longitude}">
                                     <!-- Checkbox para seleccionar el pedido -->
-                                    <div class="form-check">
+                                    <div class="form-check" th:if="${pedido.estado == pedido.getEstado().DISPONIBLE}">
                                         <input class="form-check-input" type="checkbox" th:value="${pedido.id}" th:name="selectedPedidos" th:id="'pedido' + ${pedido.id}">
                                         <label class="form-check-label" th:for="'pedido' + ${pedido.id}">Seleccionar Pedido</label>
                                     </div>
